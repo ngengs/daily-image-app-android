@@ -1,3 +1,4 @@
 <resources>
+    <dimen name="image_list_height">480dp</dimen>
     <dimen name="fab_margin">48dp</dimen>
 </resources>

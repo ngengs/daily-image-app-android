@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Daily Image</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="popular_images">Popular Images</string>
+    <string name="latest_images">Latest Images</string>
+    <string name="username_format">\@%s</string>
+    <string name="loading_preparing_data">Preparing the Data</string>
+    <string name="loading_refresh_data">Updating Data</string>
+    <string name="loading_more_data">Load More Data</string>
+
+    <!-- Strings used for error message -->
+    <string name="error_message_empty">Image is empty for now, you can do another thing.</string>
+    <string name="error_message_server">Oops! Seems like some meteor hit the server.</string>
+    <string name="error_message_network">There is problem with your connection, failed to get the image!</string>
+    <string name="error_message_other">Something went wrong! Keep Calm.</string>
+
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -43,4 +57,5 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="retry">Retry</string>
 </resources>

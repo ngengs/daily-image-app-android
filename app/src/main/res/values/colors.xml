@@ -1,5 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  MD3 Builder Generated  -->
+    <color name="seed">#8e437f</color>
+    <color name="md_theme_light_primary">#8E437F</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#FFD7F1</color>
+    <color name="md_theme_light_onPrimaryContainer">#3A0033</color>
+    <color name="md_theme_light_secondary">#6F5867</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#F9DAED</color>
+    <color name="md_theme_light_onSecondaryContainer">#271623</color>
+    <color name="md_theme_light_tertiary">#815342</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#FFDBCE</color>
+    <color name="md_theme_light_onTertiaryContainer">#321206</color>
+    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_light_errorContainer">#FFDAD6</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+    <color name="md_theme_light_onErrorContainer">#410002</color>
+    <color name="md_theme_light_background">#FFFBFF</color>
+    <color name="md_theme_light_onBackground">#1F1A1D</color>
+    <color name="md_theme_light_surface">#FFFBFF</color>
+    <color name="md_theme_light_onSurface">#1F1A1D</color>
+    <color name="md_theme_light_surfaceVariant">#EFDEE6</color>
+    <color name="md_theme_light_onSurfaceVariant">#4F444A</color>
+    <color name="md_theme_light_outline">#80747B</color>
+    <color name="md_theme_light_inverseOnSurface">#F8EEF2</color>
+    <color name="md_theme_light_inverseSurface">#342F32</color>
+    <color name="md_theme_light_inversePrimary">#FFACE9</color>
+    <color name="md_theme_light_shadow">#000000</color>
+    <color name="md_theme_light_surfaceTint">#8E437F</color>
+    <color name="md_theme_light_outlineVariant">#D2C2CA</color>
+    <color name="md_theme_light_scrim">#000000</color>
+    <color name="md_theme_dark_primary">#FFACE9</color>
+    <color name="md_theme_dark_onPrimary">#57124D</color>
+    <color name="md_theme_dark_primaryContainer">#722B66</color>
+    <color name="md_theme_dark_onPrimaryContainer">#FFD7F1</color>
+    <color name="md_theme_dark_secondary">#DCBED0</color>
+    <color name="md_theme_dark_onSecondary">#3E2A38</color>
+    <color name="md_theme_dark_secondaryContainer">#56404F</color>
+    <color name="md_theme_dark_onSecondaryContainer">#F9DAED</color>
+    <color name="md_theme_dark_tertiary">#F5B9A3</color>
+    <color name="md_theme_dark_onTertiary">#4B2618</color>
+    <color name="md_theme_dark_tertiaryContainer">#663C2C</color>
+    <color name="md_theme_dark_onTertiaryContainer">#FFDBCE</color>
+    <color name="md_theme_dark_error">#FFB4AB</color>
+    <color name="md_theme_dark_errorContainer">#93000A</color>
+    <color name="md_theme_dark_onError">#690005</color>
+    <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
+    <color name="md_theme_dark_background">#1F1A1D</color>
+    <color name="md_theme_dark_onBackground">#EAE0E3</color>
+    <color name="md_theme_dark_surface">#1F1A1D</color>
+    <color name="md_theme_dark_onSurface">#EAE0E3</color>
+    <color name="md_theme_dark_surfaceVariant">#4F444A</color>
+    <color name="md_theme_dark_onSurfaceVariant">#D2C2CA</color>
+    <color name="md_theme_dark_outline">#9B8D94</color>
+    <color name="md_theme_dark_inverseOnSurface">#1F1A1D</color>
+    <color name="md_theme_dark_inverseSurface">#EAE0E3</color>
+    <color name="md_theme_dark_inversePrimary">#8E437F</color>
+    <color name="md_theme_dark_shadow">#000000</color>
+    <color name="md_theme_dark_surfaceTint">#FFACE9</color>
+    <color name="md_theme_dark_outlineVariant">#4F444A</color>
+    <color name="md_theme_dark_scrim">#000000</color>
+    <!--  End Of MD3 Builder Generated  -->
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="image_loading_placeholder_background">@color/md_theme_light_primary</color>
+<!--    <color name="toolbar_detail_color">@android:color/transparent</color>-->
+<!--    <color name="toolbar_detail_color">#26FFFBFF</color>-->
+    <color name="toolbar_detail_color">#80FFFBFF</color>
 </resources>

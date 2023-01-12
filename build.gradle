@@ -10,7 +10,7 @@ plugins {
 
 ext {
     appCompileSdkVersion = 33
-    appMinSdkVersion = 21
+    appMinSdkVersion = 23
     appTargetSdkVersion = 33
     appBuildToolsVersion = "33.0.1"
 
