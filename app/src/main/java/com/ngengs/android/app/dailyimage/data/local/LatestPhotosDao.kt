@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase.Companion.COLUMN_ID
 import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase.Companion.COLUMN_PHOTO_ID
 import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase.Companion.TABLE_LATEST
@@ -22,11 +23,13 @@ abstract class LatestPhotosDao {
     @Query("DELETE FROM $TABLE_LATEST")
     abstract suspend fun clear()
 
+    @Transaction
     @Query(
         "SELECT * FROM $TABLE_LATEST WHERE $COLUMN_PHOTO_ID in (:photoIds) ORDER BY $COLUMN_ID ASC"
     )
     abstract suspend fun get(photoIds: List<String>): List<LatestPhotosRelation>
 
+    @Transaction
     @Query("SELECT * FROM $TABLE_LATEST ORDER BY $COLUMN_ID ASC")
     abstract suspend fun get(): List<LatestPhotosRelation>
 }
