@@ -1,7 +1,7 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.toPhotoSimple
+import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.model.CompletableData
 import com.ngengs.android.app.dailyimage.data.repository.PhotoListRepository
 import com.ngengs.android.app.dailyimage.data.source.PhotoLocalDataSource
@@ -26,7 +26,7 @@ class PhotoListRepositoryImpl(
     ): CompletableData<PhotosLocal> = withContext(dispatcher.io()) {
         Timber.d("get, thread: ${Thread.currentThread().name}")
         val remoteData = remoteDataSource.getPhotoList(page, orderBy)
-        val photosSimple = remoteData.data.map { it.toPhotoSimple() }
+        val photosSimple = remoteData.data.map { it.toPhotosLocal() }
 
         if (page == 1L) {
             if (orderBy == ApiConstant.ORDER_BY_LATEST) {

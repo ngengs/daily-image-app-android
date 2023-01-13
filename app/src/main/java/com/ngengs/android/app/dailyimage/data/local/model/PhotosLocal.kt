@@ -51,7 +51,7 @@ data class PhotosLocal(
     val imageLoadingThumb get() = "$image&w=10"
 
     companion object {
-        fun Photos.toPhotoSimple() = PhotosLocal(
+        fun Photos.toPhotosLocal() = PhotosLocal(
             id = this.id,
             width = this.width,
             height = this.height,
