@@ -49,7 +49,6 @@ class GetPhotoListUseCaseImpl(
             }
 
             val result = repository.get(page, orderBy)
-//            kotlinx.coroutines.delay(10000L)
             val data = result.data
 
             val combineData = if (page > 1L) {
