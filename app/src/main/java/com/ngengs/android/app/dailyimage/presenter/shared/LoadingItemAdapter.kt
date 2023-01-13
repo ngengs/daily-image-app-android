@@ -1,10 +1,10 @@
-package com.ngengs.android.app.dailyimage.presenter.common
+package com.ngengs.android.app.dailyimage.presenter.shared
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.databinding.ItemLoadingAdapterBinding
-import com.ngengs.android.app.dailyimage.presenter.common.LoadingItemAdapter.ViewHolder
+import com.ngengs.android.app.dailyimage.presenter.shared.LoadingItemAdapter.ViewHolder
 
 /**
  * Created by rizky.kharisma on 12/01/23.
@@ -27,7 +27,7 @@ class LoadingItemAdapter(private val loadingMessage: String) : RecyclerView.Adap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(loadingMessage)
+        holder.bind(loadingMessage)
     }
 
     fun startLoading() {
@@ -45,7 +45,7 @@ class LoadingItemAdapter(private val loadingMessage: String) : RecyclerView.Adap
     data class ViewHolder(private val binding: ItemLoadingAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bindData(loadingMessage: String) {
+        fun bind(loadingMessage: String) {
             binding.loadingText.text = loadingMessage
         }
     }

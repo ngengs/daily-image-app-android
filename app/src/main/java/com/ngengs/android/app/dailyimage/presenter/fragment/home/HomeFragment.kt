@@ -16,11 +16,11 @@ import com.ngengs.android.app.dailyimage.domain.model.Results.Companion.anyData
 import com.ngengs.android.app.dailyimage.domain.model.Results.FailureType.EMPTY
 import com.ngengs.android.app.dailyimage.domain.model.Results.FailureType.NETWORK
 import com.ngengs.android.app.dailyimage.domain.model.Results.FailureType.SERVER
-import com.ngengs.android.app.dailyimage.presenter.common.HeaderToolsAdapter
-import com.ngengs.android.app.dailyimage.presenter.common.LoadingItemAdapter
-import com.ngengs.android.app.dailyimage.presenter.common.PhotoListAdapter
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseViewModelFragment
 import com.ngengs.android.app.dailyimage.presenter.fragment.home.HomeViewModel.ViewData
+import com.ngengs.android.app.dailyimage.presenter.shared.HeaderToolsAdapter
+import com.ngengs.android.app.dailyimage.presenter.shared.LoadingItemAdapter
+import com.ngengs.android.app.dailyimage.presenter.shared.PhotoListAdapter
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.PhotoListViewType
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.VIEW_TYPE_GRID
 import com.ngengs.android.app.dailyimage.utils.image.BlurHashDecoder

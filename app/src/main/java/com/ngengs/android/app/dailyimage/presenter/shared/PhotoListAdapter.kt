@@ -1,4 +1,4 @@
-package com.ngengs.android.app.dailyimage.presenter.common
+package com.ngengs.android.app.dailyimage.presenter.shared
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -51,10 +51,8 @@ class PhotoListAdapter(
         val loadingDrawable = ColorDrawable(Color.parseColor(photo.color)).apply { alpha = 125 }
         val thumbnailImage =
             GlideUtils.thumbnailBuilder(holder.itemView.context, photo.imageLoadingThumb)
-        if (holder is ListViewHolder) {
-            holder.bindData(photo, loadingDrawable, thumbnailImage, onClickListener)
-        } else if (holder is GridViewHolder) {
-            holder.bindData(photo, loadingDrawable, thumbnailImage, onClickListener)
+        if (holder is PhotoListViewHolder) {
+            holder.bind(photo, loadingDrawable, thumbnailImage, onClickListener)
         }
     }
 
@@ -68,9 +66,9 @@ class PhotoListAdapter(
     }
 
     class ListViewHolder(private val binding: ItemPhotoListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), PhotoListViewHolder {
 
-        fun bindData(
+        override fun bind(
             data: PhotosLocal,
             loadingDrawable: Drawable,
             thumbnailImage: GlideRequest<Drawable>,
@@ -92,9 +90,9 @@ class PhotoListAdapter(
     }
 
     class GridViewHolder(private val binding: ItemPhotoGridBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root), PhotoListViewHolder {
 
-        fun bindData(
+        override fun bind(
             data: PhotosLocal,
             loadingDrawable: Drawable,
             thumbnailImage: GlideRequest<Drawable>,
@@ -110,5 +108,14 @@ class PhotoListAdapter(
             binding.photo.transitionName = TransitionUtils.imageTransitionName(data.id)
             binding.root.setOnClickListener { onCLickListener.invoke(data, binding.photo) }
         }
+    }
+
+    interface PhotoListViewHolder {
+        fun bind(
+            data: PhotosLocal,
+            loadingDrawable: Drawable,
+            thumbnailImage: GlideRequest<Drawable>,
+            onCLickListener: (PhotosLocal, View) -> Unit
+        )
     }
 }

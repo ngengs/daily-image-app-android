@@ -1,4 +1,4 @@
-package com.ngengs.android.app.dailyimage.presenter.common
+package com.ngengs.android.app.dailyimage.presenter.shared
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoHeaderToolsBinding
-import com.ngengs.android.app.dailyimage.presenter.common.HeaderToolsAdapter.ViewHolder
+import com.ngengs.android.app.dailyimage.presenter.shared.HeaderToolsAdapter.ViewHolder
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visibleIf
 
 /**
@@ -42,7 +42,7 @@ class HeaderToolsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(headerTitle, iconViewType, iconOrderBy, onClickViewType, onClickOrderBy)
+        holder.bind(headerTitle, iconViewType, iconOrderBy, onClickViewType, onClickOrderBy)
     }
 
     fun changeTitle(text: String) {
@@ -66,7 +66,7 @@ class HeaderToolsAdapter(
     data class ViewHolder(
         private val binding: ItemPhotoHeaderToolsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bindData(
+        fun bind(
             headerTitle: String,
             iconViewType: Int,
             iconOrderBy: Int?,

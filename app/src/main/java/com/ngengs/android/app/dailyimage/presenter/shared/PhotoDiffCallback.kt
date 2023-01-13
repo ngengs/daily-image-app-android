@@ -1,4 +1,4 @@
-package com.ngengs.android.app.dailyimage.presenter.common
+package com.ngengs.android.app.dailyimage.presenter.shared
 
 import androidx.recyclerview.widget.DiffUtil
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
