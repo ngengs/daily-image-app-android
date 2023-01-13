@@ -12,6 +12,7 @@ import com.ngengs.android.app.dailyimage.utils.common.ext.debugTry
 import com.ngengs.android.app.dailyimage.utils.common.ext.debugTrySuspend
 import kotlinx.coroutines.withContext
 import okhttp3.Headers
+import retrofit2.HttpException
 import timber.log.Timber
 
 /**
@@ -27,6 +28,7 @@ class PhotoRemoteDataSourceImpl(
     override suspend fun getPhotoList(page: Long, orderBy: String) = withContext(dispatcher.io()) {
         Timber.d("getPhotoList, thread: ${Thread.currentThread().name}")
         val data = api.photos(page, orderBy)
+        if (!data.isSuccessful) throw HttpException(data)
         val body = data.body() ?: emptyList()
         val header = data.headers()
         val pagination = extractPaginationFromHeader(header)
