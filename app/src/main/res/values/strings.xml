@@ -3,6 +3,7 @@
 
     <string name="popular_images">Popular Images</string>
     <string name="latest_images">Latest Images</string>
+    <string name="search_images">Result for %s</string>
     <string name="username_format">\@%s</string>
     <string name="loading_preparing_data">Preparing the Data</string>
     <string name="loading_refresh_data">Updating Data</string>

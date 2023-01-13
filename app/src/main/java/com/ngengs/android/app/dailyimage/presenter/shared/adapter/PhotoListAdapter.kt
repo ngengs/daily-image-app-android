@@ -1,4 +1,4 @@
-package com.ngengs.android.app.dailyimage.presenter.shared
+package com.ngengs.android.app.dailyimage.presenter.shared.adapter
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

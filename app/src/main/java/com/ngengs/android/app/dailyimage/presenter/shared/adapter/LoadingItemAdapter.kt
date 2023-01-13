@@ -1,10 +1,10 @@
-package com.ngengs.android.app.dailyimage.presenter.shared
+package com.ngengs.android.app.dailyimage.presenter.shared.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.databinding.ItemLoadingAdapterBinding
-import com.ngengs.android.app.dailyimage.presenter.shared.LoadingItemAdapter.ViewHolder
+import com.ngengs.android.app.dailyimage.presenter.shared.adapter.LoadingItemAdapter.ViewHolder
 
 /**
  * Created by rizky.kharisma on 12/01/23.

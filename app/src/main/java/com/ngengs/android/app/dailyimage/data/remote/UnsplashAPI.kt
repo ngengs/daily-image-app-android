@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.ngengs.android.app.dailyimage.BuildConfig
 import com.ngengs.android.app.dailyimage.data.remote.model.Photos
+import com.ngengs.android.app.dailyimage.data.remote.model.SearchResult
 import com.ngengs.android.app.dailyimage.utils.common.constant.ApiConstant.OrderBy
 import com.ngengs.android.app.dailyimage.utils.common.constant.ApiConstant.PER_PAGE
 import com.ngengs.android.app.dailyimage.utils.network.NetworkHelpers
@@ -21,6 +22,12 @@ interface UnsplashAPI {
         @Query("page") page: Long,
         @OrderBy @Query("order_by") orderBy: String,
     ): Response<List<Photos>>
+
+    @GET("/search/photos?per_page=$PER_PAGE")
+    suspend fun search(
+        @Query("page") page: Long,
+        @Query("query") query: String,
+    ): SearchResult
 
     companion object {
         private const val BASE_URL = "https://api.unsplash.com/"

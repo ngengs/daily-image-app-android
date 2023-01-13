@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -22,5 +25,13 @@
             android:name="photo"
             app:argType="com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal"
             />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.ngengs.android.app.dailyimage.presenter.fragment.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="searchText"
+            app:argType="string"/>
     </fragment>
 </navigation>

@@ -1,13 +1,17 @@
 package com.ngengs.android.app.dailyimage.presenter.fragment.home
 
+import androidx.lifecycle.viewModelScope
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
 import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import com.ngengs.android.app.dailyimage.domain.model.CompletableCachedData
 import com.ngengs.android.app.dailyimage.domain.model.Results
 import com.ngengs.android.app.dailyimage.domain.model.Results.Companion.anyData
 import com.ngengs.android.app.dailyimage.domain.usecase.GetPhotoListUseCase
+import com.ngengs.android.app.dailyimage.domain.usecase.GetSearchSuggestion
 import com.ngengs.android.app.dailyimage.presenter.BaseViewModel
 import com.ngengs.android.app.dailyimage.presenter.fragment.home.HomeViewModel.ViewData
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.SearchableViewModel
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.SearchableViewModelImpl
 import com.ngengs.android.app.dailyimage.utils.common.constant.ApiConstant
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.PhotoListViewType
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.VIEW_TYPE_GRID
@@ -20,8 +24,10 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getPhotoListUseCase: GetPhotoListUseCase,
+    private val getSearchSuggestion: GetSearchSuggestion,
     private val dispatcher: DispatcherProvider,
-) : BaseViewModel<ViewData>(ViewData()) {
+) : BaseViewModel<ViewData>(ViewData()),
+    SearchableViewModel by SearchableViewModelImpl(getSearchSuggestion) {
 
     init {
         Timber.d("init")
@@ -49,20 +55,29 @@ class HomeViewModel @Inject constructor(
             Timber.d("fetch: $page")
             val oldData = data.value.mainData.anyData()
             val orderType = data.value.orderType
-            getPhotoListUseCase(page, orderType, oldData)
-                .collect { result ->
-                    val cache = if (result is Results.Success && result.data.isCache) {
-                        result.data.data
-                    } else data.value.cache
-                    val nextPage = if (result is Results.Success && !result.data.isCache) {
-                        page + 1
-                    } else page
-                    val mainData = if (result is Results.Success && result.data.isCache) {
-                        data.value.mainData
-                    } else result
-                    _data.update { it.copy(mainData = mainData, page = nextPage, cache = cache) }
-                }
+            getPhotoListUseCase(page, orderType, oldData).collect { result ->
+                val cache = if (result is Results.Success && result.data.isCache) {
+                    result.data.data
+                } else data.value.cache
+                val nextPage = if (result is Results.Success && !result.data.isCache) {
+                    page + 1
+                } else page
+                val mainData = if (result is Results.Success && result.data.isCache) {
+                    data.value.mainData
+                } else result
+                _data.update { it.copy(mainData = mainData, page = nextPage, cache = cache) }
+            }
         }
+    }
+
+    fun onTypedSearch(text: String) {
+        performSearchSuggestion(text, viewModelScope, dispatcher.default()) { suggestion ->
+            _data.update { it.copy(searchSuggestion = suggestion) }
+        }
+    }
+
+    fun resetSearchSuggestion() {
+        _data.update { it.copy(searchSuggestion = emptyList()) }
     }
 
     fun getViewType() = data.value.viewType
@@ -90,6 +105,7 @@ class HomeViewModel @Inject constructor(
         val orderType: String = ApiConstant.ORDER_BY_LATEST,
         val page: Long = 1L,
         val cache: List<PhotosLocal> = emptyList(),
-        val mainData: Results<CompletableCachedData<PhotosLocal>> = Results.Loading()
+        val mainData: Results<CompletableCachedData<PhotosLocal>> = Results.Loading(),
+        val searchSuggestion: List<String> = emptyList(),
     )
 }

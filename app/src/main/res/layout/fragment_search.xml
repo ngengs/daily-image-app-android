@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presenter.fragment.home.HomeFragment">
+    tools:context=".presenter.fragment.search.SearchFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
@@ -32,7 +32,8 @@
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/app_name" />
+            android:hint="@string/app_name"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -48,4 +49,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.search.SearchView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

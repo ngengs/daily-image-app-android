@@ -17,7 +17,7 @@ ext {
     androidCoreVersion = '1.9.0'
     splashScreenVersion = '1.0.0'
     appCompatVersion = '1.5.1'
-    materialVersion = '1.7.0'
+    materialVersion = '1.8.0-rc01'
     contraintLayoutVersion = '2.1.4'
     recyclerViewVersion = '1.2.1'
     fragmentVersion = '1.5.5'

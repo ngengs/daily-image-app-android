@@ -1,4 +1,4 @@
-package com.ngengs.android.app.dailyimage.presenter.shared
+package com.ngengs.android.app.dailyimage.presenter.shared.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoHeaderToolsBinding
-import com.ngengs.android.app.dailyimage.presenter.shared.HeaderToolsAdapter.ViewHolder
+import com.ngengs.android.app.dailyimage.presenter.shared.adapter.HeaderToolsAdapter.ViewHolder
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visibleIf
 
 /**
@@ -17,16 +17,14 @@ import com.ngengs.android.app.dailyimage.utils.ui.ext.visibleIf
  */
 class HeaderToolsAdapter(
     private var headerTitle: String,
-    private var onClickOrderBy: () -> Unit,
     private var onClickViewType: () -> Unit,
+    private var onClickOrderBy: (() -> Unit)? = null,
+    @DrawableRes private var iconOrderBy: Int? = R.drawable.ic_baseline_sort_calendar_desc_24
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     init {
         setHasStableIds(true)
     }
-
-    @DrawableRes
-    private var iconOrderBy: Int? = R.drawable.ic_baseline_sort_calendar_desc_24
 
     @DrawableRes
     private var iconViewType: Int = R.drawable.ic_baseline_grid_view_24
@@ -51,7 +49,7 @@ class HeaderToolsAdapter(
         notifyItemChanged(0)
     }
 
-    fun changeOrderIcon(@DrawableRes icon: Int) {
+    fun changeOrderIcon(@DrawableRes icon: Int?) {
         if (iconOrderBy == icon) return
         iconOrderBy = icon
         notifyItemChanged(0)
@@ -71,7 +69,7 @@ class HeaderToolsAdapter(
             iconViewType: Int,
             iconOrderBy: Int?,
             onClickViewType: () -> Unit,
-            onClickOrderBy: () -> Unit
+            onClickOrderBy: (() -> Unit)?
         ) {
             binding.toolsText.text = headerTitle
             binding.toolsText.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
@@ -82,7 +80,7 @@ class HeaderToolsAdapter(
                 binding.orderTypeButton.icon = ContextCompat.getDrawable(binding.root.context, it)
             }
             binding.viewTypeButton.setOnClickListener { onClickViewType() }
-            binding.orderTypeButton.setOnClickListener { onClickOrderBy() }
+            binding.orderTypeButton.setOnClickListener { onClickOrderBy?.invoke() }
         }
     }
 }
