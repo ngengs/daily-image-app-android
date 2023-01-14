@@ -14,13 +14,13 @@ import kotlinx.parcelize.Parcelize
 @JsonClass(generateAdapter = true)
 data class UserSimple(
     @Json(name = "id")
-    val id: String,
+    val id: String = "",
     @Json(name = "username")
-    val username: String,
+    val username: String = "",
     @Json(name = "name")
-    val name: String,
+    val name: String = "",
     @Json(name = "avatar")
-    val avatar: String,
+    val avatar: String = "",
 ) : Parcelable {
     companion object {
         fun User.toUserSimple() = UserSimple(

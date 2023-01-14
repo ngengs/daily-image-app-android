@@ -23,34 +23,35 @@ data class PhotosLocal(
     @PrimaryKey
     @Json(name = "id")
     @ColumnInfo(name = DailyImageDatabase.COLUMN_ID)
-    val id: String,
+    val id: String = "",
     @Json(name = "width")
     @ColumnInfo(name = "width")
-    val width: Int,
+    val width: Int = 0,
     @Json(name = "height")
     @ColumnInfo(name = "height")
-    val height: Int,
+    val height: Int = 0,
     @Json(name = "blur_hash")
     @ColumnInfo(name = "blur_hash")
-    val blurHash: String,
+    val blurHash: String = "",
     @Json(name = "color")
     @ColumnInfo(name = "color")
-    val color: String,
+    val color: String = "#FFFFFF",
     @Json(name = "description")
     @ColumnInfo(name = "description")
-    val description: String?,
+    val description: String? = null,
     @Json(name = "image")
     @ColumnInfo(name = "image")
-    val image: String,
+    val image: String = "",
     @Json(name = "user")
     @ColumnInfo(name = "user")
-    val user: UserSimple?,
+    val user: UserSimple? = null,
 ) : Parcelable {
-    val imageSmall get() = "$image&w=400"
-    val imageLarge get() = "$image&w=1080"
-    val imageLoadingThumb get() = "$image&w=10"
 
     companion object {
+        val PhotosLocal.imageSmall get() = "$image&w=400"
+        val PhotosLocal.imageLarge get() = "$image&w=1080"
+        val PhotosLocal.imageLoadingThumb get() = "$image&w=10"
+
         fun Photos.toPhotosLocal() = PhotosLocal(
             id = this.id,
             width = this.width,

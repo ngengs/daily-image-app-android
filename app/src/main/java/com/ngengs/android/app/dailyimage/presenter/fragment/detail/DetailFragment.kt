@@ -11,6 +11,8 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionInflater
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
+import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLarge
+import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLoadingThumb
 import com.ngengs.android.app.dailyimage.databinding.FragmentDetailBinding
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseFragment
 import com.ngengs.android.app.dailyimage.utils.image.BlurHashDecoder

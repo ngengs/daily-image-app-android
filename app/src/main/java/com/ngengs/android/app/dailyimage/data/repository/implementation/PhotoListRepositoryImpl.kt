@@ -38,7 +38,6 @@ class PhotoListRepositoryImpl(
             }
         }
         val isComplete = page == remoteData.pagination.last
-        Timber.d("get: ${remoteData.pagination}")
 
         CompletableData(isComplete, photosSimple)
     }

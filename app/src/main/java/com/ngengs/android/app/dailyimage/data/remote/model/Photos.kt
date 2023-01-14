@@ -13,7 +13,7 @@ import kotlinx.parcelize.Parcelize
 @JsonClass(generateAdapter = true)
 data class Photos(
     @Json(name = "id")
-    val id: String,
+    val id: String = "",
     @Json(name = "created_at")
     val createdAt: String = "",
     @Json(name = "updated_at")

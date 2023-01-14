@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
+import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLarge
+import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLoadingThumb
+import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageSmall
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoGridBinding
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoListBinding
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.PhotoListViewType
@@ -55,8 +58,6 @@ class PhotoListAdapter(
             holder.bind(photo, loadingDrawable, thumbnailImage, onClickListener)
         }
     }
-
-    fun getViewType() = viewType
 
     fun updateViewType(@PhotoListViewType viewType: Int) {
         if (this.viewType == viewType) return
