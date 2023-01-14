@@ -23,7 +23,7 @@ import org.robolectric.annotation.Config
  * Created by rizky.kharisma on 14/01/23.
  * @ngengs
  */
-@ExperimentalCoroutinesApi
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [32])
 class PhotoLocalDataSourceImplTest {
