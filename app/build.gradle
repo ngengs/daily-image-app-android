@@ -7,9 +7,11 @@ plugins {
     id 'com.google.dagger.hilt.android'
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jlleitschuh.gradle.ktlint' version "$ktLintVersion"
+    id 'jacoco'
 }
 
-apply from: "${rootProject.rootDir}/versioning.gradle"
+apply from: "${rootProject.rootDir}/common-gradle/versioning.gradle"
+apply from: "${rootProject.rootDir}/common-gradle/jacoco.gradle"
 
 android {
     namespace 'com.ngengs.android.app.dailyimage'
@@ -32,16 +34,40 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
+        }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
+
     buildFeatures {
         viewBinding true
+    }
+
+    testOptions {
+        animationsDisabled true
+
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    packagingOptions {
+        pickFirst 'META-INF/LICENSE.md'
+        pickFirst 'META-INF/LICENSE-notice.md'
     }
 }
 
@@ -105,7 +131,21 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
 
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    // Test
+    testImplementation project(path: ":libs:lib-test-utils")
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$androidJunitVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$ktCoroutineTestVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "io.mockk:mockk-android:$mockkVersion"
+    testImplementation "io.mockk:mockk-agent:$mockkVersion"
+    testImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    testImplementation "androidx.navigation:navigation-testing:$navVersion"
+    testImplementation "com.google.truth:truth:$truthVersion"
+    testImplementation "app.cash.turbine:turbine:$turbineVersion"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 }

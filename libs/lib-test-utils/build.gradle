@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.ngengs.android.libs.test.utils'
+    compileSdk appCompileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+}
+
+dependencies {
+    implementation "junit:junit:$junitVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$ktCoroutineTestVersion"
+
+    api "com.github.xgouchet.Elmyr:core:$elmyrVersion"
+    api "com.github.xgouchet.Elmyr:junit4:$elmyrVersion"
+    api "com.github.xgouchet.Elmyr:core:$elmyrVersion"
+    api "com.github.xgouchet.Elmyr:junit4:$elmyrVersion"
+    api "com.github.xgouchet.Elmyr:jvm:$elmyrVersion"
+}
