@@ -1,5 +1,6 @@
 package com.ngengs.android.app.dailyimage.domain.usecase.implementation
 
+import androidx.annotation.VisibleForTesting
 import com.ngengs.android.app.dailyimage.data.repository.SearchRepository
 import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import com.ngengs.android.app.dailyimage.domain.usecase.GetSearchSuggestion
@@ -16,9 +17,15 @@ class GetSearchSuggestionImpl @Inject constructor(
     private val dispatcher: DispatcherProvider,
 ) : GetSearchSuggestion {
     override suspend fun invoke(text: String) = withContext(dispatcher.io()) {
-        delay(300L)
+        delay(DELAY_TYPING)
         val cleanText = text.trim()
-        if (cleanText.length < 3) emptyList()
+        if (cleanText.length < LENGTH_THRESHOLD) emptyList()
         else repository.searchSuggestion(text)
+    }
+
+    companion object {
+        private const val DELAY_TYPING = 300L
+        @VisibleForTesting
+        const val LENGTH_THRESHOLD = 3
     }
 }

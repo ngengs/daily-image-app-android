@@ -1,0 +1,68 @@
+{
+  "fuzzy": [
+    {
+      "query": "apple logo",
+      "priority": 10129
+    },
+    {
+      "query": "apple magic mouse",
+      "priority": 8498
+    },
+    {
+      "query": "apple watch",
+      "priority": 7098
+    },
+    {
+      "query": "apples",
+      "priority": 5788
+    },
+    {
+      "query": "apple tree",
+      "priority": 5082
+    }
+  ],
+  "autocomplete": [
+    {
+      "query": "apple logo",
+      "priority": 10129
+    },
+    {
+      "query": "apple devices",
+      "priority": 3640
+    },
+    {
+      "query": "apple iphone",
+      "priority": 3606
+    },
+    {
+      "query": "apple laptop",
+      "priority": 3493
+    },
+    {
+      "query": "apple fruit",
+      "priority": 3121
+    }
+  ],
+  "did_you_mean": [
+    {
+      "query": "apple logo",
+      "priority": 10129
+    },
+    {
+      "query": "apple magic mouse",
+      "priority": 8498
+    },
+    {
+      "query": "apple watch",
+      "priority": 7098
+    },
+    {
+      "query": "application",
+      "priority": 5829
+    },
+    {
+      "query": "apples",
+      "priority": 5788
+    }
+  ]
+}
