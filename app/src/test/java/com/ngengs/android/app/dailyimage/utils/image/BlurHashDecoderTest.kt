@@ -80,7 +80,6 @@ class BlurHashDecoderTest {
         bmp2.assertEquals(bmp3)
     }
 
-
     private fun Bitmap.assertEquals(bitmap2: Bitmap) {
         val buffer1: ByteBuffer = ByteBuffer.allocate(height * rowBytes)
         copyPixelsToBuffer(buffer1)

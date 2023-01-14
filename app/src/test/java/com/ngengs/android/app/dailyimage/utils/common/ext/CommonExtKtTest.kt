@@ -10,7 +10,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CommonExtTest {
+class CommonExtKtTest {
     @get:Rule
     val forge = ForgeRule()
 
