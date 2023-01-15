@@ -8,12 +8,14 @@
     android:orientation="vertical">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         app:trackCornerRadius="@dimen/corner_default_size" />
 
     <TextView
+        android:id="@+id/loading_massage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_8"

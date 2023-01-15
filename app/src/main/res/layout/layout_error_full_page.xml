@@ -21,7 +21,9 @@
         android:id="@+id/error_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_16"
         android:layout_marginTop="@dimen/spacing_8"
+        android:textAlignment="center"
         tools:text="Something Went Wrong" />
 
     <Button
