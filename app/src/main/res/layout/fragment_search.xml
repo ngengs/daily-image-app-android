@@ -41,7 +41,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Let's Search Some Image Here"
+        android:hint="@string/search_image_hint"
         app:layout_anchor="@id/search_bar">
 
         <androidx.recyclerview.widget.RecyclerView

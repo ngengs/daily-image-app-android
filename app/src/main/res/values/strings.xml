@@ -16,4 +16,5 @@
     <string name="error_message_other">Something went wrong! Keep Calm.</string>
 
     <string name="retry">Retry</string>
+    <string name="search_image_hint">Let\'s Search Some Image Here</string>
 </resources>
