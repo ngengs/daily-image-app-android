@@ -26,21 +26,44 @@ This is my simple app to show image from [Unsplash](https://unsplash.com/).
 
 ### Preview
 
-**Phone**
-- Grid
-  ![Grid Preview Dark](/.github/readme-images/preview-phone-grid-dark.png)
-  ![Grid Preview Light](/.github/readme-images/preview-phone-grid-light.png)
-- List
-  ![List Preview Dark](/.github/readme-images/preview-phone-list-dark.png)
-  ![List Preview Light](/.github/readme-images/preview-phone-list-light.png)
-- Detail
-  ![Detail Preview Dark](/.github/readme-images/preview-phone-detail-dark.png)
-  ![Detail Preview Light](/.github/readme-images/preview-phone-detail-light.png)
+<details>
+  <summary>Phone</summary>
 
-**Tablet**
+
 - Grid
-  ![Grid Preview Dark](/.github/readme-images/preview-tablet-grid.png)
+
+|Dark|Light|
+|----|-----|
+|![Grid Preview Dark](/.github/readme-images/preview-phone-grid-dark.png)|![Grid Preview Light](/.github/readme-images/preview-phone-grid-light.png)|
+
 - List
-  ![List Preview Dark](/.github/readme-images/preview-tablet-list.png)
+
+|Dark|Light|
+|----|-----|
+|![List Preview Dark](/.github/readme-images/preview-phone-list-dark.png)|![List Preview Light](/.github/readme-images/preview-phone-list-light.png)|
+
 - Detail
+
+|Dark|Light|
+|----|-----|
+|![Detail Preview Dark](/.github/readme-images/preview-phone-detail-dark.png)|![Detail Preview Light](/.github/readme-images/preview-phone-detail-light.png)|
+
+</details>
+
+
+<details>
+  <summary>Tablet</summary>
+
+- Grid
+
+  ![Grid Preview Dark](/.github/readme-images/preview-tablet-grid.png)
+
+- List
+
+  ![List Preview Dark](/.github/readme-images/preview-tablet-list.png)
+
+- Detail
+
   ![Detail Preview Dark](/.github/readme-images/preview-tablet-detail.png)
+
+</details>
