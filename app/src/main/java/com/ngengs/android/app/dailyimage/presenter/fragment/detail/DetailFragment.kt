@@ -7,7 +7,6 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionInflater
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
@@ -48,7 +47,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         val photo = args.photo
         parentFragment?.postponeEnterTransition()
         binding.photo.transitionName = TransitionUtils.imageTransitionName(photo.id)
-        binding.toolbar.setupWithNavController(findNavController())
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
         binding.photo.setOnClickListener {
             toggleToolbarAndDetailContent()
         }
