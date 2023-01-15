@@ -132,6 +132,8 @@ dependencies {
     kapt "com.github.bumptech.glide:annotations:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
+    // Pinch To Zoom
+    implementation "com.github.chrisbanes:PhotoView:$photoViewVersion"
 
     // Test
     testImplementation project(path: ":libs:lib_test_utils")
