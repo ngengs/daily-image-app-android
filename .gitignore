@@ -5,6 +5,7 @@
 .vscode/
 .DS_Store
 /build
+/outputs
 /captures
 .externalNativeBuild
 .cxx
