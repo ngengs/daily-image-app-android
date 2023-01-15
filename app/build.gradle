@@ -10,8 +10,8 @@ plugins {
     id 'jacoco'
 }
 
-apply from: "${rootProject.rootDir}/common-gradle/versioning.gradle"
-apply from: "${rootProject.rootDir}/common-gradle/jacoco.gradle"
+apply from: "${rootProject.rootDir}/common_gradle/versioning.gradle"
+apply from: "${rootProject.rootDir}/common_gradle/jacoco.gradle"
 
 android {
     namespace 'com.ngengs.android.app.dailyimage'
@@ -132,7 +132,7 @@ dependencies {
 
 
     // Test
-    testImplementation project(path: ":libs:lib-test-utils")
+    testImplementation project(path: ":libs:lib_test_utils")
     testImplementation "junit:junit:$junitVersion"
     testImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
     testImplementation "androidx.test.ext:junit-ktx:$androidJunitVersion"
@@ -150,7 +150,7 @@ dependencies {
     kaptTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     // Instrument Test
-    androidTestImplementation project(path: ":libs:lib-test-utils")
+    androidTestImplementation project(path: ":libs:lib_test_utils")
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
