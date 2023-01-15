@@ -26,7 +26,7 @@ android {
         versionName appVersionName
         vectorDrawables.useSupportLibrary = true
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.ngengs.android.app.dailyimage.AppWithHiltTestRunner"
     }
 
     buildTypes {
@@ -148,4 +148,21 @@ dependencies {
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "app.cash.turbine:turbine:$turbineVersion"
     kaptTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
+    // Instrument Test
+    androidTestImplementation project(path: ":libs:lib-test-utils")
+    androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$ktCoroutineTestVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-agent:$mockkVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    androidTestImplementation "com.google.truth:truth:$truthVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+    implementation "androidx.test:core:1.5.0"
 }

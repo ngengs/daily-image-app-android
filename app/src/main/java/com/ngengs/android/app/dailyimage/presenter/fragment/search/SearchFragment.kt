@@ -37,7 +37,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SearchFragment :
+class SearchFragment : SearchFragmentImpl()
+
+open class SearchFragmentImpl :
     BaseViewModelFragment<FragmentSearchBinding, ViewData, SearchViewModel>(),
     ChangeableListViewTypeScreen by ChangeableListViewTypeScreenImpl(),
     SearchableScreen by SearchableScreenImpl(),

@@ -35,7 +35,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class HomeFragment :
+class HomeFragment : HomeFragmentImpl()
+
+open class HomeFragmentImpl :
     BaseViewModelFragment<FragmentHomeBinding, ViewData, HomeViewModel>(),
     SearchableScreen by SearchableScreenImpl(),
     ChangeableListViewTypeScreen by ChangeableListViewTypeScreenImpl(),
