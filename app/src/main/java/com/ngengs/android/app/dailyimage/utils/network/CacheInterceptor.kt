@@ -1,5 +1,6 @@
 package com.ngengs.android.app.dailyimage.utils.network
 
+import com.ngengs.android.app.dailyimage.BuildConfig
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,7 +19,10 @@ class CacheInterceptor : Interceptor {
         if (!shouldUseCache) return originalResponse
 
         val cacheControl = CacheControl.Builder()
-            .maxAge(CACHE_TIME_MINUTES, TimeUnit.MINUTES)
+            .maxAge(
+                if (BuildConfig.DEBUG) CACHE_TIME_MINUTES_DEBUG else CACHE_TIME_MINUTES,
+                TimeUnit.MINUTES
+            )
             .build()
 
         return originalResponse.newBuilder()
@@ -29,6 +33,7 @@ class CacheInterceptor : Interceptor {
     companion object {
         const val CACHE_CONTROL_HEADER = "Cache-Control"
         const val CACHE_CONTROL_NO_CACHE = "no-cache"
-        const val CACHE_TIME_MINUTES = 240
+        const val CACHE_TIME_MINUTES = 30
+        const val CACHE_TIME_MINUTES_DEBUG = 240
     }
 }
