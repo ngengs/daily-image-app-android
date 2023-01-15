@@ -22,7 +22,7 @@ This is my simple app to show image from [Unsplash](https://unsplash.com/).
    With your Android Studio or terminal using `./gradlew assembleDebug`.
 
 
-**Note:** App will cache the network request to keep the request limit of the api. Relaese build have 30 minutes cache, debug build have 240 minutes cache.
+**Note:** App will cache the network request to keep the request limit of the api. Release build have 30 minutes cache, debug build have 240 minutes cache.
 
 ### Preview
 
