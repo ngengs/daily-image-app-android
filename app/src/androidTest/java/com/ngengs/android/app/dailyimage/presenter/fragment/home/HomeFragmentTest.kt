@@ -70,6 +70,7 @@ class HomeFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<HomeFragment>(
             navHostController = navController,
+            navCurrentDestination = R.id.homeFragment
         )
         activityScenario.launchCoroutine {
             FakeUseCaseModule.useCase.getPhotoListUseCase.emitResult(Results.Loading())
@@ -257,6 +258,7 @@ class HomeFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<HomeFragment>(
             navHostController = navController,
+            navCurrentDestination = R.id.homeFragment
         )
 
         // Test Full Loading
