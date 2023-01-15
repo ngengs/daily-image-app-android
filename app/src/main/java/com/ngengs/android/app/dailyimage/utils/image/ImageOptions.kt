@@ -16,7 +16,6 @@ import java.io.Serializable
  * @ngengs
  */
 class ImageOptions {
-    var blurHashImage: String? = null
     /**
      * Placeholder Image when loading
      */
