@@ -16,7 +16,6 @@ import com.ngengs.android.app.dailyimage.databinding.FragmentSearchBinding
 import com.ngengs.android.app.dailyimage.domain.model.Results
 import com.ngengs.android.app.dailyimage.domain.model.Results.Companion.anyData
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseViewModelFragment
-import com.ngengs.android.app.dailyimage.presenter.fragment.home.HomeFragmentDirections
 import com.ngengs.android.app.dailyimage.presenter.fragment.search.SearchViewModel.ViewData
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.HeaderToolsAdapter
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.LoadingItemAdapter
@@ -70,7 +69,7 @@ open class SearchFragmentImpl :
         val viewType = viewModel.getViewType()
         photoAdapter = PhotoListAdapter(viewType) { data, view ->
             val extras = FragmentNavigatorExtras(view to view.transitionName)
-            val navDirections = HomeFragmentDirections.actionHomeFragmentToDetailFragment(data)
+            val navDirections = SearchFragmentDirections.actionSearchFragmentToDetailFragment(data)
             findNavController().navigate(navDirections, extras)
         }
         val headerTitle = args.searchText

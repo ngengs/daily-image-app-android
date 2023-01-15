@@ -75,6 +75,7 @@ class SearchFragmentTest : BaseFragmentTest() {
         val activityScenario = launchFragmentInHiltContainer<SearchFragment>(
             fragmentArgs = args.toBundle(),
             navHostController = navController,
+            navCurrentDestination = R.id.searchFragment
         )
         activityScenario.launchCoroutine {
             FakeUseCaseModule.useCase.getSearchedPhotoUseCase.emitResult(Results.Loading())
