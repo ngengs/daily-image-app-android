@@ -48,13 +48,16 @@ class DetailFragmentTest : BaseFragmentTest() {
         }
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
+        Thread.sleep(200L) // Delay wait image loaded
         onView(withId(R.id.photo)).perform(click())
+        Thread.sleep(200L) // Delay touch action
         onView(withId(R.id.toolbar)).check(matches(not(isDisplayed())))
         onView(withId(R.id.full_name)).check(matches(not(isDisplayed())))
         onView(withId(R.id.username)).check(matches(not(isDisplayed())))
         onView(withId(R.id.description)).check(matches(not(isDisplayed())))
 
         onView(withId(R.id.photo)).perform(click())
+        Thread.sleep(200L) // Delay touch action
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.full_name)).check(matches(isDisplayed()))
         onView(withId(R.id.username)).check(matches(isDisplayed()))
