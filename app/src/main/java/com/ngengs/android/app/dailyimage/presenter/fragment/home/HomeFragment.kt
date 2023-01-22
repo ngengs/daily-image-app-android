@@ -118,6 +118,7 @@ open class HomeFragmentImpl :
                 onBackPressed.isEnabled = true
             },
             onSearchHandler = {
+                binding.searchView.clearFocusAndHideKeyboard()
                 binding.searchView.postDelayed(300L) {
                     val direction =
                         HomeFragmentDirections.actionHomeFragmentToSearchFragment(it)
