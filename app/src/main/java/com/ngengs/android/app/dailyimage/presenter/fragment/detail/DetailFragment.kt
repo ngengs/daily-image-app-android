@@ -50,6 +50,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
+        binding.photo.isZoomable = false
         binding.photo.setOnClickListener {
             toggleToolbarAndDetailContent()
         }
@@ -62,7 +63,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
             .fitCenter()
         binding.photo.load(photo.imageLarge) {
             thumbnail = thumbnailImage
-            onImageLoaded = { parentFragment?.startPostponedEnterTransition() }
+            onImageLoaded = {
+                parentFragment?.startPostponedEnterTransition()
+                binding.photo.isZoomable = true
+            }
             onLoadFailed = { parentFragment?.startPostponedEnterTransition() }
         }
         binding.fullName.text = photo.user?.name
