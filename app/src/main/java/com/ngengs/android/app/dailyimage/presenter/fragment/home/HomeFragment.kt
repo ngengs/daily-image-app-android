@@ -31,7 +31,6 @@ import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implemen
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visible
 import com.ngengs.android.app.dailyimage.utils.ui.rv.SimpleEndlessRecyclerScrollListener
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : HomeFragmentImpl()
@@ -129,7 +128,7 @@ open class HomeFragmentImpl :
     }
 
     override fun render(data: ViewData) {
-        Timber.d("render")
+        log.d("render")
         binding.rv.visible()
         renderHeaderTools(data)
         onHandleLayoutType(data.viewType, binding.rv, concatAdapter) {
@@ -168,7 +167,7 @@ open class HomeFragmentImpl :
     private fun renderSuccess(data: ViewData) {
         val mainData = data.mainData
         if (mainData is Results.Success) {
-            Timber.d("renderSuccess")
+            log.d("renderSuccess")
             binding.rv.visible()
             val photos = mainData.data
             photoAdapter.submitList(photos.data)

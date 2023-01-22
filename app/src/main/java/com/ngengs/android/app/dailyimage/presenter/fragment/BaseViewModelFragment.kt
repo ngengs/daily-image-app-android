@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.ngengs.android.app.dailyimage.presenter.BaseViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 /**
  * Created by rizky.kharisma on 12/01/23.
@@ -22,7 +21,7 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VD, VM : BaseViewModel<VD
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
+        log.d("onViewCreated: base with ViewModel")
         observeData()
     }
 

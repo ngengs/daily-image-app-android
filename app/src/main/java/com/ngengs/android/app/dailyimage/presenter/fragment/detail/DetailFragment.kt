@@ -23,7 +23,6 @@ import com.ngengs.android.app.dailyimage.utils.ui.ext.load
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visible
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visibleIf
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
@@ -38,7 +37,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     }
 
     override fun onDestroy() {
-        Timber.d("onDestroy")
+        log.d("onDestroy")
         BlurHashDecoder.clearCache()
         super.onDestroy()
     }

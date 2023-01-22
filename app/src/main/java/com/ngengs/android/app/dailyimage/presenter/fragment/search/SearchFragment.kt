@@ -32,7 +32,6 @@ import com.ngengs.android.app.dailyimage.utils.common.ext.toTitleCase
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visible
 import com.ngengs.android.app.dailyimage.utils.ui.rv.SimpleEndlessRecyclerScrollListener
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchFragment : SearchFragmentImpl()
@@ -126,7 +125,7 @@ open class SearchFragmentImpl :
     }
 
     override fun render(data: ViewData) {
-        Timber.d("render")
+        log.d("render")
         binding.rv.visible()
         renderHeaderTools(data)
         onHandleLayoutType(data.viewType, binding.rv, concatAdapter) {
@@ -161,7 +160,7 @@ open class SearchFragmentImpl :
     private fun renderSuccess(data: ViewData) {
         val mainData = data.mainData
         if (mainData is Results.Success) {
-            Timber.d("renderSuccess")
+            log.d("renderSuccess")
             binding.rv.visible()
             val photos = mainData.data
             photoAdapter.submitList(photos.data)

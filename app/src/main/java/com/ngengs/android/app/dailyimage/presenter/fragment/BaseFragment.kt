@@ -18,24 +18,27 @@ abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     private var _binding: VB? = null
     protected val binding: VB get() = _binding!!
 
+    protected open val screenName: String get() = javaClass.simpleName
+    protected val log get() = Timber.tag(screenName)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.d("onCreateView")
+        log.d("onCreateView: base")
         _binding = bindingInflater(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
+        log.d("onViewCreated: base")
         initializeView()
     }
 
     override fun onDestroyView() {
-        Timber.d("onDestroyView")
+        log.d("onDestroyView: base")
         _binding = null
         super.onDestroyView()
     }
