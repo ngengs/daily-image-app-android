@@ -59,6 +59,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
     private fun bindingData(photo: PhotosLocal) {
         val thumbnailImage = GlideUtils.thumbnailBuilder(requireContext(), photo.imageLoadingThumb)
+            .fitCenter()
         binding.photo.load(photo.imageLarge) {
             thumbnail = thumbnailImage
             onImageLoaded = { parentFragment?.startPostponedEnterTransition() }
