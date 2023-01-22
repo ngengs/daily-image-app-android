@@ -49,6 +49,17 @@
 
     </LinearLayout>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/favorite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_16"
+        android:contentDescription="@string/favorite_button_desc"
+        android:visibility="gone"
+        app:layout_anchor="@id/detail_content"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"

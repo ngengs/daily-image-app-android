@@ -1,7 +1,9 @@
 package com.ngengs.android.app.dailyimage.di
 
+import com.ngengs.android.app.dailyimage.data.repository.FavoriteRepository
 import com.ngengs.android.app.dailyimage.data.repository.PhotoListRepository
 import com.ngengs.android.app.dailyimage.data.repository.SearchRepository
+import com.ngengs.android.app.dailyimage.data.repository.implementation.FavoriteRepositoryImpl
 import com.ngengs.android.app.dailyimage.data.repository.implementation.PhotoListRepositoryImpl
 import com.ngengs.android.app.dailyimage.data.repository.implementation.SearchRepositoryImpl
 import com.ngengs.android.app.dailyimage.data.source.PhotoLocalDataSource
@@ -35,4 +37,11 @@ internal object RepositoryModule {
         dispatcherProvider: DispatcherProvider,
     ): SearchRepository =
         SearchRepositoryImpl(remoteDataSource, dispatcherProvider)
+
+    @Provides
+    @ViewModelScoped
+    fun provideFavoriteRepository(
+        localDataSource: PhotoLocalDataSource,
+        dispatcherProvider: DispatcherProvider,
+    ): FavoriteRepository = FavoriteRepositoryImpl(localDataSource, dispatcherProvider)
 }
