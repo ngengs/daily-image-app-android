@@ -78,4 +78,8 @@ class ChangeableListViewTypeScreenImpl : ChangeableListViewTypeScreen {
             recyclerView.adapter = adapter
         }
     }
+
+    override fun viewTypeIcon(viewType: Int): Int = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
+        R.drawable.ic_baseline_grid_view_24
+    } else R.drawable.ic_baseline_view_list_24
 }

@@ -28,7 +28,6 @@ import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implemen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.ErrorHandlerScreenImpl
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.LoadingHandlerScreenImpl
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.SearchableScreenImpl
-import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant
 import com.ngengs.android.app.dailyimage.utils.common.ext.toTitleCase
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visible
 import com.ngengs.android.app.dailyimage.utils.ui.rv.SimpleEndlessRecyclerScrollListener
@@ -187,17 +186,12 @@ open class SearchFragmentImpl :
     }
 
     private fun renderHeaderTools(data: ViewData) {
-        val headerViewTypeIcon = createViewTypeIcon(data.viewType)
         headerAdapter.changeTitle(
             getString(
                 R.string.search_images,
                 data.text.orEmpty().toTitleCase()
             )
         )
-        headerAdapter.changeViewTypeIcon(headerViewTypeIcon)
+        headerAdapter.changeViewTypeIcon(viewTypeIcon(data.viewType))
     }
-
-    private fun createViewTypeIcon(viewType: Int) = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
-        R.drawable.ic_baseline_grid_view_24
-    } else R.drawable.ic_baseline_view_list_24
 }

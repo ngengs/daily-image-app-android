@@ -28,7 +28,6 @@ import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implemen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.ErrorHandlerScreenImpl
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.LoadingHandlerScreenImpl
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.SearchableScreenImpl
-import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.VIEW_TYPE_GRID
 import com.ngengs.android.app.dailyimage.utils.ui.ext.visible
 import com.ngengs.android.app.dailyimage.utils.ui.rv.SimpleEndlessRecyclerScrollListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -195,10 +194,9 @@ open class HomeFragmentImpl :
 
     private fun renderHeaderTools(data: ViewData) {
         val (headerTitle, headerOrderIcon) = createHeaderTitleAndIcon()
-        val headerViewTypeIcon = createViewTypeIcon(data.viewType)
         headerAdapter.changeTitle(headerTitle)
         headerAdapter.changeOrderIcon(headerOrderIcon)
-        headerAdapter.changeViewTypeIcon(headerViewTypeIcon)
+        headerAdapter.changeViewTypeIcon(viewTypeIcon(data.viewType))
     }
 
     private fun createHeaderTitleAndIcon() = if (viewModel.isOrderByLatest()) {
@@ -206,8 +204,4 @@ open class HomeFragmentImpl :
     } else {
         getString(R.string.popular_images) to R.drawable.ic_baseline_trending_up_24
     }
-
-    private fun createViewTypeIcon(viewType: Int) = if (viewType == VIEW_TYPE_GRID) {
-        R.drawable.ic_baseline_grid_view_24
-    } else R.drawable.ic_baseline_view_list_24
 }

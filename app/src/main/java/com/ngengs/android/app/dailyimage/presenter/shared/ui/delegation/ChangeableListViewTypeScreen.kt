@@ -1,6 +1,7 @@
 package com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation
 
 import android.content.Context
+import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.PhotoListViewType
 
@@ -26,4 +27,7 @@ interface ChangeableListViewTypeScreen {
         adapter: RecyclerView.Adapter<*>,
         onViewTypeChanged: () -> Unit
     )
+
+    @DrawableRes
+    fun viewTypeIcon(@PhotoListViewType viewType: Int): Int
 }
