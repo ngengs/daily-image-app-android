@@ -12,11 +12,13 @@ class SimpleEndlessRecyclerScrollListener(
     private val stopScrollPotentialEnergy: Boolean = false,
     private val onReachEnd: () -> Unit
 ) : RecyclerView.OnScrollListener() {
+    var isEnabled = true
+
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
         val manager = recyclerView.layoutManager as? LinearLayoutManager
-        if (manager != null) {
+        if (isEnabled && manager != null) {
             val visibleItemCount = manager.childCount
             val totalItemCount = manager.itemCount
             val firstVisibleItemPosition = manager.findFirstVisibleItemPosition()
