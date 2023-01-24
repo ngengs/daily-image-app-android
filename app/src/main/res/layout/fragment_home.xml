@@ -10,7 +10,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"  />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -26,9 +26,10 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            app:tabMode="fixed"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:tabMode="fixed" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
