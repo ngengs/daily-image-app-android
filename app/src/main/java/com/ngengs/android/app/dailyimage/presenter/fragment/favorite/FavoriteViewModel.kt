@@ -11,13 +11,8 @@ import com.ngengs.android.app.dailyimage.presenter.fragment.favorite.FavoriteVie
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.PhotoListViewType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -27,29 +22,23 @@ class FavoriteViewModel @Inject constructor(
     private val dispatcher: DispatcherProvider,
 ) : BaseViewModel<ViewData>(ViewData()) {
 
-    private val _viewType = MutableStateFlow(ViewConstant.VIEW_TYPE_GRID)
-
-    override val data: StateFlow<ViewData>
-        get() = getFavoriteListUseCase.invoke()
-            .combine(_viewType) { favorites, viewType ->
-                Timber.d("combine, thread: ${Thread.currentThread().name}")
-                ViewData(viewType = viewType, mainData = favorites)
+    init {
+        viewModelScope.launch(dispatcher.default()) {
+            getFavoriteListUseCase.invoke().collect { result ->
+                Timber.d("collect, thread: ${Thread.currentThread().name}")
+                _data.update { it.copy(mainData = result) }
             }
-            .flowOn(dispatcher.default())
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.Lazily,
-                initialValue = ViewData()
-            )
+        }
+    }
 
-    fun getViewType() = _viewType.value
+    fun getViewType() = data.value.viewType
 
     fun changeViewType() {
-        val current = _viewType.value
+        val current = data.value.viewType
         val changeTarget = if (current == ViewConstant.VIEW_TYPE_GRID) {
             ViewConstant.VIEW_TYPE_LIST
         } else ViewConstant.VIEW_TYPE_GRID
-        _viewType.update { changeTarget }
+        _data.update { it.copy(viewType = changeTarget) }
     }
 
     data class ViewData(

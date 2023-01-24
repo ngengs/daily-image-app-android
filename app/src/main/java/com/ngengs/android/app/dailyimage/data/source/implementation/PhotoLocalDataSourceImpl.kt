@@ -8,6 +8,7 @@ import com.ngengs.android.app.dailyimage.data.local.model.PopularPhotos
 import com.ngengs.android.app.dailyimage.data.source.PhotoLocalDataSource
 import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -59,10 +60,12 @@ class PhotoLocalDataSourceImpl(
 
     override fun getFavorites(): Flow<List<PhotosLocal>> {
         Timber.d("getFavorite, thread: ${Thread.currentThread().name}")
-        return favoriteDao.get().map { data ->
-            Timber.d("getFavorite, data: $data")
-            data.mapNotNull { it.photos }
-        }
+        return favoriteDao.get()
+            .map { data ->
+                Timber.d("getFavorite-map, thread: ${Thread.currentThread().name}")
+                data.mapNotNull { it.photos }
+            }
+            .flowOn(dispatcher.io())
     }
 
     override suspend fun getFavorite(id: String): PhotosLocal? = withContext(dispatcher.io()){
