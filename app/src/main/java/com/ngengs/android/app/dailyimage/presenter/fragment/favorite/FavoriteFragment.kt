@@ -49,7 +49,7 @@ open class FavoriteFragmentImpl :
             findNavController().navigate(navDirections, extras)
         }
         headerAdapter = HeaderToolsAdapter(
-            headerTitle = getString(R.string.favorite),
+            headerTitle = getString(R.string.favorite_images),
             iconOrderBy = null,
             onClickViewType = {
                 viewModel.changeViewType()
