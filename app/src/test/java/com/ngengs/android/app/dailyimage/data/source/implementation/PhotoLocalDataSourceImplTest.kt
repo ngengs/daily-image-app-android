@@ -154,6 +154,34 @@ class PhotoLocalDataSourceImplTest {
     }
 
     @Test
+    fun getFavorite_success() = runTest {
+        // Given
+        val data = (1..10).map {
+            DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true }
+        }
+
+        // When
+        dataSource.saveFavorite(data[0])
+        val result = dataSource.getFavorite(data[0].id)
+
+        assertThat(result).isEqualTo(data[0])
+    }
+
+    @Test
+    fun getFavorite_notExist() = runTest {
+        // Given
+        val data = (1..10).map {
+            DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true }
+        }
+
+        // When
+        dataSource.saveFavorite(data[0])
+        val result = dataSource.getFavorite(data[1].id)
+
+        assertThat(result).isNull()
+    }
+
+    @Test
     fun clearPopular_keep_latestDataAndFavoriteData() = runTest {
         // Given
         val data = (1..10).map {
