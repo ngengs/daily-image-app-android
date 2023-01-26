@@ -3,6 +3,7 @@ package com.ngengs.android.app.dailyimage.data.source.implementation
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
@@ -121,25 +122,61 @@ class PhotoLocalDataSourceImplTest {
     }
 
     @Test
-    fun clearPopular_keep_latestData() = runTest {
+    fun getFavorites_saveFavorite_deleteFavorite_success() = runTest {
+        // Given
+        val data = (1..10).map {
+            DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true }
+        }
+
+        // When & Then
+        dataSource.getFavorites().test {
+            dataSource.saveFavorite(data[0])
+            skipItems(1) // Skip initialize table
+
+            val firstItem = awaitItem()
+            assertThat(firstItem).hasSize(1)
+            assertThat(firstItem).isEqualTo(listOf(data[0]))
+
+            dataSource.saveFavorite(data[1])
+            val secondItem = awaitItem()
+            assertThat(secondItem).hasSize(2)
+            assertThat(secondItem).isEqualTo(listOf(data[1], data[0]))
+
+            dataSource.deleteFavorite(data[0])
+            val thirdItem = awaitItem()
+            assertThat(thirdItem).hasSize(1)
+            assertThat(thirdItem).isEqualTo(listOf(data[1]))
+
+            dataSource.deleteFavorite(data[1])
+            val fourthItem = awaitItem()
+            assertThat(fourthItem).isEmpty()
+        }
+    }
+
+    @Test
+    fun clearPopular_keep_latestDataAndFavoriteData() = runTest {
         // Given
         val data = (1..10).map {
             DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true }
         }
         val dataPopular = data.subList(0, 5)
-        val dataLatest = data.subList(5, 10)
+        val dataLatest = data.subList(5, 7)
+        val dataFavorite = data.subList(7, 10)
 
         // When
         dataSource.savePopular(dataPopular)
         dataSource.saveLatest(dataLatest)
+        dataFavorite.forEach { dataSource.saveFavorite(it) }
         dataSource.clearPopular()
 
         // Then
         val photosData = database.photosDao().get(data.map { it.id })
         val latestData = database.latestDao().get()
+        val favoriteData = database.favoriteDao().getAll()
         val popularData = database.popularDao().get()
-        assertThat(photosData).hasSize(5)
-        assertThat(latestData).hasSize(5)
+        assertThat(photosData).hasSize(dataLatest.size + favoriteData.size)
+        assertThat(latestData).hasSize(dataLatest.size)
+        assertThat(favoriteData).hasSize(dataFavorite.size)
         assertThat(popularData).isEmpty()
     }
 
@@ -149,20 +186,24 @@ class PhotoLocalDataSourceImplTest {
         val data = (1..10).map {
             DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true }
         }
-        val dataPopular = data.subList(0, 5)
-        val dataLatest = data.subList(5, 10)
+        val dataLatest = data.subList(0, 5)
+        val dataPopular = data.subList(5, 7)
+        val dataFavorite = data.subList(7, 10)
 
         // When
         dataSource.savePopular(dataPopular)
         dataSource.saveLatest(dataLatest)
+        dataFavorite.forEach { dataSource.saveFavorite(it) }
         dataSource.clearLatest()
 
         // Then
         val photosData = database.photosDao().get(data.map { it.id })
         val latestData = database.latestDao().get()
+        val favoriteData = database.favoriteDao().getAll()
         val popularData = database.popularDao().get()
-        assertThat(photosData).hasSize(5)
-        assertThat(popularData).hasSize(5)
+        assertThat(photosData).hasSize(dataPopular.size + dataFavorite.size)
+        assertThat(popularData).hasSize(dataPopular.size)
+        assertThat(favoriteData).hasSize(dataFavorite.size)
         assertThat(latestData).isEmpty()
     }
 }
