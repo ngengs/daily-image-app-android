@@ -1,6 +1,7 @@
 package com.ngengs.android.app.dailyimage.data.remote.model
 
 import android.os.Parcelable
+import com.ngengs.android.app.dailyimage.utils.network.adapter.NullToEmptyStringAdapter.Companion.NullToEmptyString
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
@@ -24,6 +25,7 @@ data class Photos(
     val height: Int = 0,
     @Json(name = "color")
     val color: String = "",
+    @NullToEmptyString
     @Json(name = "blur_hash")
     val blurHash: String = "",
     @Json(name = "likes")
