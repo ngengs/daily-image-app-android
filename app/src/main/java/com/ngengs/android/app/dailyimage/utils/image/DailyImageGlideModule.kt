@@ -8,6 +8,7 @@ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.bumptech.glide.module.AppGlideModule
 import com.ngengs.android.app.dailyimage.utils.network.NetworkHelpers
+import okhttp3.logging.HttpLoggingInterceptor
 import java.io.InputStream
 
 /**
@@ -20,8 +21,18 @@ class DailyImageGlideModule : AppGlideModule() {
         registry.replace(
             GlideUrl::class.java,
             InputStream::class.java,
-            OkHttpUrlLoader.Factory(NetworkHelpers.provideOkHttp(context))
+            OkHttpUrlLoader.Factory(
+                NetworkHelpers.provideOkHttp(
+                    context,
+                    debugTag = TAG,
+                    debugLoggingLevel = HttpLoggingInterceptor.Level.BASIC
+                )
+            )
         )
         super.registerComponents(context, glide, registry)
+    }
+
+    companion object {
+        private const val TAG = "Glide-OkHttp"
     }
 }
