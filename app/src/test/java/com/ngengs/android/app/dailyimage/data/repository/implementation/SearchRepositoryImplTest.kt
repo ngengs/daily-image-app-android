@@ -1,7 +1,7 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
 import com.google.common.truth.Truth.assertThat
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.toPhotosLocal
+import com.ngengs.android.app.dailyimage.data.model.ext.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.remote.model.Pagination
 import com.ngengs.android.app.dailyimage.data.remote.model.PaginationData
 import com.ngengs.android.app.dailyimage.data.remote.model.Photos
