@@ -6,12 +6,13 @@ import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import com.ngengs.android.app.dailyimage.domain.usecase.GetFavoriteStatusUseCase
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 20/01/23.
  * @ngengs
  */
-class GetFavoriteStatusUseCaseImpl(
+class GetFavoriteStatusUseCaseImpl @Inject constructor(
     private val repository: FavoriteRepository,
     private val dispatcher: DispatcherProvider,
 ) : GetFavoriteStatusUseCase {

@@ -14,12 +14,13 @@ import kotlinx.coroutines.withContext
 import okhttp3.Headers
 import retrofit2.HttpException
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 11/01/23.
  * @ngengs
  */
-class PhotoRemoteDataSourceImpl(
+class PhotoRemoteDataSourceImpl @Inject constructor(
     private val api: UnsplashAPI,
     private val apiPublic: UnsplashPublicAPI,
     private val dispatcher: DispatcherProvider

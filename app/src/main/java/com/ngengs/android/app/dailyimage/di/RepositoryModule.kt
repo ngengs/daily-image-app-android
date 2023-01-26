@@ -6,10 +6,8 @@ import com.ngengs.android.app.dailyimage.data.repository.SearchRepository
 import com.ngengs.android.app.dailyimage.data.repository.implementation.FavoriteRepositoryImpl
 import com.ngengs.android.app.dailyimage.data.repository.implementation.PhotoListRepositoryImpl
 import com.ngengs.android.app.dailyimage.data.repository.implementation.SearchRepositoryImpl
-import com.ngengs.android.app.dailyimage.data.source.PhotoLocalDataSource
-import com.ngengs.android.app.dailyimage.data.source.PhotoRemoteDataSource
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -20,28 +18,16 @@ import dagger.hilt.android.scopes.ViewModelScoped
  */
 @Module
 @InstallIn(ViewModelComponent::class)
-internal object RepositoryModule {
-    @Provides
+abstract class RepositoryModule {
+    @Binds
     @ViewModelScoped
-    fun providePhotoListRepository(
-        localDataSource: PhotoLocalDataSource,
-        remoteDataSource: PhotoRemoteDataSource,
-        dispatcherProvider: DispatcherProvider,
-    ): PhotoListRepository =
-        PhotoListRepositoryImpl(localDataSource, remoteDataSource, dispatcherProvider)
+    abstract fun bindPhotoListRepository(impl: PhotoListRepositoryImpl): PhotoListRepository
 
-    @Provides
+    @Binds
     @ViewModelScoped
-    fun provideSearchRepository(
-        remoteDataSource: PhotoRemoteDataSource,
-        dispatcherProvider: DispatcherProvider,
-    ): SearchRepository =
-        SearchRepositoryImpl(remoteDataSource, dispatcherProvider)
+    abstract fun bindSearchRepository(impl: SearchRepositoryImpl): SearchRepository
 
-    @Provides
+    @Binds
     @ViewModelScoped
-    fun provideFavoriteRepository(
-        localDataSource: PhotoLocalDataSource,
-        dispatcherProvider: DispatcherProvider,
-    ): FavoriteRepository = FavoriteRepositoryImpl(localDataSource, dispatcherProvider)
+    abstract fun bindFavoriteRepository(impl: FavoriteRepositoryImpl): FavoriteRepository
 }

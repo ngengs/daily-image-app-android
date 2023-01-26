@@ -1,18 +1,12 @@
 package com.ngengs.android.app.dailyimage.di
 
-import android.content.Context
-import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase
-import com.ngengs.android.app.dailyimage.data.remote.UnsplashAPI
-import com.ngengs.android.app.dailyimage.data.remote.UnsplashPublicAPI
-import com.ngengs.android.app.dailyimage.data.remote.UnsplashPublicAPI.Companion
 import com.ngengs.android.app.dailyimage.data.source.PhotoLocalDataSource
 import com.ngengs.android.app.dailyimage.data.source.PhotoRemoteDataSource
 import com.ngengs.android.app.dailyimage.data.source.implementation.PhotoLocalDataSourceImpl
 import com.ngengs.android.app.dailyimage.data.source.implementation.PhotoRemoteDataSourceImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -22,38 +16,12 @@ import javax.inject.Singleton
  */
 @Module
 @InstallIn(SingletonComponent::class)
-internal object DataSourceModule {
+abstract class DataSourceModule {
+    @Singleton
+    @Binds
+    abstract fun providePhotoRemoteDataSource(impl: PhotoRemoteDataSourceImpl): PhotoRemoteDataSource
 
     @Singleton
-    @Provides
-    fun providePhotoRemoteDataSource(
-        api: UnsplashAPI,
-        apiPublic: UnsplashPublicAPI,
-        dispatcherProvider: DispatcherProvider,
-    ): PhotoRemoteDataSource = PhotoRemoteDataSourceImpl(api, apiPublic, dispatcherProvider)
-
-    @Singleton
-    @Provides
-    fun providePhotoLocalDataSource(
-        database: DailyImageDatabase,
-        dispatcherProvider: DispatcherProvider,
-    ): PhotoLocalDataSource = PhotoLocalDataSourceImpl(database, dispatcherProvider)
-
-    @Singleton
-    @Provides
-    fun provideAPI(
-        @ApplicationContext context: Context
-    ): UnsplashAPI = UnsplashAPI.instantiate(context)
-
-    @Singleton
-    @Provides
-    fun providePublicAPI(
-        @ApplicationContext context: Context
-    ): UnsplashPublicAPI = Companion.instantiate(context)
-
-    @Singleton
-    @Provides
-    fun provideDatabase(
-        @ApplicationContext context: Context
-    ): DailyImageDatabase = DailyImageDatabase.initialize(context)
+    @Binds
+    abstract fun providePhotoLocalDataSource(impl: PhotoLocalDataSourceImpl): PhotoLocalDataSource
 }

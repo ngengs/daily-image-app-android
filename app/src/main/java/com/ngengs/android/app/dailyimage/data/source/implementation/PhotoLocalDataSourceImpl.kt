@@ -12,12 +12,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 11/01/23.
  * @ngengs
  */
-class PhotoLocalDataSourceImpl(
+class PhotoLocalDataSourceImpl @Inject constructor(
     private val database: DailyImageDatabase,
     private val dispatcher: DispatcherProvider,
 ) : PhotoLocalDataSource {

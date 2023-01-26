@@ -1,18 +1,19 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.model.CompletableData
+import com.ngengs.android.app.dailyimage.data.model.ext.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.repository.SearchRepository
 import com.ngengs.android.app.dailyimage.data.source.PhotoRemoteDataSource
 import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 13/01/23.
  * @ngengs
  */
-class SearchRepositoryImpl(
+class SearchRepositoryImpl @Inject constructor(
     private val remoteDataSource: PhotoRemoteDataSource,
     private val dispatcher: DispatcherProvider
 ) : SearchRepository {

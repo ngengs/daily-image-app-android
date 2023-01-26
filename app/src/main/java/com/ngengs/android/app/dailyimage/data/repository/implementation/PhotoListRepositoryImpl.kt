@@ -1,8 +1,8 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.model.CompletableData
+import com.ngengs.android.app.dailyimage.data.model.ext.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.repository.PhotoListRepository
 import com.ngengs.android.app.dailyimage.data.source.PhotoLocalDataSource
 import com.ngengs.android.app.dailyimage.data.source.PhotoRemoteDataSource
@@ -10,12 +10,13 @@ import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import com.ngengs.android.app.dailyimage.utils.common.constant.ApiConstant
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 11/01/23.
  * @ngengs
  */
-class PhotoListRepositoryImpl(
+class PhotoListRepositoryImpl @Inject constructor(
     private val localDataSource: PhotoLocalDataSource,
     private val remoteDataSource: PhotoRemoteDataSource,
     private val dispatcher: DispatcherProvider,

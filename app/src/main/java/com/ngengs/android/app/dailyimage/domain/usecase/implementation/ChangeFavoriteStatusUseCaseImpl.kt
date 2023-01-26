@@ -5,12 +5,13 @@ import com.ngengs.android.app.dailyimage.data.repository.FavoriteRepository
 import com.ngengs.android.app.dailyimage.di.DispatcherProvider
 import com.ngengs.android.app.dailyimage.domain.usecase.ChangeFavoriteStatusUseCase
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 20/01/23.
  * @ngengs
  */
-class ChangeFavoriteStatusUseCaseImpl(
+class ChangeFavoriteStatusUseCaseImpl @Inject constructor(
     private val repository: FavoriteRepository,
     private val dispatcher: DispatcherProvider,
 ) : ChangeFavoriteStatusUseCase {

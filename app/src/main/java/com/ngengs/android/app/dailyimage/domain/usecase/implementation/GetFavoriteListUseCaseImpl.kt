@@ -14,12 +14,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import java.util.EmptyStackException
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 20/01/23.
  * @ngengs
  */
-class GetFavoriteListUseCaseImpl(
+class GetFavoriteListUseCaseImpl @Inject constructor(
     private val repository: FavoriteRepository,
     private val dispatcher: DispatcherProvider,
 ): GetFavoriteListUseCase {

@@ -8,12 +8,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 20/01/23.
  * @ngengs
  */
-class FavoriteRepositoryImpl(
+class FavoriteRepositoryImpl @Inject constructor(
     private val localDataSource: PhotoLocalDataSource,
     private val dispatcher: DispatcherProvider,
 ): FavoriteRepository {

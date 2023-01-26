@@ -11,12 +11,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by rizky.kharisma on 11/01/23.
  * @ngengs
  */
-class GetPhotoListUseCaseImpl(
+class GetPhotoListUseCaseImpl @Inject constructor(
     private val repository: PhotoListRepository,
     private val dispatcher: DispatcherProvider,
 ) : GetPhotoListUseCase {
