@@ -18,6 +18,7 @@ import kotlin.reflect.KClass
  * @ngengs
  */
 object NetworkHelpers {
+    private const val TAG = "OkHttp"
     private const val CACHE_SIZE = 10 * 1024 * 1024L // 10 MB
     private const val CONNECT_TIMEOUT = 15
     private const val WRITE_TIMEOUT = 60
@@ -25,10 +26,12 @@ object NetworkHelpers {
 
     fun provideOkHttp(
         context: Context?,
+        debugTag: String = TAG,
+        debugLoggingLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY,
         customInterceptor: ((Interceptor.Chain) -> Request)? = null,
     ): OkHttpClient {
-        val loggingInterceptor = HttpLoggingInterceptor { Timber.tag("OkHttp").d(it) }
-        if (BuildConfig.DEBUG) loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val loggingInterceptor = HttpLoggingInterceptor { Timber.tag(debugTag).d(it) }
+        if (BuildConfig.DEBUG) loggingInterceptor.setLevel(debugLoggingLevel)
         else loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
 
         val builder = OkHttpClient.Builder()
@@ -61,6 +64,8 @@ object NetworkHelpers {
         apiClass: KClass<T>,
         context: Context?,
         customInterceptor: ((Interceptor.Chain) -> Request)? = null,
-    ): T = provideRetrofit(provideOkHttp(context, customInterceptor), apiBaseUrl)
-        .create(apiClass.java)
+    ): T = provideRetrofit(
+        provideOkHttp(context, customInterceptor = customInterceptor),
+        apiBaseUrl
+    ).create(apiClass.java)
 }
