@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.databinding.FragmentFavoriteBinding
 import com.ngengs.android.app.dailyimage.domain.model.Results
@@ -14,6 +15,8 @@ import com.ngengs.android.app.dailyimage.presenter.fragment.favorite.FavoriteVie
 import com.ngengs.android.app.dailyimage.presenter.fragment.home.HomeFragmentDirections
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.HeaderToolsAdapter
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.PhotoListAdapter
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.ProvidableTopPaddingScreen
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.ScrollableTopScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.ChangeableListViewTypeScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.ErrorHandlerScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.LoadingHandlerScreen
@@ -29,6 +32,7 @@ class FavoriteFragment : FavoriteFragmentImpl()
 
 open class FavoriteFragmentImpl :
     BaseViewModelFragment<FragmentFavoriteBinding, ViewData, FavoriteViewModel>(),
+    ScrollableTopScreen,
     ChangeableListViewTypeScreen by ChangeableListViewTypeScreenImpl(),
     LoadingHandlerScreen by LoadingHandlerScreenImpl(),
     ErrorHandlerScreen by ErrorHandlerScreenImpl() {
@@ -71,6 +75,11 @@ open class FavoriteFragmentImpl :
             topFullSpanItemCount = { headerAdapter.itemCount },
             singleSpanItemCount = { photoAdapter.itemCount }
         )
+        photoAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
+
+        headerAdapter.updatingSpaceTopBasedOnView(binding.root) {
+            (parentFragment as? ProvidableTopPaddingScreen)?.provideTopPadding()
+        }
     }
 
     override fun render(data: ViewData) {
@@ -95,8 +104,8 @@ open class FavoriteFragmentImpl :
             page = 1L,
             hasCache = false,
             onDisplayingCache = null,
-            onLoadingNextPage = {},
-            onNoLoading = {}
+            onLoadingNextPage = null,
+            onNoLoading = null
         )
     }
 
@@ -117,8 +126,8 @@ open class FavoriteFragmentImpl :
             layoutError = binding.layoutError,
             data = data.mainData,
             page = 1L,
-            onRetry = { },
-            onErrorNextPage = {}
+            onRetry = null,
+            onErrorNextPage = null
         )
     }
 
@@ -130,4 +139,8 @@ open class FavoriteFragmentImpl :
     private fun createViewTypeIcon(viewType: Int) = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
         R.drawable.ic_baseline_grid_view_24
     } else R.drawable.ic_baseline_view_list_24
+
+    override fun scrollToTop() {
+        binding.rv.scrollToPosition(0)
+    }
 }

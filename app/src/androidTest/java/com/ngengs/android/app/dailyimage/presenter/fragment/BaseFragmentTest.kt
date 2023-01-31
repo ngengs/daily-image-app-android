@@ -31,6 +31,7 @@ abstract class BaseFragmentTest {
 
     @Before
     fun setupParent() {
+        FakeUseCaseModule.init()
         hiltRule.inject()
         setUp()
     }

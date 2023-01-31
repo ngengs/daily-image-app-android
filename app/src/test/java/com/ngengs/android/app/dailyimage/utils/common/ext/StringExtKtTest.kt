@@ -1,6 +1,6 @@
 package com.ngengs.android.app.dailyimage.utils.common.ext
 
-import com.google.common.truth.Truth.assertThat
+import com.ngengs.android.libs.test.utils.ext.shouldBe
 import org.junit.Test
 
 class StringExtKtTest {
@@ -11,7 +11,7 @@ class StringExtKtTest {
         // When
         val result = text.toCapitalize()
         // Then
-        assertThat(result).isEqualTo("Somethingtextlower")
+        result shouldBe "Somethingtextlower"
     }
 
     @Test
@@ -21,6 +21,6 @@ class StringExtKtTest {
         // When
         val result = text.toTitleCase()
         // Then
-        assertThat(result).isEqualTo("Something Text Lower")
+        result shouldBe "Something Text Lower"
     }
 }

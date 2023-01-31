@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".presenter.fragment.search.SearchFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/searchbar_scrolling_view_behavior" />
 
     <include
         android:id="@+id/layout_error"
@@ -28,12 +29,16 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/app_name"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+            android:layout_height="wrap_content">
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/app_name"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+        </FrameLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

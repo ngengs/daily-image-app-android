@@ -3,8 +3,10 @@ package com.ngengs.android.app.dailyimage.presenter.shared.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoHeaderToolsBinding
@@ -21,6 +23,8 @@ class HeaderToolsAdapter(
     private var onClickOrderBy: (() -> Unit)? = null,
     @DrawableRes private var iconOrderBy: Int? = R.drawable.ic_baseline_sort_calendar_desc_24
 ) : RecyclerView.Adapter<ViewHolder>() {
+
+    private var spaceTop: Int = 0
 
     init {
         setHasStableIds(true)
@@ -40,7 +44,14 @@ class HeaderToolsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(headerTitle, iconViewType, iconOrderBy, onClickViewType, onClickOrderBy)
+        holder.bind(
+            headerTitle,
+            iconViewType,
+            iconOrderBy,
+            spaceTop,
+            onClickViewType,
+            onClickOrderBy
+        )
     }
 
     fun changeTitle(text: String) {
@@ -61,16 +72,38 @@ class HeaderToolsAdapter(
         notifyItemChanged(0)
     }
 
-    data class ViewHolder(
+    fun changeSpaceTop(size: Int) {
+        if (spaceTop == size) return
+        spaceTop = size
+        notifyItemChanged(0)
+    }
+
+    fun updatingSpaceTopBasedOnView(rootView: View, calculatedSpace: () -> Int?) {
+        var calculatedSpaceValue = calculatedSpace() ?: 0
+        if (calculatedSpaceValue == 0) {
+            rootView.post {
+                calculatedSpaceValue = calculatedSpace() ?: 0
+                changeSpaceTop(calculatedSpaceValue)
+            }
+        } else {
+            changeSpaceTop(calculatedSpaceValue)
+        }
+    }
+
+    class ViewHolder(
         private val binding: ItemPhotoHeaderToolsBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             headerTitle: String,
             iconViewType: Int,
             iconOrderBy: Int?,
+            spaceTop: Int,
             onClickViewType: () -> Unit,
             onClickOrderBy: (() -> Unit)?
         ) {
+            binding.root.updateLayoutParams<MarginLayoutParams> {
+                topMargin = spaceTop
+            }
             binding.toolsText.text = headerTitle
             binding.toolsText.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             binding.orderTypeButton.visibleIf(iconOrderBy != null)

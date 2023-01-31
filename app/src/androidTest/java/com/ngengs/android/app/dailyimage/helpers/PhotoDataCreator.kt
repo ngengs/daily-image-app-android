@@ -5,12 +5,15 @@ import com.ngengs.android.libs.test.utils.DataForger
 import fr.xgouchet.elmyr.Forge
 
 object PhotoDataCreator {
-    fun create(forge: Forge, position: Int = 0): PhotosLocal {
-        val photos = DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true }
-        val desc = if (forge.aBool()) forge.anAlphaNumericalString(size = position + 20) else null
+    const val IMAGE_URL =
+        "https://images.unsplash.com/photo-1616441064900-e0adeacda4f3?auto=format&fit=crop&q=10"
 
-        val imageUrl =
-            "https://images.unsplash.com/photo-1616441064900-e0adeacda4f3?auto=format&fit=crop&q=10"
+    fun create(forge: Forge, position: Int = 0): PhotosLocal {
+        val photos = DataForger.forgeParcelStableId<PhotosLocal>(forge)
+        val desc =
+            if (position % 2 == 0) forge.anAlphaNumericalString(size = position + 20) else null
+
+        val imageUrl = IMAGE_URL
         return photos.copy(
             user = photos.user?.copy(
                 username = "usn${position}_${forge.aNumericalString(size = position + 10)}",

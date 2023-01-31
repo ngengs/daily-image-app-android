@@ -1,11 +1,15 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
 import com.ngengs.android.app.dailyimage.helpers.fake.FakeDispatcherProvider
 import com.ngengs.android.app.dailyimage.helpers.fake.data.source.FakePhotoLocalDataSource
 import com.ngengs.android.libs.test.utils.DataForger
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeEmpty
+import com.ngengs.android.libs.test.utils.ext.shouldBeFalse
+import com.ngengs.android.libs.test.utils.ext.shouldBeTrue
+import com.ngengs.android.libs.test.utils.ext.shouldHasSize
 import com.ngengs.android.libs.test.utils.rules.CoroutineRule
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -45,7 +49,7 @@ class FavoriteRepositoryImplTest {
     @Test
     fun test_getFavorite_setFavorite_removeFavorite_success() = runTest {
         // Given
-        val data = (1..10).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
+        val data = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
 
         // When & Then
         repository.get().test {
@@ -53,39 +57,39 @@ class FavoriteRepositoryImplTest {
 
             repository.setFavorite(data[0])
             val firstItem = awaitItem()
-            assertThat(firstItem).hasSize(1)
-            assertThat(firstItem).isEqualTo(listOf(data[0]))
+            firstItem shouldHasSize 1
+            firstItem shouldBe listOf(data[0])
 
             repository.setFavorite(data[1])
             val secondItem = awaitItem()
-            assertThat(secondItem).hasSize(2)
-            assertThat(secondItem).isEqualTo(listOf(data[1], data[0]))
+            secondItem shouldHasSize 2
+            secondItem shouldBe listOf(data[1], data[0])
 
             repository.removeFavorite(data[0])
             val thirdItem = awaitItem()
-            assertThat(thirdItem).hasSize(1)
-            assertThat(thirdItem).isEqualTo(listOf(data[1]))
+            thirdItem shouldHasSize 1
+            thirdItem shouldBe listOf(data[1])
 
             repository.removeFavorite(data[1])
             val fourthItem = awaitItem()
-            assertThat(fourthItem).isEmpty()
+            fourthItem.shouldBeEmpty()
         }
     }
 
     @Test
     fun test_isFavorite() = runTest {
         // Given
-        val data = (1..10).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
+        val data = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
         (1..5).forEach { repository.setFavorite(data[it]) }
 
         // When
         val resultExist = repository.isFavorite(data[forge.anInt(min = 1, max = 5)])
         // Then
-        assertThat(resultExist).isTrue()
+        resultExist.shouldBeTrue()
 
         // When
         val resultNotExist = repository.isFavorite(data[forge.anInt(min = 6, max = 10)])
         // Then
-        assertThat(resultNotExist).isFalse()
+        resultNotExist.shouldBeFalse()
     }
 }

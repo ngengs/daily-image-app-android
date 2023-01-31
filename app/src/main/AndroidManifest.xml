@@ -19,7 +19,7 @@
         <activity
             android:name=".presenter.activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.DailyImage">
+            android:theme="@style/Theme.DailyImage.Startup">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -42,7 +42,7 @@ class LoadingItemAdapter(private val loadingMessage: String) : RecyclerView.Adap
         notifyItemRemoved(0)
     }
 
-    data class ViewHolder(private val binding: ItemLoadingAdapterBinding) :
+    class ViewHolder(private val binding: ItemLoadingAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(loadingMessage: String) {

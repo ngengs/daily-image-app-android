@@ -6,8 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase
 import com.ngengs.android.app.dailyimage.data.model.UserSimple
-import com.ngengs.android.app.dailyimage.data.model.UserSimple.Companion.toUserSimple
-import com.ngengs.android.app.dailyimage.data.remote.model.Photos
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
@@ -45,22 +43,4 @@ data class PhotosLocal(
     @Json(name = "user")
     @ColumnInfo(name = "user")
     val user: UserSimple? = null,
-) : Parcelable {
-
-    companion object {
-        val PhotosLocal.imageSmall get() = "$image&w=400"
-        val PhotosLocal.imageLarge get() = "$image&w=1080"
-        val PhotosLocal.imageLoadingThumb get() = "$image&w=10"
-
-        fun Photos.toPhotosLocal() = PhotosLocal(
-            id = this.id,
-            width = this.width,
-            height = this.height,
-            blurHash = this.blurHash,
-            color = this.color,
-            description = this.description,
-            image = this.urls.raw,
-            user = this.user.toUserSimple()
-        )
-    }
-}
+) : Parcelable

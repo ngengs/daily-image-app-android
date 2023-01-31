@@ -21,7 +21,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.di.FakeUseCaseModule
 import com.ngengs.android.app.dailyimage.domain.model.CompletableCachedData
@@ -39,8 +38,11 @@ import com.ngengs.android.app.dailyimage.helpers.launchCoroutine
 import com.ngengs.android.app.dailyimage.helpers.onFragment
 import com.ngengs.android.app.dailyimage.launchFragmentInHiltContainer
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseFragmentTest
+import com.ngengs.android.app.dailyimage.presenter.fragment.detail.DetailFragmentArgs
 import com.ngengs.android.app.dailyimage.presenter.fragment.search.SearchViewModel.ViewData
 import com.ngengs.android.app.dailyimage.utils.common.ext.toTitleCase
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeNull
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
@@ -77,9 +79,11 @@ class SearchFragmentTest : BaseFragmentTest() {
             navHostController = navController,
             navCurrentDestination = R.id.searchFragment
         )
+        Thread.sleep(300L)
         activityScenario.launchCoroutine {
             FakeUseCaseModule.useCase.getSearchedPhotoUseCase.emitResult(Results.Loading())
         }
+        onView(withId(R.id.loading_indicator)).check(matches(isDisplayed()))
 
         // Test Display Data
         activityScenario.launchCoroutine {
@@ -103,11 +107,17 @@ class SearchFragmentTest : BaseFragmentTest() {
                     hasDescendant(withText(mockData1.last().user!!.name))
                 )
             )
-            .perform(scrollToPosition<RecyclerView.ViewHolder>(1))
+            .perform(scrollToPosition<RecyclerView.ViewHolder>(mockData1.size))
             .perform(
-                actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click())
+                actionOnItemAtPosition<RecyclerView.ViewHolder>(mockData1.size, click())
             )
-        assertThat(navController.currentDestination?.id).isEqualTo(R.id.detailFragment)
+        println("navId: home:${R.id.homeFragment}")
+        println("navId: detail:${R.id.detailFragment}")
+        println("navId: search:${R.id.searchFragment}")
+        navController.currentDestination?.id shouldBe R.id.detailFragment
+        val detailBundle = navController.backStack.last().arguments
+        val detailArgs = DetailFragmentArgs.fromBundle(detailBundle!!)
+        detailArgs.photo shouldBe mockData1.last()
         navController.popBackStack()
 
         // Test Pagination Loading
@@ -294,7 +304,7 @@ class SearchFragmentTest : BaseFragmentTest() {
 
         onView(allOf(instanceOf(ImageButton::class.java), withParent(withId(R.id.search_bar))))
             .check(matches(isDisplayed())).perform(click())
-        assertThat(navController.currentDestination?.id).isNull()
+        navController.currentDestination?.id.shouldBeNull()
 
         activityScenario.recreate()
     }

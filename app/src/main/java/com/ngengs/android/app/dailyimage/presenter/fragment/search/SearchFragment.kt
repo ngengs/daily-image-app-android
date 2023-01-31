@@ -122,6 +122,7 @@ open class SearchFragmentImpl :
             onSearchHandler = { viewModel.setText(it) }
         )
         binding.searchBar.text = args.searchText.toTitleCase()
+        headerAdapter.updatingSpaceTopBasedOnView(binding.appBar) { binding.appBar.height }
     }
 
     override fun render(data: ViewData) {

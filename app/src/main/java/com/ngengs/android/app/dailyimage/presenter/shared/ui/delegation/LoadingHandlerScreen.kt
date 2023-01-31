@@ -16,7 +16,7 @@ interface LoadingHandlerScreen {
         page: Long,
         hasCache: Boolean,
         onDisplayingCache: (() -> Unit)?,
-        onLoadingNextPage: () -> Unit,
-        onNoLoading: () -> Unit
+        onLoadingNextPage: (() -> Unit)?,
+        onNoLoading: (() -> Unit)?
     )
 }

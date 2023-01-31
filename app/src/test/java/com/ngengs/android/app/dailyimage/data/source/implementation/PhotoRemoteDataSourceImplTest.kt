@@ -2,7 +2,6 @@ package com.ngengs.android.app.dailyimage.data.source.implementation
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.data.remote.UnsplashAPI
 import com.ngengs.android.app.dailyimage.data.remote.UnsplashPublicAPI
 import com.ngengs.android.app.dailyimage.data.remote.model.AutoComplete
@@ -12,6 +11,9 @@ import com.ngengs.android.app.dailyimage.helpers.fake.FakeDispatcherProvider
 import com.ngengs.android.app.dailyimage.utils.common.constant.ApiConstant
 import com.ngengs.android.app.dailyimage.utils.network.MoshiConfig
 import com.ngengs.android.libs.test.utils.ResourceFile
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeEmpty
+import com.ngengs.android.libs.test.utils.ext.shouldNotEmpty
 import com.ngengs.android.libs.test.utils.rules.CoroutineRule
 import com.squareup.moshi.Types
 import fr.xgouchet.elmyr.junit4.ForgeRule
@@ -148,11 +150,11 @@ class PhotoRemoteDataSourceImplTest {
         val result = dataSource.getPhotoList(page, orderBy)
 
         // Then
-        assertThat(result.pagination.last).isEqualTo(346) // From headerLinkData
-        assertThat(result.pagination.next).isEqualTo(4) // From headerLinkData
-        assertThat(result.pagination.prev).isEqualTo(2) // From headerLinkData
-        assertThat(result.pagination.first).isEqualTo(1) // From headerLinkData
-        assertThat(result.data).isEqualTo(dataFromJson)
+        result.pagination.last shouldBe 346 // From headerLinkData
+        result.pagination.next shouldBe 4 // From headerLinkData
+        result.pagination.prev shouldBe 2 // From headerLinkData
+        result.pagination.first shouldBe 1 // From headerLinkData
+        result.data shouldBe dataFromJson
     }
 
     @Test
@@ -170,11 +172,11 @@ class PhotoRemoteDataSourceImplTest {
         val result = dataSource.getPhotoList(page, orderBy)
 
         // Then
-        assertThat(result.pagination.last).isEqualTo(1) // Default
-        assertThat(result.pagination.next).isEqualTo(1) // Default
-        assertThat(result.pagination.prev).isEqualTo(1) // Default
-        assertThat(result.pagination.first).isEqualTo(1) // Default
-        assertThat(result.data).isEqualTo(dataFromJson)
+        result.pagination.last shouldBe 1 // Default
+        result.pagination.next shouldBe 1 // Default
+        result.pagination.prev shouldBe 1 // Default
+        result.pagination.first shouldBe 1 // Default
+        result.data shouldBe dataFromJson
     }
 
     @Test(expected = HttpException::class)
@@ -201,14 +203,14 @@ class PhotoRemoteDataSourceImplTest {
         val apiResult = api.search(page, queryText)
 
         // Then
-        assertThat(result.pagination.last).isEqualTo(dataFromJson?.totalPages)
-        assertThat(result.pagination.next).isEqualTo(page + 1)
-        assertThat(result.pagination.prev).isEqualTo(page - 1)
-        assertThat(result.pagination.first).isEqualTo(1)
-        assertThat(result.data).isEqualTo(dataFromJson?.results)
-        assertThat(result.data).isEqualTo(apiResult.results)
-        assertThat(apiResult.totalPages).isEqualTo(dataFromJson?.totalPages)
-        assertThat(apiResult.total).isEqualTo(dataFromJson?.total)
+        result.pagination.last shouldBe dataFromJson?.totalPages
+        result.pagination.next shouldBe page + 1
+        result.pagination.prev shouldBe page - 1
+        result.pagination.first shouldBe 1
+        result.data shouldBe dataFromJson?.results
+        result.data shouldBe apiResult.results
+        apiResult.totalPages shouldBe dataFromJson?.totalPages
+        apiResult.total shouldBe dataFromJson?.total
     }
 
     @Test(expected = HttpException::class)
@@ -234,10 +236,10 @@ class PhotoRemoteDataSourceImplTest {
         val apiResult = apiPublic.autocomplete(autoCompleteSuggestionText)
 
         // Then
-        assertThat(result).isEqualTo(dataFromJson?.autocomplete?.map { it.query })
-        assertThat(result).isEqualTo(apiResult.autocomplete.map { it.query })
-        assertThat(apiResult.fuzzy).isNotEmpty()
-        assertThat(apiResult.didYouMean).isNotEmpty()
+        result shouldBe dataFromJson?.autocomplete?.map { it.query }
+        result shouldBe apiResult.autocomplete.map { it.query }
+        apiResult.fuzzy.shouldNotEmpty()
+        apiResult.didYouMean.shouldNotEmpty()
     }
 
     @Test
@@ -250,6 +252,6 @@ class PhotoRemoteDataSourceImplTest {
         val result = dataSource.searchSuggestion(autoCompleteSuggestionText)
 
         // Then
-        assertThat(result).isEmpty()
+        result.shouldBeEmpty()
     }
 }

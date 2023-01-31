@@ -1,7 +1,6 @@
 package com.ngengs.android.app.dailyimage.domain.usecase.implementation
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
 import com.ngengs.android.app.dailyimage.data.model.CompletableData
 import com.ngengs.android.app.dailyimage.domain.model.CompletableCachedData
@@ -13,6 +12,12 @@ import com.ngengs.android.app.dailyimage.domain.model.Results.Success
 import com.ngengs.android.app.dailyimage.helpers.fake.FakeDispatcherProvider
 import com.ngengs.android.app.dailyimage.helpers.fake.data.repository.FakeSearchRepository
 import com.ngengs.android.libs.test.utils.DataForger
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeFalse
+import com.ngengs.android.libs.test.utils.ext.shouldBeNull
+import com.ngengs.android.libs.test.utils.ext.shouldHasSize
+import com.ngengs.android.libs.test.utils.ext.shouldInstanceOf
+import com.ngengs.android.libs.test.utils.ext.shouldNotNull
 import com.ngengs.android.libs.test.utils.rules.CoroutineRule
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,8 +53,8 @@ class GetSearchedPhotoUseCaseImplTest {
     @Test
     fun test_useCase_firstPage_success() = runTest {
         // Given
-        val oldData = (1..5).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
-        val data = (1..20).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
+        val oldData = (1..5).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
         val completableOldData = CompletableCachedData(isComplete = true, data = oldData)
         val completableData = CompletableData(isComplete = false, data = data)
         fakeRepository.searchList = completableData
@@ -59,16 +64,16 @@ class GetSearchedPhotoUseCaseImplTest {
         useCase.invoke(text, 1L, completableOldData).test {
             // Then
             val firstItem = awaitItem()
-            assertThat(firstItem).isInstanceOf(Loading::class.java)
+            firstItem shouldInstanceOf Loading::class
             val firstItemData = firstItem as Loading
-            assertThat(firstItemData.oldData).isNull()
+            firstItemData.oldData.shouldBeNull()
 
             val secondItem = awaitItem()
-            assertThat(secondItem).isInstanceOf(Success::class.java)
+            secondItem shouldInstanceOf Success::class
             val secondItemData = secondItem as Success
-            assertThat(secondItemData.data.isCache).isFalse()
-            assertThat(secondItemData.data.isComplete).isEqualTo(completableData.isComplete)
-            assertThat(secondItemData.data.data).isEqualTo(completableData.data)
+            secondItemData.data.isCache.shouldBeFalse()
+            secondItemData.data.isComplete shouldBe completableData.isComplete
+            secondItemData.data.data shouldBe completableData.data
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -77,8 +82,8 @@ class GetSearchedPhotoUseCaseImplTest {
     @Test
     fun test_useCase_nextPage_success() = runTest {
         // Given
-        val oldData = (1..5).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
-        val data = (1..20).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
+        val oldData = (1..5).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
         val completableOldData = CompletableCachedData(isComplete = true, data = oldData)
         val completableData = CompletableData(isComplete = false, data = data)
         fakeRepository.searchList = completableData
@@ -89,19 +94,19 @@ class GetSearchedPhotoUseCaseImplTest {
         useCase.invoke(text, page, completableOldData).test {
             // Then
             val firstItem = awaitItem()
-            assertThat(firstItem).isInstanceOf(Loading::class.java)
+            firstItem shouldInstanceOf Loading::class
             val firstItemData = firstItem as Loading
-            assertThat(firstItemData.oldData).isNotNull()
-            assertThat(firstItemData.oldData?.isComplete).isEqualTo(completableOldData.isComplete)
-            assertThat(firstItemData.oldData?.data).isEqualTo(completableOldData.data)
+            firstItemData.oldData.shouldNotNull()
+            firstItemData.oldData?.isComplete shouldBe completableOldData.isComplete
+            firstItemData.oldData?.data shouldBe completableOldData.data
 
             val secondItem = awaitItem()
-            assertThat(secondItem).isInstanceOf(Success::class.java)
+            secondItem shouldInstanceOf Success::class
             val secondItemResult = secondItem as Success
-            assertThat(secondItemResult.data.isCache).isFalse()
-            assertThat(secondItemResult.data.isCache).isEqualTo(completableData.isComplete)
-            assertThat(secondItemResult.data.data).hasSize(oldData.size + data.size)
-            assertThat(secondItemResult.data.data).isEqualTo(oldData + data)
+            secondItemResult.data.isCache.shouldBeFalse()
+            secondItemResult.data.isCache shouldBe completableData.isComplete
+            secondItemResult.data.data shouldHasSize (oldData.size + data.size)
+            secondItemResult.data.data shouldBe (oldData + data)
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -110,8 +115,8 @@ class GetSearchedPhotoUseCaseImplTest {
     @Test
     fun test_useCase_nextPageAgain_success() = runTest {
         // Given
-        val oldData = (1..5).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
-        val data = (1..20).map { DataForger.forgeParcel<PhotosLocal>(forge) { stableId = true } }
+        val oldData = (1..5).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
         val completableOldData = CompletableCachedData(isComplete = false, data = oldData)
         val completableData = CompletableData(isComplete = false, data = data)
         fakeRepository.searchList = completableData
@@ -122,19 +127,19 @@ class GetSearchedPhotoUseCaseImplTest {
         useCase.invoke(text, page, completableOldData).test {
             // Then
             val firstItem = awaitItem()
-            assertThat(firstItem).isInstanceOf(Loading::class.java)
+            firstItem shouldInstanceOf Loading::class
             val firstItemData = firstItem as Loading
-            assertThat(firstItemData.oldData).isNotNull()
-            assertThat(firstItemData.oldData?.isComplete).isEqualTo(completableOldData.isComplete)
-            assertThat(firstItemData.oldData?.data).isEqualTo(completableOldData.data)
+            firstItemData.oldData.shouldNotNull()
+            firstItemData.oldData?.isComplete shouldBe completableOldData.isComplete
+            firstItemData.oldData?.data shouldBe completableOldData.data
 
             val secondItem = awaitItem()
-            assertThat(secondItem).isInstanceOf(Success::class.java)
+            secondItem shouldInstanceOf Success::class
             val secondItemResult = secondItem as Success
-            assertThat(secondItemResult.data.isCache).isFalse()
-            assertThat(secondItemResult.data.isCache).isEqualTo(completableData.isComplete)
-            assertThat(secondItemResult.data.data).hasSize(oldData.size + data.size)
-            assertThat(secondItemResult.data.data).isEqualTo(oldData + data)
+            secondItemResult.data.isCache.shouldBeFalse()
+            secondItemResult.data.isCache shouldBe completableData.isComplete
+            secondItemResult.data.data shouldHasSize (oldData.size + data.size)
+            secondItemResult.data.data shouldBe (oldData + data)
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -151,14 +156,14 @@ class GetSearchedPhotoUseCaseImplTest {
         useCase.invoke(text, 2L, null).test {
             // Then
             val firstItem = awaitItem()
-            assertThat(firstItem).isInstanceOf(Loading::class.java)
+            firstItem shouldInstanceOf Loading::class
             val firstItemData = firstItem as Loading
-            assertThat(firstItemData.oldData).isNull()
+            firstItemData.oldData.shouldBeNull()
 
             val secondItem = awaitItem()
-            assertThat(secondItem).isInstanceOf(Failure::class.java)
+            secondItem shouldInstanceOf Failure::class
             val secondItemResult = secondItem as Failure
-            assertThat(secondItemResult.type).isEqualTo(EMPTY)
+            secondItemResult.type shouldBe EMPTY
 
             cancelAndIgnoreRemainingEvents()
         }
@@ -174,14 +179,14 @@ class GetSearchedPhotoUseCaseImplTest {
         useCase.invoke(text, 1L, null).test {
             // Then
             val firstItem = awaitItem()
-            assertThat(firstItem).isInstanceOf(Loading::class.java)
+            firstItem shouldInstanceOf Loading::class
             val firstItemData = firstItem as Loading
-            assertThat(firstItemData.oldData).isNull()
+            firstItemData.oldData.shouldBeNull()
 
             val secondItem = awaitItem()
-            assertThat(secondItem).isInstanceOf(Failure::class.java)
+            secondItem shouldInstanceOf Failure::class
             val secondItemResult = secondItem as Failure
-            assertThat(secondItemResult.type).isEqualTo(NETWORK)
+            secondItemResult.type shouldBe NETWORK
 
             cancelAndIgnoreRemainingEvents()
         }

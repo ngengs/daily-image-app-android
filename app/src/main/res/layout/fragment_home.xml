@@ -10,7 +10,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/searchbar_scrolling_view_behavior" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -18,18 +18,34 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/search_bar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/app_name" />
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/app_name" />
+        </FrameLayout>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:tabMode="fixed" />
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:background="@drawable/capsule_tab_background"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/capsule_tab_item_indicator"
+            app:tabIndicatorColor="?colorSecondary"
+            app:tabIndicatorGravity="center"
+            app:tabIndicatorHeight="32dp"
+            app:tabIndicatorFullWidth="true"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed"
+            app:tabMinWidth="100dp"
+            app:tabSelectedTextColor="?colorOnSecondary"
+            app:tabUnboundedRipple="true" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

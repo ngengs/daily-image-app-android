@@ -10,4 +10,5 @@
     <dimen name="image_list_height">240dp</dimen>
 
     <dimen name="corner_default_size">12dp</dimen>
+    <item name="tab_corner_radius" type="dimen">500dp</item>
 </resources>

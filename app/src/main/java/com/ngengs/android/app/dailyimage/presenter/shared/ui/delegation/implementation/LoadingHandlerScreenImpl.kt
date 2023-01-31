@@ -19,8 +19,8 @@ class LoadingHandlerScreenImpl : LoadingHandlerScreen {
         page: Long,
         hasCache: Boolean,
         onDisplayingCache: (() -> Unit)?,
-        onLoadingNextPage: () -> Unit,
-        onNoLoading: () -> Unit
+        onLoadingNextPage: (() -> Unit)?,
+        onNoLoading: (() -> Unit)?
     ) {
         if (data is Results.Loading) {
             if (page == 1L && !hasCache) {
@@ -31,11 +31,11 @@ class LoadingHandlerScreenImpl : LoadingHandlerScreen {
                 onDisplayingCache?.invoke()
             } else {
                 layoutLoading.root.gone()
-                onLoadingNextPage()
+                onLoadingNextPage?.invoke()
             }
         } else {
             layoutLoading.root.gone()
-            onNoLoading()
+            onNoLoading?.invoke()
         }
     }
 }

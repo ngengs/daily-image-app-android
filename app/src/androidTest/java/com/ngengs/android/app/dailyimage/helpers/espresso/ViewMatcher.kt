@@ -4,14 +4,18 @@ import android.view.View
 import android.widget.EditText
 import androidx.annotation.StringRes
 import androidx.test.espresso.matcher.BoundedMatcher
+import androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
 
+@Suppress("unused")
 object ViewMatcher {
     fun isNotDisplayed(): Matcher<View> = not(isDisplayed())
+
+    fun isNotCompleteDisplayed(): Matcher<View> = not(isCompletelyDisplayed())
 
     fun withItemHint(hintText: String): Matcher<View> = withItemHint(`is`(hintText))
 

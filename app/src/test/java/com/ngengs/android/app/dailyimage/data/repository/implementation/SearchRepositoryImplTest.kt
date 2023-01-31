@@ -1,6 +1,5 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.data.model.ext.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.remote.model.Pagination
 import com.ngengs.android.app.dailyimage.data.remote.model.PaginationData
@@ -8,6 +7,9 @@ import com.ngengs.android.app.dailyimage.data.remote.model.Photos
 import com.ngengs.android.app.dailyimage.helpers.fake.FakeDispatcherProvider
 import com.ngengs.android.app.dailyimage.helpers.fake.data.source.FakePhotoRemoteDataSource
 import com.ngengs.android.libs.test.utils.DataForger
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeEmpty
+import com.ngengs.android.libs.test.utils.ext.shouldBeTrue
 import com.ngengs.android.libs.test.utils.rules.CoroutineRule
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -47,7 +49,7 @@ class SearchRepositoryImplTest {
     @Test
     fun search_nextPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<Photos>(forge) { stableId = true } }
+        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
         val page = forge.aLong(min = 10, max = 100)
         val last = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.searchList = PaginationData(
@@ -59,14 +61,14 @@ class SearchRepositoryImplTest {
         val result = repository.search(forge.anAlphabeticalString(size = 10), page)
 
         // Then
-        assertThat(result.isComplete).isEqualTo(page == last)
-        assertThat(result.data).isEqualTo(data.map { it.toPhotosLocal() })
+        result.isComplete shouldBe (page == last)
+        result.data shouldBe data.map { it.toPhotosLocal() }
     }
 
     @Test
     fun search_firstPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<Photos>(forge) { stableId = true } }
+        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
         val page = 1L
         val last = 1L
         fakePhotoRemoteDataSource.searchList = PaginationData(
@@ -78,8 +80,8 @@ class SearchRepositoryImplTest {
         val result = repository.search(forge.anAlphabeticalString(size = 10), page)
 
         // Then
-        assertThat(result.isComplete).isTrue()
-        assertThat(result.data).isEqualTo(data.map { it.toPhotosLocal() })
+        result.isComplete.shouldBeTrue()
+        result.data shouldBe data.map { it.toPhotosLocal() }
     }
 
     @Test(expected = Exception::class)
@@ -102,7 +104,7 @@ class SearchRepositoryImplTest {
         val result = repository.searchSuggestion(forge.anAlphabeticalString(size = 5))
 
         // Then
-        assertThat(result).isEqualTo(data)
+        result shouldBe data
     }
 
     @Test
@@ -111,6 +113,6 @@ class SearchRepositoryImplTest {
         val result = repository.searchSuggestion(forge.anAlphabeticalString(size = 5))
 
         // Then
-        assertThat(result).isEmpty()
+        result.shouldBeEmpty()
     }
 }

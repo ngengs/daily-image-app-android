@@ -1,6 +1,7 @@
 package com.ngengs.android.app.dailyimage.presenter
 
-import com.google.common.truth.Truth.assertThat
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldNotNull
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Test
 import timber.log.Timber
@@ -17,7 +18,7 @@ class DailyImageApplicationTest {
         application.onCreate()
 
         // Then
-        assertThat(Timber.treeCount).isEqualTo(1)
-        assertThat(Timber.forest().first() as? DebugTree).isNotNull()
+        Timber.treeCount shouldBe 1
+        (Timber.forest().first() as? DebugTree).shouldNotNull()
     }
 }

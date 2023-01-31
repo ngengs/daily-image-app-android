@@ -9,16 +9,21 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
+import androidx.test.espresso.matcher.ViewMatchers.withTagValue
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.R
+import com.ngengs.android.app.dailyimage.di.FakeUseCaseModule
 import com.ngengs.android.app.dailyimage.helpers.PhotoDataCreator
+import com.ngengs.android.app.dailyimage.helpers.espresso.ViewMatcher.isNotDisplayed
+import com.ngengs.android.app.dailyimage.helpers.espresso.ZoomGestureViewAction.pinchOut
 import com.ngengs.android.app.dailyimage.launchFragmentInHiltContainer
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseFragmentTest
+import com.ngengs.android.app.dailyimage.presenter.fragment.detail.DetailFragmentImpl.Companion.FAB_FAVORITE_TAG
+import com.ngengs.android.libs.test.utils.ext.shouldBe
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
-import org.hamcrest.Matchers.not
+import org.hamcrest.Matchers.`is`
 import org.junit.Test
 
 @HiltAndroidTest
@@ -33,6 +38,7 @@ class DetailFragmentTest : BaseFragmentTest() {
         val activityScenario = launchFragmentInHiltContainer<DetailFragment>(
             fragmentArgs = args.toBundle(),
             navHostController = navController,
+            navCurrentDestination = R.id.detailFragment
         )
 
         onView(withId(R.id.photo)).check(matches(isDisplayed()))
@@ -44,27 +50,50 @@ class DetailFragmentTest : BaseFragmentTest() {
             onView(allOf(withId(R.id.description), withText(mockData.description)))
                 .check(matches(isDisplayed()))
         } else {
-            onView(withId(R.id.description)).check(matches(not(isDisplayed())))
+            onView(withId(R.id.description)).check(matches(isNotDisplayed()))
         }
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
         Thread.sleep(200L) // Delay wait image loaded
         onView(withId(R.id.photo)).perform(click())
-        Thread.sleep(200L) // Delay touch action
-        onView(withId(R.id.toolbar)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.full_name)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.username)).check(matches(not(isDisplayed())))
-        onView(withId(R.id.description)).check(matches(not(isDisplayed())))
+        Thread.sleep(400L) // Delay touch action
+        onView(withId(R.id.toolbar)).check(matches(isNotDisplayed()))
+        onView(withId(R.id.full_name)).check(matches(isNotDisplayed()))
+        onView(withId(R.id.username)).check(matches(isNotDisplayed()))
+        onView(withId(R.id.description)).check(matches(isNotDisplayed()))
 
         onView(withId(R.id.photo)).perform(click())
-        Thread.sleep(200L) // Delay touch action
+        Thread.sleep(400L) // Delay touch action
+        onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.full_name)).check(matches(isDisplayed()))
+        onView(withId(R.id.username)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.favorite_button)).check(matches(isDisplayed())).perform(click())
+        onView(
+            allOf(withId(R.id.favorite_button), withTagValue(`is`("${FAB_FAVORITE_TAG}true")))
+        ).check(matches(isDisplayed()))
+        FakeUseCaseModule.useCase.changeFavoriteStatusUseCase.status shouldBe true
+        onView(withId(R.id.favorite_button)).check(matches(isDisplayed())).perform(click())
+        onView(
+            allOf(withId(R.id.favorite_button), withTagValue(`is`("${FAB_FAVORITE_TAG}false")))
+        ).check(matches(isDisplayed()))
+        FakeUseCaseModule.useCase.changeFavoriteStatusUseCase.status shouldBe false
+
+        onView(withId(R.id.photo)).perform(pinchOut())
+        onView(withId(R.id.toolbar)).check(matches(isNotDisplayed()))
+        onView(withId(R.id.full_name)).check(matches(isNotDisplayed()))
+        onView(withId(R.id.username)).check(matches(isNotDisplayed()))
+        onView(withId(R.id.description)).check(matches(isNotDisplayed()))
+
+        onView(withId(R.id.photo)).perform(click())
+        Thread.sleep(400L) // Delay touch action
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.full_name)).check(matches(isDisplayed()))
         onView(withId(R.id.username)).check(matches(isDisplayed()))
 
         onView(allOf(instanceOf(ImageButton::class.java), withParent(withId(R.id.toolbar))))
             .check(matches(isDisplayed())).perform(click())
-        assertThat(navController.currentDestination?.id).isNull()
+        navController.currentDestination?.id shouldBe R.id.homeFragment
 
         activityScenario.recreate()
     }

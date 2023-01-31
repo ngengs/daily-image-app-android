@@ -3,6 +3,7 @@ package com.ngengs.android.app.dailyimage.presenter.fragment.detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.viewModels
@@ -12,8 +13,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLarge
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLoadingThumb
+import com.ngengs.android.app.dailyimage.data.model.ext.imageLarge
+import com.ngengs.android.app.dailyimage.data.model.ext.imageLoadingThumb
 import com.ngengs.android.app.dailyimage.databinding.FragmentDetailBinding
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseViewModelFragment
 import com.ngengs.android.app.dailyimage.presenter.fragment.detail.DetailViewModel.ViewData
@@ -29,7 +30,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DetailFragment : BaseViewModelFragment<FragmentDetailBinding, ViewData, DetailViewModel>() {
+class DetailFragment : DetailFragmentImpl()
+
+open class DetailFragmentImpl :
+    BaseViewModelFragment<FragmentDetailBinding, ViewData, DetailViewModel>() {
+
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
         get() = FragmentDetailBinding::inflate
     override val viewModel: DetailViewModel by viewModels()
@@ -57,6 +62,9 @@ class DetailFragment : BaseViewModelFragment<FragmentDetailBinding, ViewData, De
         }
         binding.photo.setOnClickListener {
             toggleToolbarAndDetailContent()
+        }
+        binding.photo.setOnScaleChangeListener { _, _, _ ->
+            hideToolbarAndDetailContent(binding.favoriteButton.tag != null)
         }
         binding.favoriteButton.setOnClickListener {
             viewModel.changeFavorite()
@@ -98,16 +106,22 @@ class DetailFragment : BaseViewModelFragment<FragmentDetailBinding, ViewData, De
             binding.favoriteButton.tag = null
             binding.favoriteButton.hide()
         } else {
-            val buttonImageRes = if (isFavorite) {
-                R.drawable.ic_baseline_favorite_24
-            } else {
-                R.drawable.ic_baseline_favorite_border_24
+            val targetFavoriteTag = "$FAB_FAVORITE_TAG$isFavorite"
+            val oldFavoriteTag = binding.favoriteButton.tag
+
+            if (targetFavoriteTag != oldFavoriteTag) {
+                log.d("render, tag: $oldFavoriteTag")
+                val buttonImageRes = if (isFavorite) {
+                    R.drawable.ic_baseline_favorite_24
+                } else {
+                    R.drawable.ic_baseline_favorite_border_24
+                }
+                binding.favoriteButton.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), buttonImageRes)
+                )
+                binding.favoriteButton.tag = targetFavoriteTag
+                binding.favoriteButton.show()
             }
-            binding.favoriteButton.setImageDrawable(
-                ContextCompat.getDrawable(requireContext(), buttonImageRes)
-            )
-            binding.favoriteButton.tag = FAB_FAVORITE_TAG
-            binding.favoriteButton.show()
         }
     }
 
@@ -115,9 +129,7 @@ class DetailFragment : BaseViewModelFragment<FragmentDetailBinding, ViewData, De
         val isShowing = binding.detailContent.isVisible()
         val isFavoriteButtonIncluded = binding.favoriteButton.tag != null
         if (isShowing) {
-            binding.detailContent.gone()
-            binding.appBar.gone()
-            if (isFavoriteButtonIncluded) binding.favoriteButton.gone()
+            hideToolbarAndDetailContent(isFavoriteButtonIncluded)
         } else {
             binding.detailContent.visible()
             binding.appBar.visible()
@@ -125,7 +137,14 @@ class DetailFragment : BaseViewModelFragment<FragmentDetailBinding, ViewData, De
         }
     }
 
+    private fun hideToolbarAndDetailContent(isIncludeFavorite: Boolean) {
+        binding.detailContent.gone()
+        binding.appBar.gone()
+        if (isIncludeFavorite) binding.favoriteButton.gone()
+    }
+
     companion object {
-        private const val FAB_FAVORITE_TAG = "favorite_button_enabled"
+        @VisibleForTesting
+        const val FAB_FAVORITE_TAG = "favorite_button_enabled_"
     }
 }

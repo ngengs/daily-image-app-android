@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DailyImage" parent="Theme.Material3.DayNight.NoActionBar">
         <!--  MD3 Builder Generated  -->
@@ -32,7 +32,16 @@
         <!-- Customize your light theme here. -->
     </style>
 
-    <style name="Theme.DailyImage" parent="Base.Theme.DailyImage" />
+    <style name="Theme.DailyImage" parent="Base.Theme.DailyImage">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="Theme.DailyImage.Startup" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avd_launcher_foreground</item>
+        <item name="windowSplashScreenBackground">@color/splashscreen_background</item>
+        <item name="postSplashScreenTheme">@style/Theme.DailyImage</item>
+    </style>
 
     <style name="Widget.DailyImage.ImageView.Card" parent="">
         <item name="cornerFamily">rounded</item>

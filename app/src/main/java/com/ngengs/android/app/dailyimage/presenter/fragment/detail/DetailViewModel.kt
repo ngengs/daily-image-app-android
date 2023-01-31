@@ -1,5 +1,6 @@
 package com.ngengs.android.app.dailyimage.presenter.fragment.detail
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.viewModelScope
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
 import com.ngengs.android.app.dailyimage.di.DispatcherProvider
@@ -18,7 +19,8 @@ class DetailViewModel @Inject constructor(
     private val changeFavoriteStatusUseCase: ChangeFavoriteStatusUseCase,
     private val dispatcher: DispatcherProvider,
 ) : BaseViewModel<ViewData>(ViewData()) {
-    private lateinit var photo: PhotosLocal
+    @VisibleForTesting
+    lateinit var photo: PhotosLocal
 
     fun set(data: PhotosLocal) {
         photo = data

@@ -24,8 +24,8 @@ class ErrorHandlerScreenImpl : ErrorHandlerScreen {
         layoutError: LayoutErrorFullPageBinding,
         data: Results<*>,
         page: Long,
-        onRetry: () -> Unit,
-        onErrorNextPage: () -> Unit
+        onRetry: (() -> Unit)?,
+        onErrorNextPage: (() -> Unit)?
     ) {
         if (data is Results.Failure) {
             if (page == 1L) {
@@ -40,9 +40,9 @@ class ErrorHandlerScreenImpl : ErrorHandlerScreen {
                 }
                 layoutError.errorMessage.text = errorMessage
                 layoutError.retryButton.visibleIf(errorType != EMPTY)
-                layoutError.retryButton.setOnClickListener { onRetry() }
+                layoutError.retryButton.setOnClickListener { onRetry?.invoke() }
             } else {
-                onErrorNextPage()
+                onErrorNextPage?.invoke()
             }
         } else {
             layoutError.root.gone()

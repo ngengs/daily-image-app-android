@@ -68,7 +68,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="image_loading_placeholder_background">@color/md_theme_light_primary</color>
-<!--    <color name="toolbar_detail_color">@android:color/transparent</color>-->
-<!--    <color name="toolbar_detail_color">#26FFFBFF</color>-->
     <color name="toolbar_detail_color">#80FFFBFF</color>
+
+    <color name="splashscreen_background">@color/md_theme_light_primary</color>
 </resources>

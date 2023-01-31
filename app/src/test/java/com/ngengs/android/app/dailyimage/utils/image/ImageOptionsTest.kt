@@ -1,8 +1,9 @@
 package com.ngengs.android.app.dailyimage.utils.image
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.R
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeTrue
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import org.junit.Before
 import org.junit.Rule
@@ -37,10 +38,10 @@ class ImageOptionsTest {
         val result = imageOptions.toRequestOptions()
 
         // Then
-        assertThat(result.onlyRetrieveFromCache).isTrue()
-        assertThat(result.isSkipMemoryCacheSet).isTrue()
-        assertThat(result.overrideWidth).isEqualTo(100)
-        assertThat(result.overrideHeight).isEqualTo(200)
-        assertThat(result.isTransformationSet).isTrue()
+        result.onlyRetrieveFromCache.shouldBeTrue()
+        result.isSkipMemoryCacheSet.shouldBeTrue()
+        result.overrideWidth shouldBe 100
+        result.overrideHeight shouldBe 200
+        result.isTransformationSet.shouldBeTrue()
     }
 }

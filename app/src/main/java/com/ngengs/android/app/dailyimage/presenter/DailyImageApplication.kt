@@ -12,7 +12,8 @@ import timber.log.Timber.DebugTree
  * @ngengs
  */
 @HiltAndroidApp
-class DailyImageApplication : Application() {
+class DailyImageApplication : DailyImageApplicationImpl()
+open class DailyImageApplicationImpl : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())

@@ -48,7 +48,7 @@ class SuggestionTextAdapter(private val onClickListener: (String) -> Unit) :
         }
     }
 
-    data class ViewHolder(private val binding: ItemSuggestionTextBinding) :
+    class ViewHolder(private val binding: ItemSuggestionTextBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String, clickListener: (String) -> Unit) {

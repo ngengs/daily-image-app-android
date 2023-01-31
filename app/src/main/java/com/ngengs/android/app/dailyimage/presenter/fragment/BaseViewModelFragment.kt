@@ -28,7 +28,7 @@ abstract class BaseViewModelFragment<VB : ViewBinding, VD, VM : BaseViewModel<VD
     private fun observeData() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.data
-                .flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { render(it) }
         }
     }

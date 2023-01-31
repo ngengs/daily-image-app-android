@@ -73,8 +73,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-            app:navigationIconTint="?colorOnSurface"
-            tools:title="Hehehe" />
+            app:navigationIconTint="?colorOnSurface" />
     </com.google.android.material.appbar.AppBarLayout>
 
 

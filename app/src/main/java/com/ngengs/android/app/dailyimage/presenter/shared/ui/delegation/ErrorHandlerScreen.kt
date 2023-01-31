@@ -16,7 +16,7 @@ interface ErrorHandlerScreen {
         layoutError: LayoutErrorFullPageBinding,
         data: Results<*>,
         page: Long,
-        onRetry: () -> Unit,
-        onErrorNextPage: () -> Unit
+        onRetry: (() -> Unit)?,
+        onErrorNextPage: (() -> Unit)?
     )
 }

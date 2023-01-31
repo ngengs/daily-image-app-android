@@ -1,6 +1,7 @@
 package com.ngengs.android.app.dailyimage.utils.common.ext
 
-import com.google.common.truth.Truth.assertThat
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeNull
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -21,7 +22,7 @@ class CommonExtKtTest {
         // When
         val result = debugTry { succeedResult }
         // Then
-        assertThat(result).isEqualTo(succeedResult)
+        result shouldBe succeedResult
     }
 
     @Test
@@ -29,7 +30,7 @@ class CommonExtKtTest {
         // When
         val result = debugTry<String> { throw Exception(forge.aNumericalString(size = 20)) }
         // Then
-        assertThat(result).isNull()
+        result.shouldBeNull()
     }
 
     @Test
@@ -44,7 +45,7 @@ class CommonExtKtTest {
             }
         }
         // Then
-        assertThat(result).isEqualTo(succeedResult)
+        result shouldBe succeedResult
     }
 
     @Test
@@ -57,6 +58,6 @@ class CommonExtKtTest {
             }
         }
         // Then
-        assertThat(result).isNull()
+        result.shouldBeNull()
     }
 }

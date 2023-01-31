@@ -8,11 +8,15 @@ import androidx.activity.addCallback
 import androidx.core.view.postDelayed
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.material.tabs.TabLayout.Tab
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.databinding.FragmentHomeBinding
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseViewModelFragment
 import com.ngengs.android.app.dailyimage.presenter.fragment.home.HomeViewModel.ViewData
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.ProvidableTopPaddingScreen
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.ScrollableTopScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.SearchableScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.implementation.SearchableScreenImpl
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +26,7 @@ class HomeFragment : HomeFragmentImpl()
 
 open class HomeFragmentImpl :
     BaseViewModelFragment<FragmentHomeBinding, ViewData, HomeViewModel>(),
+    ProvidableTopPaddingScreen,
     SearchableScreen by SearchableScreenImpl() {
 
     override val viewModel: HomeViewModel by viewModels()
@@ -40,9 +45,21 @@ open class HomeFragmentImpl :
         val tabTitles = resources.getStringArray(R.array.home_tab_title)
         val adapter = HomePagerAdapter(tabTitles.size, childFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
+        binding.viewPager.offscreenPageLimit = tabTitles.size
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
+        binding.tabLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
+            override fun onTabSelected(tab: Tab?) = Unit
+
+            override fun onTabUnselected(tab: Tab?) = Unit
+
+            override fun onTabReselected(tab: Tab?) {
+                val currentPosition = binding.viewPager.currentItem
+                val currentFragment = childFragmentManager.fragments.getOrNull(currentPosition)
+                (currentFragment as? ScrollableTopScreen)?.scrollToTop()
+            }
+        })
 
         prepareSearch(
             context = requireContext(),
@@ -68,9 +85,10 @@ open class HomeFragmentImpl :
             }
         )
     }
-
     override fun render(data: ViewData) {
         log.d("render")
         updateSearchSuggestion(data.searchSuggestion)
     }
+
+    override fun provideTopPadding(): Int = viewModel.getOrUpdateTopSpacing(binding.appBar.height)
 }

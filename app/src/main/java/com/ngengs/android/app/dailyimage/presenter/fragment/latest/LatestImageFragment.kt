@@ -18,6 +18,8 @@ import com.ngengs.android.app.dailyimage.presenter.fragment.latest.LatestImageVi
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.HeaderToolsAdapter
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.LoadingItemAdapter
 import com.ngengs.android.app.dailyimage.presenter.shared.adapter.PhotoListAdapter
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.ProvidableTopPaddingScreen
+import com.ngengs.android.app.dailyimage.presenter.shared.ui.ScrollableTopScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.ChangeableListViewTypeScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.ErrorHandlerScreen
 import com.ngengs.android.app.dailyimage.presenter.shared.ui.delegation.LoadingHandlerScreen
@@ -34,6 +36,7 @@ class LatestImageFragment : LatestImageFragmentImpl()
 
 open class LatestImageFragmentImpl :
     BaseViewModelFragment<FragmentLatestImageBinding, ViewData, LatestImageViewModel>(),
+    ScrollableTopScreen,
     ChangeableListViewTypeScreen by ChangeableListViewTypeScreenImpl(),
     LoadingHandlerScreen by LoadingHandlerScreenImpl(),
     ErrorHandlerScreen by ErrorHandlerScreenImpl() {
@@ -60,6 +63,7 @@ open class LatestImageFragmentImpl :
         headerAdapter = HeaderToolsAdapter(
             headerTitle = headerTitle,
             onClickOrderBy = {
+                scrollToTop()
                 viewModel.changeOrderBy()
             },
             onClickViewType = {
@@ -92,6 +96,10 @@ open class LatestImageFragmentImpl :
         }
         endlessScrollListener.isEnabled = false
         binding.rv.addOnScrollListener(endlessScrollListener)
+
+        headerAdapter.updatingSpaceTopBasedOnView(binding.root) {
+            (parentFragment as? ProvidableTopPaddingScreen)?.provideTopPadding()
+        }
     }
 
     override fun render(data: ViewData) {
@@ -175,4 +183,8 @@ open class LatestImageFragmentImpl :
     private fun createViewTypeIcon(viewType: Int) = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
         R.drawable.ic_baseline_grid_view_24
     } else R.drawable.ic_baseline_view_list_24
+
+    override fun scrollToTop() {
+        binding.rv.scrollToPosition(0)
+    }
 }

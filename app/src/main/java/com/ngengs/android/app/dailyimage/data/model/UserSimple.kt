@@ -1,7 +1,6 @@
 package com.ngengs.android.app.dailyimage.data.model
 
 import android.os.Parcelable
-import com.ngengs.android.app.dailyimage.data.remote.model.User
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
@@ -21,13 +20,4 @@ data class UserSimple(
     val name: String = "",
     @Json(name = "avatar")
     val avatar: String = "",
-) : Parcelable {
-    companion object {
-        fun User.toUserSimple() = UserSimple(
-            id = this.id,
-            username = this.username,
-            name = this.name,
-            avatar = this.profileImage.medium
-        )
-    }
-}
+) : Parcelable

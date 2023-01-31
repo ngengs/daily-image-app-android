@@ -1,13 +1,13 @@
 package com.ngengs.android.app.dailyimage.domain.usecase.implementation
 
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.helpers.fake.FakeDispatcherProvider
 import com.ngengs.android.app.dailyimage.helpers.fake.data.repository.FakeSearchRepository
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeEmpty
 import com.ngengs.android.libs.test.utils.rules.CoroutineRule
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -45,7 +45,7 @@ class GetSearchSuggestionImplTest {
         val result = useCase.invoke(text)
 
         // Then
-        assertThat(result).isEmpty()
+        result.shouldBeEmpty()
     }
 
     @Test
@@ -57,7 +57,7 @@ class GetSearchSuggestionImplTest {
         val result = useCase.invoke(text)
 
         // Then
-        assertThat(result).isEmpty()
+        result.shouldBeEmpty()
     }
 
     @Test
@@ -71,6 +71,6 @@ class GetSearchSuggestionImplTest {
         val result = useCase.invoke(text)
 
         // Then
-        assertThat(result).isEqualTo(data)
+        result shouldBe data
     }
 }

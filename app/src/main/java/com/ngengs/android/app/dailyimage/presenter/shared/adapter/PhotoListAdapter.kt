@@ -1,18 +1,20 @@
 package com.ngengs.android.app.dailyimage.presenter.shared.adapter
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLarge
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageLoadingThumb
-import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal.Companion.imageSmall
+import com.ngengs.android.app.dailyimage.data.model.ext.imageLarge
+import com.ngengs.android.app.dailyimage.data.model.ext.imageLoadingThumb
+import com.ngengs.android.app.dailyimage.data.model.ext.imageSmall
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoGridBinding
 import com.ngengs.android.app.dailyimage.databinding.ItemPhotoListBinding
 import com.ngengs.android.app.dailyimage.utils.common.constant.ViewConstant.PhotoListViewType
@@ -51,11 +53,17 @@ class PhotoListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val photo = getItem(position)
-        val loadingDrawable = ColorDrawable(Color.parseColor(photo.color)).apply { alpha = 125 }
+        val loadingDrawable = GradientDrawable().apply {
+            setColor(Color.parseColor(photo.color))
+            alpha = 125
+        }
         val thumbnailImage =
             GlideUtils.thumbnailBuilder(holder.itemView.context, photo.imageLoadingThumb)
         if (holder is PhotoListViewHolder) {
             holder.bind(photo, loadingDrawable, thumbnailImage, onClickListener)
+        }
+        if (holder is GridViewHolder) {
+            holder.updateSpacing(position)
         }
     }
 
@@ -102,12 +110,30 @@ class PhotoListAdapter(
             binding.fullName.text = data.user?.name
             binding.description.visibleIf(data.description != null)
             binding.description.text = data.description
+            val imageRadius = binding.photo.resources.getDimension(R.dimen.corner_default_size)
+            binding.root.background = (loadingDrawable as GradientDrawable).apply {
+                cornerRadius = imageRadius
+            }
+            binding.root.clipToOutline = true
             binding.photo.load(data.imageSmall) {
                 thumbnail = thumbnailImage
-                imageOnLoadingDrawable = loadingDrawable
             }
             binding.photo.transitionName = TransitionUtils.imageTransitionName(data.id)
             binding.root.setOnClickListener { onCLickListener.invoke(data, binding.photo) }
+        }
+
+        fun updateSpacing(position: Int) {
+            val spacing16 = binding.root.resources.getDimension(R.dimen.spacing_8).toInt()
+            val spacing4 = binding.root.resources.getDimension(R.dimen.spacing_4).toInt()
+            binding.root.updateLayoutParams<MarginLayoutParams> {
+                if (position % 2 != 0) {
+                    marginEnd = spacing16
+                    marginStart = spacing4
+                } else {
+                    marginStart = spacing16
+                    marginEnd = spacing4
+                }
+            }
         }
     }
 

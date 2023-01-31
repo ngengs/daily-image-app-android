@@ -2,9 +2,9 @@ package com.ngengs.android.app.dailyimage.utils.image
 
 import android.graphics.Bitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.utils.image.BlurHashDecoder.clearCache
 import com.ngengs.android.app.dailyimage.utils.image.BlurHashDecoder.decode
+import com.ngengs.android.libs.test.utils.ext.shouldBe
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -85,6 +85,6 @@ class BlurHashDecoderTest {
         copyPixelsToBuffer(buffer1)
         val buffer2: ByteBuffer = ByteBuffer.allocate(bitmap2.height * bitmap2.rowBytes)
         bitmap2.copyPixelsToBuffer(buffer2)
-        assertThat(buffer1.array()).isEqualTo(buffer2.array())
+        buffer1.array() shouldBe buffer2.array()
     }
 }

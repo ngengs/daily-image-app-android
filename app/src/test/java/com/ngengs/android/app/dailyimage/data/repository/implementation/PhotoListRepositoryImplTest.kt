@@ -1,6 +1,5 @@
 package com.ngengs.android.app.dailyimage.data.repository.implementation
 
-import com.google.common.truth.Truth.assertThat
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
 import com.ngengs.android.app.dailyimage.data.model.ext.toPhotosLocal
 import com.ngengs.android.app.dailyimage.data.remote.model.Pagination
@@ -11,6 +10,9 @@ import com.ngengs.android.app.dailyimage.helpers.fake.data.source.FakePhotoLocal
 import com.ngengs.android.app.dailyimage.helpers.fake.data.source.FakePhotoRemoteDataSource
 import com.ngengs.android.app.dailyimage.utils.common.constant.ApiConstant
 import com.ngengs.android.libs.test.utils.DataForger
+import com.ngengs.android.libs.test.utils.ext.shouldBe
+import com.ngengs.android.libs.test.utils.ext.shouldBeEmpty
+import com.ngengs.android.libs.test.utils.ext.shouldBeTrue
 import com.ngengs.android.libs.test.utils.rules.CoroutineRule
 import fr.xgouchet.elmyr.junit4.ForgeRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,7 +58,7 @@ class PhotoListRepositoryImplTest {
     @Test
     fun get_latest_nextPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<Photos>(forge) { stableId = true } }
+        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
         val page = forge.aLong(min = 10, max = 100)
         val lastPage = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.photoList = PaginationData(
@@ -68,19 +70,19 @@ class PhotoListRepositoryImplTest {
         val result = repository.get(page, ApiConstant.ORDER_BY_LATEST)
 
         // Then
-        assertThat(result.isComplete).isEqualTo(page == lastPage)
-        assertThat(result.data).isEqualTo(data.map { it.toPhotosLocal() })
-        assertThat(fakePhotoLocalDataSource.latestPhotos).isEmpty()
+        result.isComplete shouldBe (page == lastPage)
+        result.data shouldBe data.map { it.toPhotosLocal() }
+        fakePhotoLocalDataSource.latestPhotos.shouldBeEmpty()
     }
 
     @Test
     fun get_latest_firstPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<Photos>(forge) { stableId = true } }
+        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
         val page = 1L
         val lastPage = 1L
         fakePhotoLocalDataSource.saveLatest(
-            (1..5).map { DataForger.forgeParcel(forge) { stableId = true } }
+            (1..5).map { DataForger.forgeParcelStableId(forge) }
         )
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
@@ -91,15 +93,15 @@ class PhotoListRepositoryImplTest {
         val result = repository.get(page, ApiConstant.ORDER_BY_LATEST)
 
         // Then
-        assertThat(result.isComplete).isTrue()
-        assertThat(result.data).isEqualTo(data.map { it.toPhotosLocal() })
-        assertThat(fakePhotoLocalDataSource.getLatest()).isEqualTo(data.map { it.toPhotosLocal() })
+        result.isComplete.shouldBeTrue()
+        result.data shouldBe data.map { it.toPhotosLocal() }
+        fakePhotoLocalDataSource.getLatest() shouldBe data.map { it.toPhotosLocal() }
     }
 
     @Test
     fun get_popular_nextPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<Photos>(forge) { stableId = true } }
+        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
         val page = forge.aLong(min = 10, max = 100)
         val lastPage = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.photoList = PaginationData(
@@ -111,19 +113,19 @@ class PhotoListRepositoryImplTest {
         val result = repository.get(page, ApiConstant.ORDER_BY_POPULAR)
 
         // Then
-        assertThat(result.isComplete).isEqualTo(page == lastPage)
-        assertThat(result.data).isEqualTo(data.map { it.toPhotosLocal() })
-        assertThat(fakePhotoLocalDataSource.popularPhotos).isEmpty()
+        result.isComplete shouldBe (page == lastPage)
+        result.data shouldBe data.map { it.toPhotosLocal() }
+        fakePhotoLocalDataSource.popularPhotos.shouldBeEmpty()
     }
 
     @Test
     fun get_popular_firstPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<Photos>(forge) { stableId = true } }
+        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
         val page = 1L
         val lastPage = 1L
         fakePhotoLocalDataSource.savePopular(
-            (1..5).map { DataForger.forgeParcel(forge) { stableId = true } }
+            (1..5).map { DataForger.forgeParcelStableId(forge) }
         )
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
@@ -134,9 +136,9 @@ class PhotoListRepositoryImplTest {
         val result = repository.get(page, ApiConstant.ORDER_BY_POPULAR)
 
         // Then
-        assertThat(result.isComplete).isTrue()
-        assertThat(result.data).isEqualTo(data.map { it.toPhotosLocal() })
-        assertThat(fakePhotoLocalDataSource.getPopular()).isEqualTo(data.map { it.toPhotosLocal() })
+        result.isComplete.shouldBeTrue()
+        result.data shouldBe data.map { it.toPhotosLocal() }
+        fakePhotoLocalDataSource.getPopular() shouldBe data.map { it.toPhotosLocal() }
     }
 
     @Test(expected = Exception::class)
@@ -159,7 +161,7 @@ class PhotoListRepositoryImplTest {
         val result = repository.cache(ApiConstant.ORDER_BY_LATEST)
 
         // Then
-        assertThat(result).isEqualTo(data)
+        result shouldBe data
     }
 
     @Test
@@ -172,7 +174,7 @@ class PhotoListRepositoryImplTest {
         val result = repository.cache(ApiConstant.ORDER_BY_POPULAR)
 
         // Then
-        assertThat(result).isEqualTo(data)
+        result shouldBe data
     }
 
     @Test
@@ -184,6 +186,6 @@ class PhotoListRepositoryImplTest {
         val result = repository.cache(ApiConstant.ORDER_BY_LATEST)
 
         // Then
-        assertThat(result).isEmpty()
+        result.shouldBeEmpty()
     }
 }

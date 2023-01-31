@@ -20,8 +20,10 @@
     <string name="search_image_hint">Let\'s Search Some Image Here</string>
     <string name="favorite_button_desc">Favorite Button</string>
 
+    <string name="tab_title_gallery">Gallery</string>
+    <string name="tab_title_favorite">Favorite</string>
     <string-array name="home_tab_title">
-        <item>Gallery</item>
-        <item>Favorite</item>
+        <item>@string/tab_title_gallery</item>
+        <item>@string/tab_title_favorite</item>
     </string-array>
 </resources>

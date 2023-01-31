@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 class FakePhotoLocalDataSource : PhotoLocalDataSource {
     var popularPhotos: MutableList<PhotosLocal> = mutableListOf()
     var latestPhotos: MutableList<PhotosLocal> = mutableListOf()
-    val favoritePhotos: MutableList<PhotosLocal> = mutableListOf()
-    val favoriteFlow: MutableStateFlow<List<PhotosLocal>> = MutableStateFlow(emptyList())
+    private val favoritePhotos: MutableList<PhotosLocal> = mutableListOf()
+    private val favoriteFlow: MutableStateFlow<List<PhotosLocal>> = MutableStateFlow(emptyList())
 
     override suspend fun getPopular(): List<PhotosLocal> =
         popularPhotos.toList()
