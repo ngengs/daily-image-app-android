@@ -59,6 +59,8 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
+          profile: Pixel 4 XL
+          arch: x86_64
           script: echo "Generated AVD snapshot for caching."
 
       - name: Run tests
@@ -69,6 +71,7 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           profile: Pixel 4 XL
+          arch: x86_64
           script: ./gradlew jacocoDebugTestCoverage
 
       - name: Cleanup
