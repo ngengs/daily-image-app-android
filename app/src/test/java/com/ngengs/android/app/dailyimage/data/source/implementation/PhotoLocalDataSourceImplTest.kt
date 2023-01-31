@@ -59,9 +59,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun savePopular_getPopular_success() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When
         dataSource.savePopular(data)
@@ -75,9 +73,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun clearPopular_success() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When
         dataSource.savePopular(data)
@@ -93,9 +89,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun saveLatest_getLatest_success() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When
         dataSource.saveLatest(data)
@@ -109,9 +103,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun clearLatest_success() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When
         dataSource.saveLatest(data)
@@ -127,9 +119,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun getFavorites_saveFavorite_deleteFavorite_success() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When & Then
         dataSource.getFavorites().test {
@@ -159,9 +149,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun getFavorite_success() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When
         dataSource.saveFavorite(data[0])
@@ -173,9 +161,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun getFavorite_notExist() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When
         dataSource.saveFavorite(data[0])
@@ -187,9 +173,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun clearPopular_keep_latestDataAndFavoriteData() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         val dataPopular = data.subList(0, 5)
         val dataLatest = data.subList(5, 7)
         val dataFavorite = data.subList(7, 10)
@@ -214,9 +198,7 @@ class PhotoLocalDataSourceImplTest {
     @Test
     fun clearLatest_keep_popularData() = runTest {
         // Given
-        val data = (1..10).map {
-            DataForger.forgeParcelStableId<PhotosLocal>(forge)
-        }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         val dataLatest = data.subList(0, 5)
         val dataPopular = data.subList(5, 7)
         val dataFavorite = data.subList(7, 10)

@@ -58,7 +58,7 @@ class PhotoListRepositoryImplTest {
     @Test
     fun get_latest_nextPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
+        val data = DataForger.forgeParcelStableId<Photos>(forge, 20)
         val page = forge.aLong(min = 10, max = 100)
         val lastPage = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.photoList = PaginationData(
@@ -78,12 +78,10 @@ class PhotoListRepositoryImplTest {
     @Test
     fun get_latest_firstPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
+        val data = DataForger.forgeParcelStableId<Photos>(forge, 20)
         val page = 1L
         val lastPage = 1L
-        fakePhotoLocalDataSource.saveLatest(
-            (1..5).map { DataForger.forgeParcelStableId(forge) }
-        )
+        fakePhotoLocalDataSource.saveLatest(DataForger.forgeParcelStableId(forge, 5))
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
             data = data
@@ -101,7 +99,7 @@ class PhotoListRepositoryImplTest {
     @Test
     fun get_popular_nextPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
+        val data = DataForger.forgeParcelStableId<Photos>(forge, 20)
         val page = forge.aLong(min = 10, max = 100)
         val lastPage = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.photoList = PaginationData(
@@ -121,12 +119,10 @@ class PhotoListRepositoryImplTest {
     @Test
     fun get_popular_firstPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
+        val data = DataForger.forgeParcelStableId<Photos>(forge, 20)
         val page = 1L
         val lastPage = 1L
-        fakePhotoLocalDataSource.savePopular(
-            (1..5).map { DataForger.forgeParcelStableId(forge) }
-        )
+        fakePhotoLocalDataSource.savePopular(DataForger.forgeParcelStableId(forge, 5))
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
             data = data
@@ -154,7 +150,7 @@ class PhotoListRepositoryImplTest {
     @Test
     fun cache_latest_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcel<PhotosLocal>(forge, 20)
         fakePhotoLocalDataSource.saveLatest(data)
 
         // When
@@ -167,7 +163,7 @@ class PhotoListRepositoryImplTest {
     @Test
     fun cache_popular_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcel<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcel<PhotosLocal>(forge, 20)
         fakePhotoLocalDataSource.savePopular(data)
 
         // When

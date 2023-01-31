@@ -52,9 +52,9 @@ class GetPhotoListUseCaseImplTest {
     @Test
     fun test_useCase_firstPage_success() = runTest {
         // Given
-        val oldData = (1..5).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
-        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
-        val cache = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val oldData = DataForger.forgeParcelStableId<PhotosLocal>(forge, 5)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
+        val cache = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         val completableOldData = CompletableCachedData(isComplete = true, data = oldData)
         val completableData = CompletableData(isComplete = false, data = data)
         fakeRepository.photoList = completableData
@@ -89,9 +89,9 @@ class GetPhotoListUseCaseImplTest {
     @Test
     fun test_useCase_nextPage_success() = runTest {
         // Given
-        val oldData = (1..5).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
-        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
-        val cache = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val oldData = DataForger.forgeParcelStableId<PhotosLocal>(forge, 5)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
+        val cache = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         val completableOldData = CompletableCachedData(isComplete = true, data = oldData)
         val completableData = CompletableData(isComplete = false, data = data)
         fakeRepository.photoList = completableData
@@ -123,9 +123,9 @@ class GetPhotoListUseCaseImplTest {
     @Test
     fun test_useCase_nextPageAgain_success() = runTest {
         // Given
-        val oldData = (1..5).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
-        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
-        val cache = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val oldData = DataForger.forgeParcelStableId<PhotosLocal>(forge, 5)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
+        val cache = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         val completableOldData = CompletableCachedData(isComplete = false, data = oldData)
         val completableData = CompletableData(isComplete = false, data = data)
         fakeRepository.photoList = completableData

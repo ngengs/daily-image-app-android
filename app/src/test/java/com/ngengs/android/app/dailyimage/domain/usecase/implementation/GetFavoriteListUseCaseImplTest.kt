@@ -50,7 +50,7 @@ class GetFavoriteListUseCaseImplTest {
     @Test
     fun test_get_list_favorite() = runTest {
         // Given
-        val data = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When Get Use Case
         useCase.invoke().test {

@@ -41,7 +41,7 @@ class DailyImageDatabaseMigrationTest {
     @Test
     fun test_migration_1to2() = runTest {
         // Given
-        val data = DataForger.forgeParcelListStableId<PhotosLocal>(forge, 2)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 2)
         val userSimpleAdapter = MoshiConfig.moshi.adapter(UserSimple::class.java)
         // When version 1
         helper.createDatabase(TEST_DB_NAME, 1).apply {

@@ -49,7 +49,7 @@ class FavoriteRepositoryImplTest {
     @Test
     fun test_getFavorite_setFavorite_removeFavorite_success() = runTest {
         // Given
-        val data = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
 
         // When & Then
         repository.get().test {
@@ -79,7 +79,7 @@ class FavoriteRepositoryImplTest {
     @Test
     fun test_isFavorite() = runTest {
         // Given
-        val data = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         (1..5).forEach { repository.setFavorite(data[it]) }
 
         // When

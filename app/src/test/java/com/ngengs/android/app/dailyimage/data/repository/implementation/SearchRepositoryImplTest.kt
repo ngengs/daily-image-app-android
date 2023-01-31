@@ -49,7 +49,7 @@ class SearchRepositoryImplTest {
     @Test
     fun search_nextPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
+        val data = DataForger.forgeParcelStableId<Photos>(forge, 20)
         val page = forge.aLong(min = 10, max = 100)
         val last = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.searchList = PaginationData(
@@ -68,7 +68,7 @@ class SearchRepositoryImplTest {
     @Test
     fun search_firstPage_success() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<Photos>(forge) }
+        val data = DataForger.forgeParcelStableId<Photos>(forge, 20)
         val page = 1L
         val last = 1L
         fakePhotoRemoteDataSource.searchList = PaginationData(

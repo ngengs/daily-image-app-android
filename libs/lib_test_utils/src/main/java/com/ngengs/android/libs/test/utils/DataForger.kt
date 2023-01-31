@@ -26,7 +26,7 @@ object DataForger {
         return forgeSerializable(forger, forgeOption)
     }
 
-    inline fun <reified T : Serializable> forgeListSerializable(
+    inline fun <reified T : Serializable> forgeSerializable(
         forger: Forge,
         size: Int,
         option: ForgeOption.() -> Unit = {},
@@ -36,7 +36,7 @@ object DataForger {
         return (1..size).map { forgeSerializable(forger, forgeOption) }
     }
 
-    inline fun <reified T : Serializable> forgeSerializableListStableId(
+    inline fun <reified T : Serializable> forgeSerializableStableId(
         forger: Forge,
         size: Int,
         option: ForgeOption.() -> Unit = {},
@@ -49,9 +49,14 @@ object DataForger {
     inline fun <reified T : Parcelable> forgeSerializable(
         forger: Forge,
         option: ForgeOption
-    ) : T {
+    ): T {
         val instance = T::class.java.getDeclaredConstructor().newInstance()
-        return DataForgerCreator.internalForgeClass(instance, instance.javaClass.declaredFields, option, forger)
+        return DataForgerCreator.internalForgeClass(
+            instance,
+            instance.javaClass.declaredFields,
+            option,
+            forger
+        )
     }
 
     inline fun <reified T : Parcelable> forgeParcel(
@@ -70,7 +75,7 @@ object DataForger {
         return forgeParcel(forger, forgeOption)
     }
 
-    inline fun <reified T : Parcelable> forgeParcelList(
+    inline fun <reified T : Parcelable> forgeParcel(
         forger: Forge,
         size: Int,
         option: ForgeOption.() -> Unit = {},
@@ -80,7 +85,7 @@ object DataForger {
         return (1..size).map { forgeParcel(forger, forgeOption) }
     }
 
-    inline fun <reified T : Parcelable> forgeParcelListStableId(
+    inline fun <reified T : Parcelable> forgeParcelStableId(
         forger: Forge,
         size: Int,
         option: ForgeOption.() -> Unit = {}
@@ -93,9 +98,14 @@ object DataForger {
     inline fun <reified T : Parcelable> forgeParcel(
         forger: Forge,
         option: ForgeOption
-    ) : T {
+    ): T {
         val instance = T::class.java.getDeclaredConstructor().newInstance()
-        return DataForgerCreator.internalForgeClass(instance, instance.javaClass.declaredFields, option, forger)
+        return DataForgerCreator.internalForgeClass(
+            instance,
+            instance.javaClass.declaredFields,
+            option,
+            forger
+        )
     }
 
     data class ForgeOption(

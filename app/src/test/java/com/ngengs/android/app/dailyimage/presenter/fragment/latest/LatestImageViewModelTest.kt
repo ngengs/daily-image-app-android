@@ -59,8 +59,8 @@ class LatestImageViewModelTest {
     @Test
     fun test_init_and_reload() = runTest {
         // Given
-        val cache = DataForger.forgeParcelListStableId<PhotosLocal>(forge, 5)
-        val data = DataForger.forgeParcelListStableId<PhotosLocal>(forge, 20)
+        val cache = DataForger.forgeParcelStableId<PhotosLocal>(forge, 5)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
         val cacheResult = Results.Success(CompletableCachedData(true, cache, isCache = true))
         val mainResult = Results.Success(CompletableCachedData(false, data, isCache = false))
 
@@ -96,7 +96,7 @@ class LatestImageViewModelTest {
     fun test_fetchNextIfNeeded() = runTest {
         // Given
         viewModel.stopRunningJob() // Stop changing data from initialization
-        val data = DataForger.forgeParcelListStableId<PhotosLocal>(forge, 20)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
         val mainResult = Results.Success(CompletableCachedData(false, data, isCache = false))
         val mainResult2 = Results.Success(CompletableCachedData(true, data, isCache = false))
 
@@ -170,7 +170,7 @@ class LatestImageViewModelTest {
     fun test_changeOrderBy_isOrderByLatest() = runTest {
         // Given
         viewModel.stopRunningJob() // Stop changing data from initialization
-        val data = DataForger.forgeParcelListStableId<PhotosLocal>(forge, 2)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 2)
         val mainResult = Results.Success(CompletableCachedData(false, data, isCache = false))
         val mainResult2 = Results.Success(CompletableCachedData(true, data, isCache = false))
 

@@ -59,7 +59,7 @@ class SearchViewModelTest {
     @Test
     fun test_setText_and_reload() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
         val isComplete = forge.aBool()
         val mainResult = Results.Success(CompletableCachedData(isComplete, data))
         val searchText = forge.anAlphabeticalString(size = 10)
@@ -99,7 +99,7 @@ class SearchViewModelTest {
     @Test
     fun test_fetchNextIfNeeded() = runTest {
         // Given
-        val data = (1..20).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
         val mainResult = Results.Success(CompletableCachedData(false, data))
         val mainResult2 = Results.Success(CompletableCachedData(true, data))
         val searchText = forge.anAlphabeticalString(size = 10)

@@ -45,7 +45,7 @@ class GetFavoriteStatusUseCaseImplTest {
     @Test
     fun test_getStatus() = runTest {
         // Given
-        val data = (1..10).map { DataForger.forgeParcelStableId<PhotosLocal>(forge) }
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 10)
         val dataFavorite = data.first()
         val dataNotFavorite = data.last()
         fakeRepository.setFavorite(dataFavorite)

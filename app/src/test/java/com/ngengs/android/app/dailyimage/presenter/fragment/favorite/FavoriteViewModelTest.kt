@@ -52,7 +52,7 @@ class FavoriteViewModelTest {
     @Test
     fun test_init() = runTest {
         // Given
-        val data = DataForger.forgeParcelListStableId<PhotosLocal>(forge, 20)
+        val data = DataForger.forgeParcelStableId<PhotosLocal>(forge, 20)
 
         // When & Then
         viewModel.data.test {
