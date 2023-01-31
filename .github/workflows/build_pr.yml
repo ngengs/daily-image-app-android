@@ -37,7 +37,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Prepare app config
-        run: openssl base64 -d <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }} | tee secrets.properties
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -102,7 +102,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Prepare app config
-        run: openssl base64 -d <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }} | tee secrets.properties
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
       - name: Build App
         run: ./gradlew assemble
