@@ -27,7 +27,18 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "com.ngengs.android.app.dailyimage.AppWithHiltTestRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+
 
     buildTypes {
         release {
@@ -140,31 +151,31 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
     testImplementation "androidx.test.ext:junit-ktx:$androidJunitVersion"
+    testImplementation "androidx.room:room-testing:$roomVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$ktCoroutineTestVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
-    testImplementation "io.mockk:mockk-android:$mockkVersion"
     testImplementation "io.mockk:mockk-agent:$mockkVersion"
     testImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
     testImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     testImplementation "androidx.navigation:navigation-testing:$navVersion"
-    testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "app.cash.turbine:turbine:$turbineVersion"
     kaptTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     // Instrument Test
     androidTestImplementation project(path: ":libs:lib_test_utils")
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
+    androidTestImplementation "androidx.room:room-testing:$roomVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$ktCoroutineTestVersion"
     androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
+    androidTestImplementation "io.mockk:mockk:$mockkVersion"
     androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
     androidTestImplementation "io.mockk:mockk-agent:$mockkVersion"
     androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
-    androidTestImplementation "com.google.truth:truth:$truthVersion"
     kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
     debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
