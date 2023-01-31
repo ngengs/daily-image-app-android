@@ -91,7 +91,6 @@ class LatestImageViewModelTest {
         }
     }
 
-
     @Test
     fun test_fetchNextIfNeeded() = runTest {
         // Given

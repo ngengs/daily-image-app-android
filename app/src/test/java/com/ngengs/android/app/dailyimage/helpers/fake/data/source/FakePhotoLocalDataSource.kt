@@ -38,7 +38,7 @@ class FakePhotoLocalDataSource : PhotoLocalDataSource {
         latestPhotos.clear()
     }
 
-    override fun getFavorites(): Flow<List<PhotosLocal>>  = favoriteFlow.asSharedFlow()
+    override fun getFavorites(): Flow<List<PhotosLocal>> = favoriteFlow.asSharedFlow()
         .distinctUntilChanged()
 
     override suspend fun getFavorite(id: String): PhotosLocal? {

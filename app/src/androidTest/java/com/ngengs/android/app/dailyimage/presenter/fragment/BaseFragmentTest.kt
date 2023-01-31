@@ -54,5 +54,4 @@ abstract class BaseFragmentTest {
             unmockkAll()
         }
     }
-
 }

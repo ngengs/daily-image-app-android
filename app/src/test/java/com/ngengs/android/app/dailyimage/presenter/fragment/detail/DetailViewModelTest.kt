@@ -38,7 +38,6 @@ class DetailViewModelTest {
     private val fakeChangeFavoriteStatusUseCase = FakeChangeFavoriteStatusUseCase()
     private lateinit var viewModel: DetailViewModel
 
-
     @Before
     fun setUp() {
         viewModel = DetailViewModel(

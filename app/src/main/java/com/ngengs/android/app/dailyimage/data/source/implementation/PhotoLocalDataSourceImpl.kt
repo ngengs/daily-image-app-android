@@ -71,18 +71,18 @@ class PhotoLocalDataSourceImpl @Inject constructor(
             .flowOn(dispatcher.io())
     }
 
-    override suspend fun getFavorite(id: String): PhotosLocal? = withContext(dispatcher.io()){
+    override suspend fun getFavorite(id: String): PhotosLocal? = withContext(dispatcher.io()) {
         Timber.d("getFavorite, thread: ${Thread.currentThread().name}")
         favoriteDao.get(id)?.photos
     }
 
-    override suspend fun saveFavorite(data: PhotosLocal) = withContext(dispatcher.io()){
+    override suspend fun saveFavorite(data: PhotosLocal) = withContext(dispatcher.io()) {
         Timber.d("saveFavorite, thread: ${Thread.currentThread().name}")
         savePhotos(listOf(data))
         favoriteDao.save(FavoritePhotos(photosId = data.id))
     }
 
-    override suspend fun deleteFavorite(data: PhotosLocal) = withContext(dispatcher.io()){
+    override suspend fun deleteFavorite(data: PhotosLocal) = withContext(dispatcher.io()) {
         Timber.d("getFavorite, thread: ${Thread.currentThread().name}")
         safeClear(CLEAR_TYPE_FAVORITE, listOf(data.id))
     }

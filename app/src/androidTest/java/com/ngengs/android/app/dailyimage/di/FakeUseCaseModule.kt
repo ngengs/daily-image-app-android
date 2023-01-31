@@ -51,7 +51,6 @@ class FakeUseCaseModule {
     @ViewModelScoped
     fun provideGetFavoriteListUseCase(): GetFavoriteListUseCase = useCase.getFavoriteListUseCase
 
-
     data class FakeUseCaseHolder(
         val getSearchedPhotoUseCase: FakeGetSearchedPhotoUseCase = FakeGetSearchedPhotoUseCase(),
         val getPhotoListUseCase: FakeGetPhotoListUseCase = FakeGetPhotoListUseCase(),

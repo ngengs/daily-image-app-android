@@ -19,9 +19,13 @@ import javax.inject.Singleton
 abstract class DataSourceModule {
     @Singleton
     @Binds
-    abstract fun providePhotoRemoteDataSource(impl: PhotoRemoteDataSourceImpl): PhotoRemoteDataSource
+    abstract fun providePhotoRemoteDataSource(
+        impl: PhotoRemoteDataSourceImpl
+    ): PhotoRemoteDataSource
 
     @Singleton
     @Binds
-    abstract fun providePhotoLocalDataSource(impl: PhotoLocalDataSourceImpl): PhotoLocalDataSource
+    abstract fun providePhotoLocalDataSource(
+        impl: PhotoLocalDataSourceImpl
+    ): PhotoLocalDataSource
 }

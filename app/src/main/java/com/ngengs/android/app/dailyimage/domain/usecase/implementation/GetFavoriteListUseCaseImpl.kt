@@ -23,7 +23,7 @@ import javax.inject.Inject
 class GetFavoriteListUseCaseImpl @Inject constructor(
     private val repository: FavoriteRepository,
     private val dispatcher: DispatcherProvider,
-): GetFavoriteListUseCase {
+) : GetFavoriteListUseCase {
     override fun invoke(): Flow<Results<CompletableData<PhotosLocal>>> = repository.get()
         .map {
             Timber.d("map, thread: ${Thread.currentThread().name}")

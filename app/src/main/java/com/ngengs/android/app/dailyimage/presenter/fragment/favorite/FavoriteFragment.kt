@@ -93,7 +93,6 @@ open class FavoriteFragmentImpl :
         renderLoading(data)
         renderSuccess(data)
         renderError(data)
-
     }
 
     private fun renderLoading(data: ViewData) {

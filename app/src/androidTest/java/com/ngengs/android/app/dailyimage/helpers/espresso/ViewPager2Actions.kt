@@ -31,7 +31,6 @@ import org.hamcrest.Matcher
 object ViewPager2Actions {
     private const val DEFAULT_SMOOTH_SCROLL = false
 
-
     /**
      * Moves [ViewPager2] to the right by one page.
      */
@@ -136,9 +135,10 @@ object ViewPager2Actions {
         }
     }
 
-
-    private class CustomViewPager2Listener : OnPageChangeCallback(),
+    private class CustomViewPager2Listener :
+        OnPageChangeCallback(),
         IdlingResource {
+
         private var mCurrState = ViewPager2.SCROLL_STATE_IDLE
 
         @Nullable

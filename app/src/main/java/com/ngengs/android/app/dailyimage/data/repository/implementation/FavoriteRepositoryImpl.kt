@@ -17,7 +17,7 @@ import javax.inject.Inject
 class FavoriteRepositoryImpl @Inject constructor(
     private val localDataSource: PhotoLocalDataSource,
     private val dispatcher: DispatcherProvider,
-): FavoriteRepository {
+) : FavoriteRepository {
     override fun get(): Flow<List<PhotosLocal>> = localDataSource.getFavorites().onEach {
         Timber.d("get, thread: ${Thread.currentThread().name}")
     }

@@ -35,17 +35,25 @@ abstract class UseCaseModule {
 
     @Binds
     @ViewModelScoped
-    abstract fun bindGetSearchedPhotoUseCase(impl: GetSearchedPhotoUseCaseImpl): GetSearchedPhotoUseCase
+    abstract fun bindGetSearchedPhotoUseCase(
+        impl: GetSearchedPhotoUseCaseImpl
+    ): GetSearchedPhotoUseCase
 
     @Binds
     @ViewModelScoped
-    abstract fun bindGetFavoriteStatusUseCase(impl: GetFavoriteStatusUseCaseImpl): GetFavoriteStatusUseCase
+    abstract fun bindGetFavoriteStatusUseCase(
+        impl: GetFavoriteStatusUseCaseImpl
+    ): GetFavoriteStatusUseCase
 
     @Binds
     @ViewModelScoped
-    abstract fun bindChangeFavoriteStatusUseCase(impl: ChangeFavoriteStatusUseCaseImpl): ChangeFavoriteStatusUseCase
+    abstract fun bindChangeFavoriteStatusUseCase(
+        impl: ChangeFavoriteStatusUseCaseImpl
+    ): ChangeFavoriteStatusUseCase
 
     @Binds
     @ViewModelScoped
-    abstract fun bindGetFavoriteListUseCase(impl: GetFavoriteListUseCaseImpl): GetFavoriteListUseCase
+    abstract fun bindGetFavoriteListUseCase(
+        impl: GetFavoriteListUseCaseImpl
+    ): GetFavoriteListUseCase
 }

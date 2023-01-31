@@ -42,7 +42,11 @@ open class LatestImageFragmentImpl :
     ErrorHandlerScreen by ErrorHandlerScreenImpl() {
 
     override val viewModel: LatestImageViewModel by viewModels()
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentLatestImageBinding
+    override val bindingInflater: (
+        LayoutInflater,
+        ViewGroup?,
+        Boolean
+    ) -> FragmentLatestImageBinding
         get() = FragmentLatestImageBinding::inflate
 
     private lateinit var concatAdapter: ConcatAdapter

@@ -164,7 +164,6 @@ class HomeFragmentTest : BaseFragmentTest() {
                 )
             )
 
-
         rv.perform(scrollToPosition<RecyclerView.ViewHolder>(resultSuccess2.data.data.size))
         onView(
             allOf(withText(R.string.tab_title_gallery), isDescendantOfA(withId(R.id.tab_layout)))
