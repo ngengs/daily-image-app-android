@@ -21,9 +21,13 @@ dependencies {
     implementation "junit:junit:$junitVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$ktCoroutineTestVersion"
 
+    // Forger
     api "com.github.xgouchet.Elmyr:core:$elmyrVersion"
     api "com.github.xgouchet.Elmyr:junit4:$elmyrVersion"
     api "com.github.xgouchet.Elmyr:core:$elmyrVersion"
     api "com.github.xgouchet.Elmyr:junit4:$elmyrVersion"
     api "com.github.xgouchet.Elmyr:jvm:$elmyrVersion"
+
+    // Truth
+    api "com.google.truth:truth:$truthVersion"
 }
