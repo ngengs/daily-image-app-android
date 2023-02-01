@@ -36,9 +36,6 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           gradle-version: ${{ env.GRADLE_VERSION }}
 
-      - name: Check branch
-        run: ${{ toJson(github) }}
-
       - name: Check style
         run: ./gradlew ktlintCheck
 
