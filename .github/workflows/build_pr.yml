@@ -163,6 +163,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Prepare app config
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+
       - name: Download unit test artifact
         uses: actions/download-artifact@v3
         with:
