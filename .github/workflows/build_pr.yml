@@ -18,6 +18,7 @@ concurrency:
 
 env:
   JAVA_VERSION: 11
+  GRADLE_VERSION: 7.4
 
 permissions:
   contents: read
@@ -28,28 +29,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone repo
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Configuration
+        use: .github/actions/config-build-app
         with:
+          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: temurin
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Check branch
-        run: echo ${{ github.event.base_ref }}
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Prepare app config
-        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+        run: ${{ toJson(github) }}
 
       - name: Check style
         run: ./gradlew ktlintCheck
@@ -95,25 +83,12 @@ jobs:
             emulator-arch: x86_64
 
     steps:
-      - name: Clone repo
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Configuration
+        use: .github/actions/config-build-app
         with:
+          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: temurin
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Prepare app config
-        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -163,25 +138,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone repo
-        uses: actions/checkout@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Configuration
+        use: .github/actions/config-build-app
         with:
+          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: temurin
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Prepare app config
-        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Download unit test java build artifact
         uses: actions/download-artifact@v3
@@ -216,7 +178,8 @@ jobs:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
 
-      - uses: geekyeggo/delete-artifact@v2
+      - name: Clear test artifact
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: |
             instrument-test-result-*
@@ -231,32 +194,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clone repo
-        uses: actions/checkout@v3
+      - name: Configuration
+        use: .github/actions/config-build-app
+        with:
+          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          java-version: ${{ env.JAVA_VERSION }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
       - name: Dependency Review
         uses: actions/dependency-review-action@v3
-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: adopt
-
-      - name: Gradle cache
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Prepare app config
-        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
-
       - name: Build App
         run: ./gradlew assemble
 
