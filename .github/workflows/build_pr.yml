@@ -220,7 +220,8 @@ jobs:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
 
-      - uses: geekyeggo/delete-artifact@v2
+      - name: Clear test artifact
+        uses: geekyeggo/delete-artifact@v2
         with:
           name: |
             instrument-test-result-*
