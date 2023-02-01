@@ -28,12 +28,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure
-        uses: ./.github/workflows/configure_workflow.yml
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-        secrets:
-          config-secrets-properties: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          distribution: temurin
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Prepare app config
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
       - name: Check style
         run: ./gradlew ktlintCheck
@@ -65,13 +78,25 @@ jobs:
             emulator-arch: x86_64
 
     steps:
-      - name: Configure
-        uses: ./.github/workflows/configure_workflow.yml
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          machine-run: macos-latest
           java-version: ${{ env.JAVA_VERSION }}
-        secrets:
-          config-secrets-properties: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          distribution: temurin
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Prepare app config
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
       - name: AVD cache
         uses: actions/cache@v3
@@ -121,12 +146,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure
-        uses: ./.github/workflows/configure_workflow.yml
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-        secrets:
-          config-secrets-properties: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          distribution: temurin
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Download unit test artifact
         uses: actions/download-artifact@v3
@@ -155,18 +190,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure
-        uses: ./.github/workflows/configure_workflow.yml
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-        secrets:
-          config-secrets-properties: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+      - name: Clone repo
+        uses: actions/checkout@v3
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
       - name: Dependency Review
         uses: actions/dependency-review-action@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: adopt
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Prepare app config
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
       - name: Build App
         run: ./gradlew assemble
