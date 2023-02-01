@@ -269,6 +269,9 @@ jobs:
         with:
           name: coverage-result
 
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Report coverage to workflow
         id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v4.8
