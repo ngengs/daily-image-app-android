@@ -24,7 +24,7 @@ permissions:
   contents: read
 
 jobs:
-  check-style-kt:
+  kt-lint:
     name: Kotlin Code style
     runs-on: ubuntu-latest
 
@@ -53,7 +53,7 @@ jobs:
           reporter: github-check
           fail_on_error: true
 
-  check-style-xml:
+  android-lint:
     name: XML Code style
     runs-on: ubuntu-latest
 
@@ -253,7 +253,7 @@ jobs:
 
   build:
     name: Build
-    needs: [check-style-kt, check-style-xml, coverage]
+    needs: [kt-lint, android-lint, coverage]
     runs-on: ubuntu-latest
 
     steps:
