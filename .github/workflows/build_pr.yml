@@ -5,6 +5,7 @@ on:
       - '**.md'
     branches:
       - 'develop'
+      - 'ci/*'
   push:
     paths-ignore:
       - '**.md'
