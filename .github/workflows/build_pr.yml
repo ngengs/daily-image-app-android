@@ -54,7 +54,7 @@ jobs:
           fail_on_error: true
 
   android-lint:
-    name: XML Code style
+    name: Android Lint Code style
     runs-on: ubuntu-latest
 
     steps:
