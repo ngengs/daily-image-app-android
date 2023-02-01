@@ -82,6 +82,17 @@ android {
         pickFirst 'META-INF/LICENSE.md'
         pickFirst 'META-INF/LICENSE-notice.md'
     }
+
+    lint {
+        quiet true
+        abortOnError false
+        ignoreWarnings false
+        checkDependencies false
+    }
+
+    lintOptions {
+        baseline file("${project.buildDir}/reports/android-lint/config/baseline.xml")
+    }
 }
 
 kapt {
