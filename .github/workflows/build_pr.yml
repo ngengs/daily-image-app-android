@@ -3,6 +3,8 @@ on:
   pull_request:
     paths-ignore:
       - '**.md'
+    branch:
+      - 'develop'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
@@ -15,13 +17,70 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    name: Testing
+  unit-test:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        emulator-api-level: [ 23, 29, 31 ]
+        include:
+          - emulator-api-level: 23
+            emulator-arch: x86
+          - emulator-api-level: 29
+            emulator-arch: x86
+          - emulator-api-level: 31
+            emulator-arch: x86_64
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: adopt
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Prepare app config
+        run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+
+      - name: Check style
+        run: ./gradlew ktlintCheck
+
+      - name: Run tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Upload test result
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-result
+          path: app/build/outputs/unit_test_code_coverage/
+          retention-days: 2
+
+      - name: Cleanup
+        run: rm -rf secrets.properties
+
+  instrument-test:
+    name: Instrument Testing
     runs-on: macos-latest
 
     strategy:
       matrix:
-        api-level: [ 23, 29, 31 ]
+        emulator-api-level: [ 23, 29, 31 ]
+        include:
+          - emulator-api-level: 23
+            emulator-arch: x86
+          - emulator-api-level: 29
+            emulator-arch: x86
+          - emulator-api-level: 31
+            emulator-arch: x86_64
 
     steps:
       - name: Clone repo
@@ -49,7 +108,7 @@ jobs:
           path: |
             ~/.android/avd/*
             ~/.android/adb*
-          key: avd-${{ matrix.api-level }}
+          key: avd-${{ matrix.emulator-api-level }}-${{ matrix.emulator-arch }}
 
       - name: Check style
         run: ./gradlew ktlintCheck
@@ -58,31 +117,80 @@ jobs:
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: ${{ matrix.emulator-api-level }}
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           profile: pixel_4a
-          arch: x86_64
+          arch: ${{ matrix.emulator-arch }}
           script: echo "Generated AVD snapshot for caching."
 
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: ${{ matrix.api-level }}
+          api-level: ${{ matrix.emulator-api-level }}
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           profile: pixel_4a
-          arch: x86_64
-          script: ./gradlew jacocoDebugTestCoverage
+          arch: ${{ matrix.emulator-arch }}
+          script: ./gradlew createDebugCoverageReport
+
+      - name: Upload test result
+        uses: actions/upload-artifact@v3
+        with:
+          name: instrument-test-result-${{ matrix.emulator-api-level }}
+          path: app/build/outputs/code_coverage/debugAndroidTest/
+          retention-days: 2
 
       - name: Cleanup
         run: rm -rf secrets.properties
 
+  coverage:
+    name: Coverage
+    needs: [unit-test, instrument-test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: adopt
+
+      - name: Gradle cache
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Download unit test artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-result
+          path: app/build/outputs/unit_test_code_coverage/
+
+      - name: Download instrument test artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: instrument-test-result-31
+          path: app/build/outputs/code_coverage/debugAndroidTest/
+
+      - name: Check Directory
+        run: ls -R
+
   build:
     name: Build
-    needs: test
+    needs: coverage
     runs-on: ubuntu-latest
 
     steps:
