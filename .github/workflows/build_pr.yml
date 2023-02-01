@@ -213,17 +213,6 @@ jobs:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
 
-      - name: Add coverage to PR
-        id: jacoco-report
-        uses: madrapps/jacoco-report@v1.3
-        with:
-          paths: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 80
-          min-coverage-changed-files: 80
-          title: "Coverage report"
-          update-comment: true
-
       - name: Clear test artifact
         uses: geekyeggo/delete-artifact@v2
         with:
@@ -266,3 +255,29 @@ jobs:
 
       - name: Cleanup
         run: rm -rf secrets.properties
+
+  coverage-report:
+    name: Coverage Report
+    needs: [coverage]
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+
+      - name: Download coverage result
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-result
+
+      - name: Report coverage to workflow
+          id: jacoco_reporter
+          uses: PavanMudigonda/jacoco-reporter@v4.8
+          with:
+            coverage_results_path: jacocoDebugReport.xml
+            coverage_report_name: Coverage
+            coverage_report_title: Jacoco Coverage Report
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            skip_check_run: false
+            minimum_coverage: 80
+            fail_below_threshold: true
+            publish_only_summary: false
+
