@@ -270,15 +270,15 @@ jobs:
           name: coverage-result
 
       - name: Report coverage to workflow
-          id: jacoco_reporter
-          uses: PavanMudigonda/jacoco-reporter@v4.8
-          with:
-            coverage_results_path: jacocoDebugReport.xml
-            coverage_report_name: Coverage
-            coverage_report_title: Jacoco Coverage Report
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            skip_check_run: false
-            minimum_coverage: 80
-            fail_below_threshold: true
-            publish_only_summary: false
+        id: jacoco_reporter
+        uses: PavanMudigonda/jacoco-reporter@v4.8
+        with:
+          coverage_results_path: jacocoDebugReport.xml
+          coverage_report_name: Coverage
+          coverage_report_title: Jacoco Coverage Report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_check_run: false
+          minimum_coverage: 80
+          fail_below_threshold: true
+          publish_only_summary: false
 
