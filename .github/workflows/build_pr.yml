@@ -1,9 +1,14 @@
-name: PR Build and Test
+name: Build and Test
 on:
   pull_request:
     paths-ignore:
       - '**.md'
-    branch:
+    branches:
+      - 'develop'
+  push:
+    paths-ignore:
+      - '**.md'
+    branches:
       - 'develop'
 
 concurrency:
