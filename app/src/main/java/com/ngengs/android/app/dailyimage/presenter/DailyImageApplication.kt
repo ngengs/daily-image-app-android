@@ -17,9 +17,6 @@ open class DailyImageApplicationImpl : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
-
-
         if (BuildConfig.DEBUG) Timber.plant(DebugTree())
         Timber.d("onCreate")
         DynamicColors.applyToActivitiesIfAvailable(this)
