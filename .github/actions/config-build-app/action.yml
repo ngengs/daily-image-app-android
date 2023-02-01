@@ -17,7 +17,7 @@ runs:
       id: setup-jdk
       uses: actions/setup-java@v3
       with:
-        java-version: ${{ input.java-version }}
+        java-version: ${{ inputs.java-version }}
         distribution: temurin
 
     - name: Gradle cache
@@ -25,7 +25,7 @@ runs:
       uses: gradle/gradle-build-action@v2
       with:
         cache-read-only: false
-        gradle-version: ${{ input.gradle-version }}
+        gradle-version: ${{ inputs.gradle-version }}
 
     - name: Grant execute permission for gradlew
       id: gradle-permission
@@ -34,5 +34,5 @@ runs:
 
     - name: Prepare app config
       id: preparing-config
-      run: openssl base64 -d -out secrets.properties <<< ${{ input.secrets-properties-config }}
+      run: openssl base64 -d -out secrets.properties <<< ${{ inputs.secrets-properties-config }}
       shell: bash
