@@ -95,6 +95,7 @@ secrets {
 ktlint {
     android = true
     disabledRules = ["final-newline", "import-ordering"]
+    baseline = file("${project.buildDir}/reports/ktlint/config/baseline.xml")
 }
 
 dependencies {
