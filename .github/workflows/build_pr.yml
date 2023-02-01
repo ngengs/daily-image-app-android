@@ -57,6 +57,20 @@ jobs:
       - name: Run tests
         run: ./gradlew testDebugUnitTest
 
+      - name: Upload test java build
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-java-class-build
+          path: app/build/intermediates/javac/
+          retention-days: 2
+
+      - name: Upload test kotlin build
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-kotlin-class-build
+          path: app/build/tmp/kotlin-classes/
+          retention-days: 2
+
       - name: Upload test result
         uses: actions/upload-artifact@v3
         with:
@@ -169,13 +183,25 @@ jobs:
       - name: Prepare app config
         run: openssl base64 -d -out secrets.properties <<< ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
-      - name: Download unit test artifact
+      - name: Download unit test java build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-java-class-build
+          path: app/build/intermediates/javac/
+
+      - name: Download unit test kotlin build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-kotlin-class-build
+          path: app/build/tmp/kotlin-classes/
+
+      - name: Download unit test result artifact
         uses: actions/download-artifact@v3
         with:
           name: unit-test-result
           path: app/build/outputs/unit_test_code_coverage/
 
-      - name: Download instrument test artifact
+      - name: Download instrument test result artifact
         uses: actions/download-artifact@v3
         with:
           name: instrument-test-result-31
