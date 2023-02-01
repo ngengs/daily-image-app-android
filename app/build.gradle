@@ -84,10 +84,12 @@ android {
     }
 
     lint {
+        sarifReport true
         quiet true
         abortOnError false
         ignoreWarnings false
         checkDependencies false
+        sarifOutput file("${project.buildDir}/reports/android-lint/config/lint.sarif")
     }
 
     lintOptions {
