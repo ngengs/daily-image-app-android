@@ -29,6 +29,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
@@ -80,6 +84,10 @@ jobs:
             emulator-arch: x86_64
 
     steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
@@ -135,6 +143,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
@@ -191,6 +203,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
