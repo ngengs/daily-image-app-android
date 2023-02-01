@@ -20,11 +20,18 @@ runs:
         java-version: ${{ inputs.java-version }}
         distribution: temurin
 
+    - name: Check current branch
+      id: check-current-branch
+      shell: bash
+      run: |
+        echo ${{ github.ref }}
+        echo ${{ startWith(github.ref, 'refs/heads/main') }}
+
     - name: Gradle cache
       id: gradle-cache
       uses: gradle/gradle-build-action@v2
       with:
-        cache-read-only: false
+        cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' && !startsWith(github.ref, 'refs/heads/release/v') }}
         gradle-version: ${{ inputs.gradle-version }}
 
     - name: Grant execute permission for gradlew
