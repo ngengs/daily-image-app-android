@@ -33,7 +33,7 @@ def setupAndroidReporting() {
             }
             def unitTestName = "${sourceName.capitalize()}UnitTest"
             def testTaskName = "test${unitTestName}"
-            def instrumentTestTaskName = "create${sourceName.capitalize()}CoverageReport"
+            def instrumentTestTaskName = "connected${sourceName.capitalize()}AndroidTest"
             def jacocoTaskName = "jacoco${sourceName.capitalize()}TestCoverage"
             def jacocoOnlyTaskName = "jacoco${sourceName.capitalize()}Report"
 
