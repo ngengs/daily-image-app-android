@@ -17,7 +17,7 @@
             android:id="@+id/photo"
             android:layout_width="match_parent"
             android:layout_height="@dimen/image_list_height"
-            android:contentDescription="Photo"
+            android:contentDescription="Photo Image"
             android:scaleType="centerCrop"
             tools:srcCompat="@drawable/ic_launcher_background" />
 
