@@ -76,7 +76,7 @@ jobs:
         if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          baseline: app/build/reports/android-lint/config/baseline.xml
+          lint_xml_file: app/build/reports/android-lint/config/baseline.xml
           reporter: github-pr-check
           reviewdog_flags: '-fail-on-error'
 
