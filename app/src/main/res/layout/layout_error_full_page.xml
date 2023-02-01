@@ -13,7 +13,7 @@
         android:id="@+id/error_image"
         android:layout_width="128dp"
         android:layout_height="128dp"
-        android:contentDescription="Error Image"
+        android:contentDescription="@string/content_desc_error_image"
         app:srcCompat="@drawable/ic_baseline_hide_image_24"
         app:tint="?colorSecondary" />
 

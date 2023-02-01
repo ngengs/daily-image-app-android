@@ -21,6 +21,8 @@
 
     <!-- Content desc -->
     <string name="content_desc_favorite_button">Favorite Button</string>
+    <string name="content_desc_photo_image">Photo Image</string>
+    <string name="content_desc_error_image">Error Image</string>
 
     <!-- Tab title -->
     <string name="tab_title_gallery">Gallery</string>
