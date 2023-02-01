@@ -263,6 +263,7 @@ jobs:
     permissions:
       checks: write
 
+    steps:
       - name: Download coverage result
         uses: actions/download-artifact@v3
         with:
