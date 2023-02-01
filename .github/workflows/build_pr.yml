@@ -45,7 +45,7 @@ jobs:
 
       - name: Report code style
         uses: ScaCap/action-ktlint@1.5.1
-        if: always()
+        if: success() || failure()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           android: true
@@ -70,11 +70,11 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Check code style
-        run: ./gradlew clean app:lintDebug
+        run: ./gradlew clean app:lintDebug -Dlint.baselines.continue=true
 
       - name: Report code style
         uses: dvdandroid/action-android-lint@v1.2
-        if: always()
+        if: success() || failure()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           lint_xml_file: app/build/reports/android-lint/config/baseline.xml
