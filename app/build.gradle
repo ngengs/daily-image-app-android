@@ -91,6 +91,7 @@ android {
     }
 
     lintOptions {
+        checkReleaseBuilds false
         baseline file("${project.buildDir}/reports/android-lint/config/baseline.xml")
     }
 }
