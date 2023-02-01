@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="image_loading_placeholder_background">@color/md_theme_light_secondary</color>
-    <color name="image_loading_placeholder_background2">@color/md_theme_light_primary</color>
+    <color name="image_loading_placeholder_background">@color/md_theme_light_primary</color>
     <color name="toolbar_detail_color">#80FFFBFF</color>
 
     <color name="splashscreen_background">@color/md_theme_light_primary</color>
