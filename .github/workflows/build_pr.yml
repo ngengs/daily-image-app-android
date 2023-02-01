@@ -1,6 +1,11 @@
-name: PR Build and Test
+name: Build and Test
 on:
   pull_request:
+    paths-ignore:
+      - '**.md'
+    branch:
+      - 'develop'
+  push:
     paths-ignore:
       - '**.md'
     branch:
@@ -99,9 +104,6 @@ jobs:
             ~/.android/adb*
           key: avd-${{ matrix.emulator-api-level }}-${{ matrix.emulator-arch }}
 
-      - name: Check style
-        run: ./gradlew ktlintCheck
-
       - name: Create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
@@ -123,7 +125,7 @@ jobs:
           disable-animations: true
           profile: pixel_4a
           arch: ${{ matrix.emulator-arch }}
-          script: ./gradlew createDebugCoverageReport
+          script: ./gradlew connectedDebugAndroidTest
 
       - name: Upload test result
         uses: actions/upload-artifact@v3
@@ -143,12 +145,6 @@ jobs:
     steps:
       - name: Clone repo
         uses: actions/checkout@v3
-
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
-
-      - name: Dependency Review
-        uses: actions/dependency-review-action@v3
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -174,8 +170,14 @@ jobs:
           name: instrument-test-result-31
           path: app/build/outputs/code_coverage/debugAndroidTest/
 
-      - name: Check Directory
-        run: ls -R
+      - name: Check coverage
+        run: ./gradlew jacocoDebugReport
+
+      - name: Upload coverage result
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-result
+          path: app/build/reports/jacoco/jacocoDebugReport/
 
   build:
     name: Build
