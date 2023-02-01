@@ -24,8 +24,8 @@ permissions:
   contents: read
 
 jobs:
-  check-style:
-    name: Code style
+  check-style-kt:
+    name: Kotlin Code style
     runs-on: ubuntu-latest
 
     steps:
@@ -46,10 +46,37 @@ jobs:
       - name: Report code style
         uses: ScaCap/action-ktlint@1.5.1
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           android: true
           baseline: app/build/reports/ktlint/config/baseline.xml
           fail_on_error: true
+
+  check-style-xml:
+    name: XML Code style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
+      - name: Configuration
+        uses: ./.github/actions/config-build-app
+        with:
+          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          java-version: ${{ env.JAVA_VERSION }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
+
+      - name: Check code style
+        run: ./gradlew clean app:lintDebug
+
+      - name: Report code style
+        uses: dvdandroid/action-android-lint@v1.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          baseline: app/build/reports/android-lint/config/baseline.xml
+          reporter: github-pr-check
+          reviewdog_flags: '-fail-on-error'
 
   unit-test:
     name: Unit Testing
@@ -223,7 +250,7 @@ jobs:
 
   build:
     name: Build
-    needs: [check-style, coverage]
+    needs: [check-style-kt, check-style-xml, coverage]
     runs-on: ubuntu-latest
 
     steps:
