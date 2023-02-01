@@ -82,20 +82,6 @@ android {
         pickFirst 'META-INF/LICENSE.md'
         pickFirst 'META-INF/LICENSE-notice.md'
     }
-
-    lint {
-        sarifReport true
-        quiet true
-        abortOnError false
-        ignoreWarnings false
-        checkDependencies false
-        sarifOutput file("${project.buildDir}/reports/android-lint/config/lint.sarif")
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        baseline file("${project.buildDir}/reports/android-lint/config/baseline.xml")
-    }
 }
 
 kapt {
