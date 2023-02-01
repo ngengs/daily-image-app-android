@@ -4,6 +4,8 @@ import android.widget.ImageButton
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -28,6 +30,15 @@ import org.junit.Test
 
 @HiltAndroidTest
 class DetailFragmentTest : BaseFragmentTest() {
+    private lateinit var idlingResource: IdlingResource
+
+    override fun tearDown() {
+        super.tearDown()
+        if (this::idlingResource.isInitialized) {
+            IdlingRegistry.getInstance().unregister(idlingResource)
+        }
+    }
+
     @Test
     fun test_correctlyRenderData() {
         val mockData = PhotoDataCreator.create(forge, 0)
@@ -39,7 +50,10 @@ class DetailFragmentTest : BaseFragmentTest() {
             fragmentArgs = args.toBundle(),
             navHostController = navController,
             navCurrentDestination = R.id.detailFragment
-        )
+        ) {
+            idlingResource = getIdlingResource()
+            IdlingRegistry.getInstance().register(idlingResource)
+        }
 
         onView(withId(R.id.photo)).check(matches(isDisplayed()))
         onView(allOf(withId(R.id.full_name), withText(mockData.user!!.name)))
@@ -54,16 +68,15 @@ class DetailFragmentTest : BaseFragmentTest() {
         }
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
 
-        Thread.sleep(200L) // Delay wait image loaded
         onView(withId(R.id.photo)).perform(click())
-        Thread.sleep(400L) // Delay touch action
+        Thread.sleep(100L) // Delay touch action
         onView(withId(R.id.toolbar)).check(matches(isNotDisplayed()))
         onView(withId(R.id.full_name)).check(matches(isNotDisplayed()))
         onView(withId(R.id.username)).check(matches(isNotDisplayed()))
         onView(withId(R.id.description)).check(matches(isNotDisplayed()))
 
         onView(withId(R.id.photo)).perform(click())
-        Thread.sleep(400L) // Delay touch action
+        Thread.sleep(100L) // Delay touch action
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.full_name)).check(matches(isDisplayed()))
         onView(withId(R.id.username)).check(matches(isDisplayed()))
@@ -86,7 +99,7 @@ class DetailFragmentTest : BaseFragmentTest() {
         onView(withId(R.id.description)).check(matches(isNotDisplayed()))
 
         onView(withId(R.id.photo)).perform(click())
-        Thread.sleep(400L) // Delay touch action
+        Thread.sleep(100L) // Delay touch action
         onView(withId(R.id.toolbar)).check(matches(isDisplayed()))
         onView(withId(R.id.full_name)).check(matches(isDisplayed()))
         onView(withId(R.id.username)).check(matches(isDisplayed()))

@@ -163,6 +163,8 @@ dependencies {
     testImplementation "app.cash.turbine:turbine:$turbineVersion"
     kaptTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
 
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+
     // Instrument Test
     androidTestImplementation project(path: ":libs:lib_test_utils")
     androidTestImplementation "androidx.test.ext:junit:$androidJunitVersion"
