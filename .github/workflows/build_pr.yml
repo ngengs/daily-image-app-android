@@ -1,4 +1,4 @@
-name: PR Build Test
+name: PR Build and Test
 on:
   pull_request:
     paths-ignore:
@@ -8,12 +8,15 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
+env:
+  JAVA_VERSION: 11
+
 permissions:
   contents: read
 
 jobs:
   test:
-    name: Test PR App
+    name: Testing
     runs-on: macos-latest
 
     strategy:
@@ -24,10 +27,10 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: adopt
 
       - name: Gradle cache
@@ -70,7 +73,7 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
-          profile: Pixel 4 XL
+          profile: pixel_4a
           arch: x86_64
           script: ./gradlew jacocoDebugTestCoverage
 
@@ -78,7 +81,7 @@ jobs:
         run: rm -rf secrets.properties
 
   build:
-    name: Build PR App
+    name: Build
     needs: test
     runs-on: ubuntu-latest
 
@@ -92,10 +95,10 @@ jobs:
       - name: Dependency Review
         uses: actions/dependency-review-action@v3
 
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: adopt
 
       - name: Gradle cache
