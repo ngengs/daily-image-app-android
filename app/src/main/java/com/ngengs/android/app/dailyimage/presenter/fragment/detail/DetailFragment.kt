@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.test.espresso.IdlingResource
 import androidx.transition.TransitionInflater
 import com.ngengs.android.app.dailyimage.R
 import com.ngengs.android.app.dailyimage.data.local.model.PhotosLocal
@@ -18,6 +19,7 @@ import com.ngengs.android.app.dailyimage.data.model.ext.imageLoadingThumb
 import com.ngengs.android.app.dailyimage.databinding.FragmentDetailBinding
 import com.ngengs.android.app.dailyimage.presenter.fragment.BaseViewModelFragment
 import com.ngengs.android.app.dailyimage.presenter.fragment.detail.DetailViewModel.ViewData
+import com.ngengs.android.app.dailyimage.utils.idlingresource.SimpleIdlingResource
 import com.ngengs.android.app.dailyimage.utils.image.BlurHashDecoder
 import com.ngengs.android.app.dailyimage.utils.image.GlideUtils
 import com.ngengs.android.app.dailyimage.utils.ui.TransitionUtils
@@ -39,6 +41,8 @@ open class DetailFragmentImpl :
         get() = FragmentDetailBinding::inflate
     override val viewModel: DetailViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
+
+    private var idlingResource: SimpleIdlingResource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +78,15 @@ open class DetailFragmentImpl :
     }
 
     private fun bindingData(photo: PhotosLocal) {
+        idlingResource?.setIdleState(false)
         val thumbnailImage = GlideUtils.thumbnailBuilder(requireContext(), photo.imageLoadingThumb)
             .fitCenter()
         binding.photo.load(photo.imageLarge) {
             thumbnail = thumbnailImage
-            onImageLoaded = { parentFragment?.startPostponedEnterTransition() }
+            onImageLoaded = {
+                idlingResource?.setIdleState(true)
+                parentFragment?.startPostponedEnterTransition()
+            }
             onLoadFailed = { parentFragment?.startPostponedEnterTransition() }
         }
         binding.fullName.text = photo.user?.name
@@ -141,6 +149,14 @@ open class DetailFragmentImpl :
         binding.detailContent.gone()
         binding.appBar.gone()
         if (isIncludeFavorite) binding.favoriteButton.gone()
+    }
+
+    @VisibleForTesting
+    fun getIdlingResource(): IdlingResource {
+        if (idlingResource == null) {
+            idlingResource = SimpleIdlingResource()
+        }
+        return idlingResource!!
     }
 
     companion object {
