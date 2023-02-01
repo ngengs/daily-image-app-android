@@ -35,10 +35,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: adopt
+          distribution: temurin
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -85,10 +87,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: adopt
+          distribution: temurin
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -151,10 +155,12 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
-          distribution: adopt
+          distribution: temurin
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
