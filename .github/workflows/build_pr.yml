@@ -57,10 +57,8 @@ jobs:
 
     strategy:
       matrix:
-        emulator-api-level: [ 23, 29, 31 ]
+        emulator-api-level: [ 29, 31 ]
         include:
-          - emulator-api-level: 23
-            emulator-arch: x86
           - emulator-api-level: 29
             emulator-arch: x86
           - emulator-api-level: 31
