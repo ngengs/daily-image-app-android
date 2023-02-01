@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        api-level: [ 23, 29, 33 ]
+        api-level: [ 23, 29, 32 ]
 
     steps:
       - name: Clone repo
@@ -63,7 +63,7 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: false
           profile: pixel_4a
-          arch: x86_64
+          arch: x86
           script: echo "Generated AVD snapshot for caching."
 
       - name: Run tests
@@ -74,7 +74,7 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
           profile: pixel_4a
-          arch: x86_64
+          arch: x86
           script: ./gradlew jacocoDebugTestCoverage
 
       - name: Cleanup
