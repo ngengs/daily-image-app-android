@@ -38,12 +38,12 @@ jobs:
           distribution: temurin
 
       - name: Check branch
-        run: echo ${{ github.event.base_ref }}
+        run: ${{ toJson(github) }}
 
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
         with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
+          cache-read-only: false
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -107,7 +107,7 @@ jobs:
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
         with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
+          cache-read-only: false
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -175,7 +175,7 @@ jobs:
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
         with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
+          cache-read-only: false
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -249,7 +249,7 @@ jobs:
       - name: Gradle cache
         uses: gradle/gradle-build-action@v2
         with:
-          cache-read-only: ${{ github.event.base_ref != 'refs/heads/main' && github.event.base_ref != 'refs/heads/develop' }}
+          cache-read-only: false
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
