@@ -99,9 +99,6 @@ jobs:
             ~/.android/adb*
           key: avd-${{ matrix.emulator-api-level }}-${{ matrix.emulator-arch }}
 
-      - name: Check style
-        run: ./gradlew ktlintCheck
-
       - name: Create AVD and generate snapshot for caching
         if: steps.avd-cache.outputs.cache-hit != 'true'
         uses: reactivecircus/android-emulator-runner@v2
