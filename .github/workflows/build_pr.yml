@@ -21,17 +21,6 @@ jobs:
     name: Unit Testing
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        emulator-api-level: [ 23, 29, 31 ]
-        include:
-          - emulator-api-level: 23
-            emulator-arch: x86
-          - emulator-api-level: 29
-            emulator-arch: x86
-          - emulator-api-level: 31
-            emulator-arch: x86_64
-
     steps:
       - name: Clone repo
         uses: actions/checkout@v3
