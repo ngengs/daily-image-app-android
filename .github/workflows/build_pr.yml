@@ -160,17 +160,6 @@ jobs:
           path: app/build/outputs/code_coverage/debugAndroidTest/
           retention-days: 2
 
-      - name: Add coverage to PR
-        id: jacoco-report
-        uses: madrapps/jacoco-report@v1.3
-        with:
-          paths: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-overall: 80
-          min-coverage-changed-files: 80
-          title: "Coverage report"
-          update-comment: true
-
       - name: Cleanup
         run: rm -rf secrets.properties
 
@@ -223,6 +212,17 @@ jobs:
         with:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
+
+      - name: Add coverage to PR
+        id: jacoco-report
+        uses: madrapps/jacoco-report@v1.3
+        with:
+          paths: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          title: "Coverage report"
+          update-comment: true
 
       - name: Clear test artifact
         uses: geekyeggo/delete-artifact@v2
