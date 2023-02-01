@@ -45,6 +45,7 @@ jobs:
 
       - name: Report code style
         uses: ScaCap/action-ktlint@1.5.1
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           android: true
@@ -72,6 +73,7 @@ jobs:
 
       - name: Report code style
         uses: dvdandroid/action-android-lint@v1.2
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           baseline: app/build/reports/android-lint/config/baseline.xml
