@@ -192,7 +192,7 @@ jobs:
 
     steps:
       - name: Configuration
-        use: ./.github/actions/config-build-app
+        uses: ./.github/actions/config-build-app
         with:
           secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
           java-version: ${{ env.JAVA_VERSION }}
