@@ -213,6 +213,16 @@ jobs:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
 
+      - name: Clear test artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            instrument-test-result-*
+            unit-test-result
+            unit-test-kotlin-class-build
+            unit-test-java-class-build
+          failOnError: false
+
       - name: Add coverage to PR
         id: jacoco-report
         uses: madrapps/jacoco-report@v1.3
@@ -223,16 +233,6 @@ jobs:
           min-coverage-changed-files: 80
           title: "Coverage report"
           update-comment: true
-
-      - name: Clear test artifact
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: |
-            instrument-test-result-*
-            unit-test-result
-            unit-test-kotlin-class-build
-            unit-test-java-class-build
-          failOnError: false
 
   build:
     name: Build
