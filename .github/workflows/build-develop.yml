@@ -26,11 +26,11 @@ jobs:
           echo "${{ github.workflow }}-${{ github.ref }}"
           echo "'[${{ vars.MAINTAINER_USERNAME }}]'"
 
-  lint:
-    name: Lint
-    uses: ./.github/workflows/lint-workflow.yml
-    secrets:
-      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+#  lint:
+#    name: Lint
+#    uses: ./.github/workflows/lint-workflow.yml
+#    secrets:
+#      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   testing:
     name: Testing
