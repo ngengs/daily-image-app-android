@@ -41,7 +41,7 @@ jobs:
   coverage:
     name: Coverage
     uses: ./.github/workflows/coverage-workflow.yml
-    needs: [testing]
+    needs: [ testing ]
     with:
       create-badge: true
     secrets:
@@ -50,12 +50,12 @@ jobs:
   build:
     name: Build
     uses: ./.github/workflows/build-app-workflow.yml
-    needs: [testing]
+    needs: [ testing ]
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   cleanup:
     name: Cleanup
     uses: ./.github/workflows/cleanup-workflow.yml
-    needs: [testing]
+    needs: [ testing ]
     if: always()
