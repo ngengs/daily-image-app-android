@@ -34,6 +34,27 @@ jobs:
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
+  cleanup-artifact:
+    name: Cleanup Unused Artifact
+    needs: [testing]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test job called
+        run: echo "Hello world! I'm here"
+
+      - name: Clear test artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            instrument-test-result-*
+            unit-test-result
+            unit-test-kotlin-class-build
+            unit-test-java-class-build
+          failOnError: false
+
+
   coverage-report:
     name: Coverage Report
     needs: [testing]
