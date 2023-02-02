@@ -3,6 +3,11 @@ name: Build App
 on:
   workflow_call:
     inputs:
+      signed-build:
+        description: "Perform Signed Build"
+        required: false
+        default: "false"
+        type: boolean
       env-file-path:
         description: ".env file location"
         required: false
@@ -15,10 +20,9 @@ on:
         required: true
 
 jobs:
-
   build:
     name: Build
-    if: inputs.signed-build == false
+    if: inputs.signed-build != true
     runs-on: ubuntu-latest
 
     steps:
@@ -42,10 +46,14 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Dependency Review
+        if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' }}
         uses: actions/dependency-review-action@v3
 
       - name: Build App
-        run: ./gradlew assemble
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assemble
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
