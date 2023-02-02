@@ -17,7 +17,7 @@ on:
 
 jobs:
   ktlint:
-    name: Unit Testing
+    name: Check Kotlin Style
     runs-on: ubuntu-latest
 
     steps:
