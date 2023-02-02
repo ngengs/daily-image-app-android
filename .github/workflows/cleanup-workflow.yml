@@ -1,0 +1,20 @@
+name: Cleanup
+
+on:
+  workflow_call:
+
+jobs:
+  cleanup-artifact:
+    name: Cleanup Unused Artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clear test artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            instrument-test-result-*
+            unit-test-result
+            unit-test-kotlin-class-build
+            unit-test-java-class-build
+          failOnError: false
