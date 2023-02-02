@@ -15,7 +15,7 @@ on:
         type: boolean
 
     secrets:
-      secret-properties-config:
+      SECRET_PROPERTIES_CONFIG:
         description: "secret.properties hash"
         required: true
 
@@ -33,7 +33,7 @@ jobs:
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
-          secrets-properties-config: ${{ secrets.secret-properties-config }}
+          secrets-properties-config: ${{ secrets.SECRET_PROPERTIES_CONFIG }}
           java-version: ${{ inputs.java-version }}
           gradle-version: ${{ inputs.gradle-version }}
 
