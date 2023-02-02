@@ -1,12 +1,4 @@
 <resources>
-    <dimen name="spacing_4">4dp</dimen>
-    <dimen name="spacing_8">8dp</dimen>
-    <dimen name="spacing_16">16dp</dimen>
-    <dimen name="spacing_24">24dp</dimen>
-    <dimen name="spacing_32">32dp</dimen>
-    <dimen name="spacing_48">48dp</dimen>
-    <dimen name="spacing_64">64dp</dimen>
-
     <dimen name="image_list_height">240dp</dimen>
 
     <dimen name="corner_default_size">12dp</dimen>

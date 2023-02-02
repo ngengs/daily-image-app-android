@@ -27,7 +27,8 @@ import com.ngengs.android.app.dailyimage.presenter.activity.HiltTestActivity
  */
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    @StyleRes themeResId: Int =
+        androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
     navHostController: TestNavHostController? = null,
     @IdRes navCurrentDestination: Int? = null,
     initialState: Lifecycle.State = Lifecycle.State.RESUMED,
@@ -39,7 +40,8 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
             HiltTestActivity::class.java
         )
     ).putExtra(
-        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
+        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity." +
+            "THEME_EXTRAS_BUNDLE_KEY",
         themeResId
     )
     Log.d("FragmentInHiltContainer", "Initialize")

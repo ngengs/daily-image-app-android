@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:paddingHorizontal="@dimen/spacing_16"
-    android:paddingVertical="@dimen/spacing_8">
+    android:paddingVertical="@dimen/spacing_8"
+    tools:ignore="OverDraw">
 
     <TextView
         android:id="@+id/item_text"
