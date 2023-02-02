@@ -27,7 +27,6 @@ on:
 jobs:
   coverage:
     name: Coverage
-    needs: [ unit-test, instrument-test ]
     runs-on: ubuntu-latest
 
     steps:
