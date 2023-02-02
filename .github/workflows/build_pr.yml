@@ -24,35 +24,6 @@ permissions:
   contents: read
 
 jobs:
-  kt-lint:
-    name: Kotlin Code style
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Clone repo
-        id: clone-repo
-        uses: actions/checkout@v3
-
-      - name: Configuration
-        uses: ./.github/actions/config-build-app
-        with:
-          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
-          java-version: ${{ env.JAVA_VERSION }}
-          gradle-version: ${{ env.GRADLE_VERSION }}
-
-      - name: Check code style
-        run: ./gradlew ktlintGenerateBaseline
-
-      - name: Report code style
-        uses: ScaCap/action-ktlint@1.5.1
-        if: success() || failure()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          android: true
-          baseline: app/build/reports/ktlint/config/baseline.xml
-          reporter: github-check
-          fail_on_error: true
-
   unit-test:
     name: Unit Testing
     runs-on: ubuntu-latest
@@ -222,6 +193,35 @@ jobs:
             unit-test-kotlin-class-build
             unit-test-java-class-build
           failOnError: false
+
+  kt-lint:
+    name: Kotlin Code style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
+      - name: Configuration
+        uses: ./.github/actions/config-build-app
+        with:
+          secrets-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+          java-version: ${{ env.JAVA_VERSION }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
+
+      - name: Check code style
+        run: ./gradlew ktlintGenerateBaseline
+
+      - name: Report code style
+        uses: ScaCap/action-ktlint@1.5.1
+        if: success() || failure()
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          android: true
+          baseline: app/build/reports/ktlint/config/baseline.xml
+          reporter: github-check
+          fail_on_error: true
 
   build:
     name: Build
