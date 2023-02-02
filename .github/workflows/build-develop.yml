@@ -35,7 +35,7 @@ jobs:
   testing:
     name: Testing
     uses: ./.github/workflows/testing-workflow.yml
-    needs: [lint]
+#    needs: [lint]
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
