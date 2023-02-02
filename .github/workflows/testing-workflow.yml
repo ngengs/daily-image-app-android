@@ -188,14 +188,3 @@ jobs:
         with:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
-
-      - name: Clear test artifact
-        if: always()
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: |
-            instrument-test-result-*
-            unit-test-result
-            unit-test-kotlin-class-build
-            unit-test-java-class-build
-          failOnError: false
