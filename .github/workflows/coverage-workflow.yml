@@ -88,8 +88,8 @@ jobs:
     needs: [ coverage ]
     if: inputs.report-pr == true
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+#    permissions:
+#      pull-requests: write
 
     steps:
       - name: Clone repo
