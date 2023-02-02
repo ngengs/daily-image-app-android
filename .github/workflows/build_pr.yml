@@ -73,10 +73,12 @@ jobs:
       - name: Check coverage threshold
         id: jacoco-threshold
         run: |
-          FAILED_OVERALL_COVERAGE=false
-          FAILED_CHANGED_FILE_COVERAGE=false
-          if [[ ${{ steps.jacoco-report.outputs.coverage-overall }} < 80 ]]; then PASS_OVERALL_COVERAGE=true;echo "::error::Overall Coverage Below Threshold"; fi
-          if [[ ${{ steps.jacoco-report.outputs.coverage-changed-files }} < 80 ]]; then PASS_CHANGED_FILE_COVERAGE=true;echo "::error::Changed File Coverage Below Threshold"; fi
-          if [[ FAILED_OVERALL_COVERAGE || FAILED_CHANGED_FILE_COVERAGE ]]; then exit 1; fi
+          COVERAGE_OVERALL=${{ steps.jacoco-report.outputs.coverage-overall }} 
+          COVERAGE_FILE_CHANGED=${{ steps.jacoco-report.outputs.coverage-changed-files }}
+          if [[ $COVERAGE_OVERALL < 80 || $COVERAGE_FILE_CHANGED < 80 ]]; then 
+            if [[ $COVERAGE_OVERALL < 80 ]]; then echo "::error::Overall Coverage Below Threshold"; fi
+            if [[ $COVERAGE_FILE_CHANGED < 80 ]]; then echo "::error::Changed File Coverage Below Threshold";  fi
+            exit 1; 
+          fi
           
 
