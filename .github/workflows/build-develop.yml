@@ -17,9 +17,8 @@ permissions:
 
 jobs:
   dummy-test:
-    name: Coverage Badge
+    name: Dummy action
     runs-on: ubuntu-latest
-    permissions:
 
     steps:
       - name: Dummy Action Test
