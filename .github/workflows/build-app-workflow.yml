@@ -6,7 +6,7 @@ on:
       signed-build:
         description: "Perform Signed Build"
         required: false
-        default: "false"
+        default: false
         type: boolean
       env-file-path:
         description: ".env file location"

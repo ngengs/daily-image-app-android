@@ -11,12 +11,12 @@ on:
       report-pr:
         description: "Report to PR"
         required: false
-        default: "false"
+        default: false
         type: boolean
       create-badge:
         description: "Report as badge"
         required: false
-        default: "false"
+        default: false
         type: boolean
 
     secrets:
