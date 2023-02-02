@@ -22,24 +22,24 @@ jobs:
   testing:
     uses: ./.github/workflows/testing-workflow.yml
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      gradle-version: ${{ env.GRADLE_VERSION }}
+      java-version: 11
+      gradle-version: 7.4
     secrets:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   lint:
     uses: ./.github/workflows/lint-workflow.yml
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      gradle-version: ${{ env.GRADLE_VERSION }}
+      java-version: 11
+      gradle-version: 7.4
     secrets:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   build:
     uses: ./.github/workflows/build-app-workflow.yml
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      gradle-version: ${{ env.GRADLE_VERSION }}
+      java-version: 11
+      gradle-version: 7.4
     secrets:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
@@ -75,7 +75,10 @@ jobs:
       - name: Check coverage threshold
         id: jacoco-threshold
         run: |
-          if [[ ${{ steps.jacoco-report.outputs.coverage-overall }} < 80 ]]; then exit 1; fi
-          if [[ ${{ steps.jacoco-report.outputs.coverage-changed-files }} < 80 ]]; then exit 1; fi
+          FAILED_OVERALL_COVERAGE=false
+          FAILED_CHANGED_FILE_COVERAGE=false
+          if [[ ${{ steps.jacoco-report.outputs.coverage-overall }} < 95 ]]; then PASS_OVERALL_COVERAGE=true;echo "::error::Overall Coverage Below Threshold"; fi
+          if [[ ${{ steps.jacoco-report.outputs.coverage-changed-files }} < 95 ]]; then PASS_CHANGED_FILE_COVERAGE=true;echo "::error::Changed File Coverage Below Threshold"; fi
+          if [[ FAILED_OVERALL_COVERAGE || FAILED_CHANGED_FILE_COVERAGE ]]; then exit 1; fi
           
 
