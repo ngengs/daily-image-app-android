@@ -148,6 +148,8 @@ jobs:
 
       - name: Extract Env
         uses: ./.github/actions/using-env-variables
+        with:
+          env-file-path: ${{ inputs.env-file-path }}
 
       - name: Configuration
         uses: ./.github/actions/config-build-app
