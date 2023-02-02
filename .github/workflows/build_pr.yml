@@ -26,7 +26,7 @@ jobs:
       java-version: 11
       gradle-version: 7.4
     secrets:
-      secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   lint:
     name: Lint
@@ -35,7 +35,7 @@ jobs:
       java-version: 11
       gradle-version: 7.4
     secrets:
-      secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   build:
     name: Build
@@ -45,7 +45,7 @@ jobs:
       java-version: 11
       gradle-version: 7.4
     secrets:
-      secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   coverage-report:
     name: Coverage Report
