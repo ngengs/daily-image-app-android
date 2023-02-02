@@ -22,24 +22,24 @@ jobs:
   testing:
     uses: ./.github/workflows/testing-workflow.yml
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      gradle-version: ${{ env.GRADLE_VERSION }}
+      java-version: 11
+      gradle-version: 7.4
     secrets:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   lint:
     uses: ./.github/workflows/lint-workflow.yml
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      gradle-version: ${{ env.GRADLE_VERSION }}
+      java-version: 11
+      gradle-version: 7.4
     secrets:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   build:
     uses: ./.github/workflows/build-app-workflow.yml
     with:
-      java-version: ${{ env.JAVA_VERSION }}
-      gradle-version: ${{ env.GRADLE_VERSION }}
+      java-version: 11
+      gradle-version: 7.4
     secrets:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
