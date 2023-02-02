@@ -261,27 +261,34 @@ jobs:
     needs: [coverage]
     runs-on: ubuntu-latest
     permissions:
-      checks: write
+      pull-requests: write
 
     steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
       - name: Download coverage result
         uses: actions/download-artifact@v3
         with:
           name: coverage-result
+          path: app/build/reports/jacoco/jacocoDebugReport/
 
-      - name: Display structure of downloaded files
-        run: ls -R
-
-      - name: Report coverage to workflow
-        id: jacoco_reporter
-        uses: PavanMudigonda/jacoco-reporter@v4.8
+      - name: Add coverage to PR
+        id: jacoco-report
+        uses: madrapps/jacoco-report@v1.3
         with:
-          coverage_results_path: jacocoDebugReport.xml
-          coverage_report_name: Coverage
-          coverage_report_title: Jacoco Coverage Report
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          skip_check_run: false
-          minimum_coverage: 80
-          fail_below_threshold: true
-          publish_only_summary: false
+          paths: ${{ github.workspace }}app/build/reports/jacoco/jacocoDebugReport//jacocoDebugReport.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          title: "Coverage report"
+          update-comment: true
+
+      - name: Check coverage threshold
+        id: jacoco-threshold
+        run: |
+          if [[ ${{ steps.jacoco-report.outputs.coverage-overall }} < 80 ]]; then exit 1; fi
+          if [[ ${{ steps.jacoco-report.outputs.coverage-changed-files }} < 80 ]]; then exit 1; fi
+          
 
