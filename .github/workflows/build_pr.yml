@@ -18,18 +18,12 @@ jobs:
   testing:
     name: Testing
     uses: ./.github/workflows/testing-workflow.yml
-    with:
-      java-version: 11
-      gradle-version: 7.4
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   lint:
     name: Lint
     uses: ./.github/workflows/lint-workflow.yml
-    with:
-      java-version: 11
-      gradle-version: 7.4
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
@@ -37,9 +31,6 @@ jobs:
     name: Build
     uses: ./.github/workflows/build-app-workflow.yml
     needs: [testing, lint]
-    with:
-      java-version: 11
-      gradle-version: 7.4
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
