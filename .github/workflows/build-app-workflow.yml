@@ -1,0 +1,57 @@
+name: Build App
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        required: true
+        type: number
+      gradle-version:
+        required: true
+        type: number
+      signed-build:
+        default: false
+        type: boolean
+
+    secrets:
+      secret-properties-config:
+        description: "secret.properties hash"
+        required: true
+        type: string
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
+      - name: Configuration
+        uses: ./.github/actions/config-build-app
+        with:
+          secrets-properties-config: ${{ secrets.secret-properties-config }}
+          java-version: ${{ inputs.java-version }}
+          gradle-version: ${{ inputs.gradle-version }}
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v3
+
+      - name: Build App
+        if: signed-build == false
+        run: ./gradlew assemble
+
+      - name: Upload artifact
+        if: signed-build == false
+        uses: actions/upload-artifact@v3
+        with:
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Cleanup
+        run: rm -rf secrets.properties
