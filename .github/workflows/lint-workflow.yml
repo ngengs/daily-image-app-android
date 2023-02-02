@@ -30,8 +30,8 @@ jobs:
 
       - name: Check Extracted Env
         run: |
-          echo $JAVA_VERSION
-          echo $GRADLE_VERSION
+          echo ${{ env.JAVA_VERSION }}
+          echo ${{ env.GRADLE_VERSION }}
 
       - name: Configuration
         uses: ./.github/actions/config-build-app
