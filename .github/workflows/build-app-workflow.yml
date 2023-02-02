@@ -23,6 +23,7 @@ jobs:
 
   build:
     name: Build
+    if: inputs.signed-build == false
     runs-on: ubuntu-latest
 
     steps:
@@ -44,11 +45,9 @@ jobs:
         uses: actions/dependency-review-action@v3
 
       - name: Build App
-        if: ${{ inputs.signed-build == false }}
         run: ./gradlew assemble
 
       - name: Upload artifact
-        if: ${{ inputs.signed-build == false }}
         uses: actions/upload-artifact@v3
         with:
           path: app/build/outputs/apk/debug/app-debug.apk

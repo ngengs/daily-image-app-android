@@ -1,4 +1,4 @@
-name: Build and Test
+name: PR Build and Test
 on:
   pull_request:
     paths-ignore:
@@ -10,10 +10,6 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
-
-env:
-  JAVA_VERSION: 11
-  GRADLE_VERSION: 7.4
 
 permissions:
   contents: read
