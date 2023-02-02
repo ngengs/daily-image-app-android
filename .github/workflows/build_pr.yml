@@ -15,22 +15,23 @@ permissions:
   contents: read
 
 jobs:
-  testing:
-    name: Testing
-    uses: ./.github/workflows/testing-workflow.yml
-    secrets:
-      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
-
   lint:
     name: Lint
     uses: ./.github/workflows/lint-workflow.yml
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
+  testing:
+    name: Testing
+    uses: ./.github/workflows/testing-workflow.yml
+    needs: [lint]
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+
   build:
     name: Build
     uses: ./.github/workflows/build-app-workflow.yml
-    needs: [testing, lint]
+    needs: [testing]
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
