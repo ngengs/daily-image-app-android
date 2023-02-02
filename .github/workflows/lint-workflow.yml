@@ -17,7 +17,7 @@ on:
 
 jobs:
   ktlint:
-    name: Check Kotlin Style
+    name: Kotlin Code Style
     runs-on: ubuntu-latest
 
     steps:
