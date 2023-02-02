@@ -16,6 +16,12 @@ permissions:
   contents: read
 
 jobs:
+  dummy-test:
+    name: Dummy Action Test
+    run: |
+      echo "${{ github.workflow }}-${{ github.ref }}"
+      echo "'[${{ vars.MAINTAINER_USERNAME }}]'"
+
   lint:
     name: Lint
     uses: ./.github/workflows/lint-workflow.yml
