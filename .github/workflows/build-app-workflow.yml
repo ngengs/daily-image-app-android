@@ -18,7 +18,6 @@ on:
       secret-properties-config:
         description: "secret.properties hash"
         required: true
-        type: string
 
 jobs:
 
