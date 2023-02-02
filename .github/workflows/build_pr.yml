@@ -37,6 +37,7 @@ jobs:
 
   build:
     uses: ./.github/workflows/build-app-workflow.yml
+    needs: [testing]
     with:
       java-version: 11
       gradle-version: 7.4
