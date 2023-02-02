@@ -3,8 +3,7 @@ description: 'Create ENV variable from .env file.'
 inputs:
   env-file-path:
     description: ".env file location"
-    required: false
-    default: ./.github/variables/default_github_action.env
+    required: true
 runs:
   using: "composite"
   steps:

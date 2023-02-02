@@ -3,12 +3,10 @@ name: Lint
 on:
   workflow_call:
     inputs:
-      java-version:
-        required: true
-        type: number
-      gradle-version:
-        required: true
-        type: number
+      env-file-path:
+        description: ".env file location"
+        required: false
+        default: ./.github/variables/default_github_action.env
 
     secrets:
       SECRET_PROPERTIES_CONFIG:
@@ -27,18 +25,15 @@ jobs:
 
       - name: Extract Env
         uses: ./.github/actions/using-env-variables
-
-      - name: Check Extracted Env
-        run: |
-          echo ${{ env.JAVA_VERSION }}
-          echo ${{ env.GRADLE_VERSION }}
+        with:
+          env-file-path: ${{ inputs.env-file-path }}
 
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
           secrets-properties-config: ${{ secrets.SECRET_PROPERTIES_CONFIG }}
-          java-version: ${{ inputs.java-version }}
-          gradle-version: ${{ inputs.gradle-version }}
+          java-version: ${{ env.JAVA_VERSION }}
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Check code style
         run: ./gradlew ktlintGenerateBaseline
