@@ -20,6 +20,7 @@ permissions:
 
 jobs:
   testing:
+    name: Testing
     uses: ./.github/workflows/testing-workflow.yml
     with:
       java-version: 11
@@ -28,6 +29,7 @@ jobs:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   lint:
+    name: Lint
     uses: ./.github/workflows/lint-workflow.yml
     with:
       java-version: 11
@@ -36,6 +38,7 @@ jobs:
       secret-properties-config: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   build:
+    name: Build
     uses: ./.github/workflows/build-app-workflow.yml
     needs: [testing, lint]
     with:
