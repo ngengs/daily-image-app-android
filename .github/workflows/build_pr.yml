@@ -1,12 +1,6 @@
-name: Build and Test
+name: PR Build and Test
 on:
   pull_request:
-    paths-ignore:
-      - '**.md'
-    branches:
-      - 'develop'
-      - 'ci/*'
-  push:
     paths-ignore:
       - '**.md'
     branches:
@@ -66,8 +60,7 @@ jobs:
           path: app/build/reports/jacoco/jacocoDebugReport/
 
       - name: Add coverage to PR
-        id: jacoco-pr-report
-        if: ${{ github.event_name == 'pull_request' }}
+        id: jacoco-report
         uses: madrapps/jacoco-report@v1.3
         with:
           paths: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
@@ -78,8 +71,7 @@ jobs:
           update-comment: true
 
       - name: Check coverage threshold
-        id: jacoco-pr-threshold
-        if: ${{ github.event_name == 'pull_request' }}
+        id: jacoco-threshold
         run: |
           COVERAGE_OVERALL=${{ steps.jacoco-report.outputs.coverage-overall }} 
           COVERAGE_FILE_CHANGED=${{ steps.jacoco-report.outputs.coverage-changed-files }}
