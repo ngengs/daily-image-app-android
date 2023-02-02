@@ -17,10 +17,15 @@ permissions:
 
 jobs:
   dummy-test:
-    name: Dummy Action Test
-    run: |
-      echo "${{ github.workflow }}-${{ github.ref }}"
-      echo "'[${{ vars.MAINTAINER_USERNAME }}]'"
+    name: Coverage Badge
+    runs-on: ubuntu-latest
+    permissions:
+
+    steps:
+      - name: Dummy Action Test
+        run: |
+          echo "${{ github.workflow }}-${{ github.ref }}"
+          echo "'[${{ vars.MAINTAINER_USERNAME }}]'"
 
   lint:
     name: Lint
@@ -52,8 +57,6 @@ jobs:
     name: Coverage Badge
     needs: [testing]
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
 
     steps:
       - name: Clone repo
