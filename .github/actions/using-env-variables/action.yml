@@ -1,0 +1,15 @@
+name: 'Using Env File Variable'
+description: 'Create ENV variable from .env file.'
+inputs:
+  env-file-path:
+    description: ".env file location"
+    required: false
+    default: ./.github/variables/default_github_action.env
+runs:
+  using: "composite"
+  steps:
+    - name: Extract env
+      id: extract-env
+      shell: bash
+      run: |
+        sed "" ${{ inputs.env-file-path }} >> $GITHUB_ENV

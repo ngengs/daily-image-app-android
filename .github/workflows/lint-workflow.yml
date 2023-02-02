@@ -25,6 +25,14 @@ jobs:
         id: clone-repo
         uses: actions/checkout@v3
 
+      - name: Extract Env
+        uses: ./.github/actions/using-env-variables
+
+      - name: Check Extracted Env
+        run: |
+          echo $JAVA_VERSION
+          echo $GRADLE_VERSION
+
       - name: Configuration
         uses: ./.github/actions/config-build-app
         with:
