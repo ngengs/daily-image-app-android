@@ -13,10 +13,6 @@ jobs:
         id: clone-repo
         uses: actions/checkout@v3
 
-#      - name: Check code style
-#        if: ${{ github.event_name != 'pull_request' || github.event_name != 'pull_request_target' }}
-#        run: ./ktlint '**/**src/**/*.kt' --reporter=plain,output=outputs/ktlint/ktlint-report.txt --reporter=sarif,output=outputs/ktlint/ktlint-report.sarif --reporter=checkstyle,output=outputs/ktlint/ktlint-report.xml
-
       - name: Check code style
         uses: musichin/ktlint-check@v2
         continue-on-error: false
