@@ -37,6 +37,7 @@ jobs:
       - name: Check version
         id: check-version
         run: |
+          echo "test:${{ steps.version.output.test12312 }}"
           echo "full-version:${{ steps.version.output.version }}"
           echo "random:${{ steps.version.output.random-number }}"
           echo "major:${{ steps.version.output.major }}"

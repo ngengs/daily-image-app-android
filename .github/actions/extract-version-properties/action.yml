@@ -15,19 +15,19 @@ outputs:
     value: "123412"
   version:
     description: "Extracted version full format"
-    value: "${{ steps.build.outputs.version }}"
+    value: ${{ steps.build.outputs.version }}
   major:
     description: "Extracted version major"
-    value: "${{ steps.extract.outputs.major }}"
+    value: ${{ steps.extract.outputs.major }}
   minor:
     description: "Extracted version minor"
-    value: "${{ steps.extract.outputs.minor }}"
+    value: ${{ steps.extract.outputs.minor }}
   patch:
     description: "Extracted version patch"
-    value: "${{ steps.extract.outputs.patch }}"
+    value: ${{ steps.extract.outputs.patch }}
   extra:
     description: "Extracted version extra (from input)"
-    value: "${{ steps.extract.outputs.extra }}"
+    value: ${{ steps.extract.outputs.extra }}
 runs:
   using: "composite"
   steps:
