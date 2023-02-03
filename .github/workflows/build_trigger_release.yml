@@ -62,11 +62,6 @@ jobs:
         with:
           ref: ci/dummy-merge-target
 
-      - name: Checkout Release Branch
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ steps.release-branch.outputs.branch }}
-
       - name: Merge to Main Branch
         id: merge-release-branch
         run: |
