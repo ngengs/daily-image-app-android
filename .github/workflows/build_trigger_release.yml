@@ -25,7 +25,7 @@ jobs:
       - name: Clone repo
         id: clone-repo
         uses: actions/checkout@v3
-        depth: 0
+        fetch-depth: 0
 
       - name: Read version data
         id: version
@@ -62,13 +62,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ci/dummy-merge-target
-          depth: 0
+          fetch-depth: 0
 
       - name: Checkout Release Branch
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.release-branch.outputs.branch }}
-          depth: 0
+          fetch-depth: 0
 
       - name: Merge to Main Branch
         id: merge-release-branch
