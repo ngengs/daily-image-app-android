@@ -30,7 +30,9 @@ jobs:
         id: version
         run: |
           source version.properties
-          echo $VERSION_MAJOR
+          echo "major=$VERSION_MAJOR"
+          echo "minor=VERSION_MINOR"
+          echo "patch=VERSION_PATCH"
           echo "major=$VERSION_MAJOR" >> $GITHUB_OUTPUT
           echo "minor=VERSION_MINOR" >> $GITHUB_OUTPUT
           echo "patch=VERSION_PATCH" >> $GITHUB_OUTPUT
