@@ -10,6 +10,9 @@ inputs:
     required: false
     default: "version.properties"
 outputs:
+  random-number:
+    description: "Random number"
+    value: "123412"
   version:
     description: "Extracted version full format"
     value: ${{ steps.build.outputs.version }}
@@ -35,7 +38,6 @@ runs:
         source ${{ inputs.properties-file }}
         VERSION_EXTRA=""
         if [[ ${{ inputs.extra-version }} ]]; then
-          echo "HERE";
           VERSION_EXTRA="-${{ inputs.extra-version }}";
         fi
         echo "major=$VERSION_MAJOR"
