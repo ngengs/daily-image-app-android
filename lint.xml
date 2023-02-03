@@ -6,6 +6,7 @@
         <ignore path="res/values/base-colors.xml" />
         <ignore path="res/values/base-dimens.xml" />
     </issue>
+
     <!-- Change the severity of hardcoded strings to "error" -->
     <issue id="HardcodedText" severity="error" />
 </lint>
