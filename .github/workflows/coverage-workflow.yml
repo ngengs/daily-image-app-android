@@ -8,16 +8,6 @@ on:
         required: false
         default: ./.github/variables/default_github_action.env
         type: string
-      report-pr:
-        description: "Report to PR"
-        required: false
-        default: false
-        type: boolean
-      create-badge:
-        description: "Report as badge"
-        required: false
-        default: false
-        type: boolean
 
     secrets:
       SECRET_PROPERTIES_CONFIG:
