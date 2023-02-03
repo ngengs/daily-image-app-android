@@ -99,7 +99,7 @@ jobs:
           echo ${VERSION_TAG}
           CLEAN_VERSION_NAME=${VERSION_TAG//["ci-v"|"v"]/}
           echo ${CLEAN_VERSION_NAME}
-          echo "version-name-clean=$CLEAN_VERSION" >> $GITHUB_OUTPUT
+          echo "version-name-clean=CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
           echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
 
       - name: Configuration
