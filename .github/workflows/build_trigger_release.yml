@@ -30,6 +30,7 @@ jobs:
         id: read-version
         run: |
           source version.properties
+          echo $VERSION_MAJOR
 
       - name: Test version data
         id: test-version
