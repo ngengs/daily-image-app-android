@@ -7,12 +7,6 @@ on:
         required: false
         default: ''
 
-  push:
-    paths-ignore:
-      - '**.md'
-    branches:
-      - 'ci/initial-pr-ci'
-
 concurrency:
   group: ${{ github.workflow }}-trigger-release-${{ github.ref }}
   cancel-in-progress: true
@@ -58,7 +52,7 @@ jobs:
           ref: ci/dummy-merge-target
 
       - name: Merge to Main Branch
-        id: release-branch
+        id: merge-release-branch
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
