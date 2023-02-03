@@ -18,6 +18,8 @@ jobs:
   dummy-test:
     name: Dummy action
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Dummy Action Test
@@ -36,7 +38,6 @@ jobs:
           path: badges
 
       - name: Commit and push the coverage badges and summary file
-        if: ${{ github.event_name != 'pull_request' }}
         run: |
           cd badges
           ls -l
