@@ -28,56 +28,55 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Read version data
+      - name: Extract Version Number
+        uses: ./.github/actions/extract-version-properties
         id: version
-        run: |
-          source version.properties
-          echo "major=$VERSION_MAJOR"
-          echo "minor=$VERSION_MINOR"
-          echo "patch=$VERSION_PATCH"
-          echo "major=$VERSION_MAJOR" >> $GITHUB_OUTPUT
-          echo "minor=$VERSION_MINOR" >> $GITHUB_OUTPUT
-          echo "patch=$VERSION_PATCH" >> $GITHUB_OUTPUT
-
-      - name: Build version data
-        id: build-version
-        run: |
-          echo "v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}${{ inputs.extra-version }}"
-          COMPLETE_VERSION_NUMBER="v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}${{ inputs.extra-version }}"
-          echo $COMPLETE_VERSION_NUMBER
-          echo "version=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT
+        with:
+          extra-version: ${{ inputs.extra-version }}
 
       - name: Create Release Branch
-        id: release-branch
+        id: check-version
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          TAG_RELEASE="ci-${{ steps.build-version.outputs.version }}"
+          TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
           BRANCH_RELEASE="release/$TAG_RELEASE"
           git checkout -b "$BRANCH_RELEASE"
           git push --set-upstream origin "$BRANCH_RELEASE"
           echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
           echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
 
-      - name: Checkout Main Branch
-        uses: actions/checkout@v3
-        with:
-          ref: ci/dummy-merge-target
-          fetch-depth: 0
-
-      - name: Checkout Release Branch
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ steps.release-branch.outputs.branch }}
-          fetch-depth: 0
-
-      - name: Merge to Main Branch
-        id: merge-release-branch
-        run: |
-          git config user.name 'github-actions'
-          git config user.email 'github-actions@github.com'
-          git checkout "${{ steps.release-branch.outputs.branch }}"
-          git checkout ci/dummy-merge-target
-          git merge "${{ steps.release-branch.outputs.branch }}"
-          git tag -s -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
-          git push --follow-tags
+#      - name: Create Release Branch
+#        id: release-branch
+#        run: |
+#          git config user.name 'github-actions'
+#          git config user.email 'github-actions@github.com'
+#          TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
+#          BRANCH_RELEASE="release/$TAG_RELEASE"
+#          git checkout -b "$BRANCH_RELEASE"
+#          git push --set-upstream origin "$BRANCH_RELEASE"
+#          echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
+#          echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
+#
+#      - name: Checkout Main Branch
+#        uses: actions/checkout@v3
+#        with:
+#          ref: ci/dummy-merge-target
+#          fetch-depth: 0
+#
+#      - name: Checkout Release Branch
+#        uses: actions/checkout@v3
+#        with:
+#          ref: ${{ steps.release-branch.outputs.branch }}
+#          fetch-depth: 0
+#
+#      - name: Merge to Main Branch
+#        id: merge-release-branch
+#        run: |
+#          git config user.name 'github-actions'
+#          git config user.email 'github-actions@github.com'
+#          git checkout "${{ steps.release-branch.outputs.branch }}"
+#          git checkout ci/dummy-merge-target
+#          git merge "${{ steps.release-branch.outputs.branch }}"
+#          git tag -s -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
+#          git push --follow-tags
