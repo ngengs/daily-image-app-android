@@ -34,6 +34,11 @@ jobs:
         with:
           extra-version: ${{ inputs.extra-version }}
 
+      - id: foo
+        uses: ./.github/actions/hello-world-composite-action@v1
+        with:
+          who-to-greet: 'Mona the Octocat'
+
       - name: Check version
         id: check-version
         run: |
@@ -44,6 +49,9 @@ jobs:
           echo "minor:${{ steps.version.output.minor }}"
           echo "patch:${{ steps.version.output.patch }}"
           echo "extra:${{ steps.version.output.extra }}"
+
+      - run: echo random-number ${{ steps.foo.outputs.random-number }}
+        shell: bash
 
 #      - name: Create Release Branch
 #        id: release-branch
