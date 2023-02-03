@@ -81,6 +81,7 @@ jobs:
       - name: Create Changelog
         id: changelog
         run: |
+          -l
           tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
           if [ "$tag" ]; then
             changelog=$(git log --oneline --no-decorate $tag..HEAD)
@@ -88,8 +89,8 @@ jobs:
             changelog=$(git log --oneline --no-decorate)
           fi
           
+          changelog=" - ${changelog//$'\n'/'\n\r\n\r -' }"
           echo $changelog
-          changelog=" - ${changelog//$'\n'/\n\r\n\r - }"
           echo "changelog=$changelog" >> $GITHUB_OUTPUT
 
 
