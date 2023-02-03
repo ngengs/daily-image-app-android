@@ -38,7 +38,6 @@ jobs:
       - name: Create Changelog
         id: changelog
         run: |
-          -l
           tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
           if [ "$tag" ]; then
             changelog=$(git log --oneline --no-decorate $tag..HEAD)
