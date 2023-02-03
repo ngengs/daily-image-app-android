@@ -33,10 +33,10 @@ runs:
       shell: bash
       run: |
         source ${{ inputs.properties-file }}
-        echo "input-extra: ${{ inputs.extra-version }}"
+        INPUT_EXTRA=${{ inputs.extra-version }}
         VERSION_EXTRA=""
-        if [[ -z ${{ inputs.extra-version }} ]]; then
-          VERSION_EXTRA="-${{ inputs.extra-version }}";
+        if [[ -z $INPUT_EXTRA ]]; then
+          VERSION_EXTRA="-$INPUT_EXTRA";
         fi
         echo "major=$VERSION_MAJOR"
         echo "minor=$VERSION_MINOR"
