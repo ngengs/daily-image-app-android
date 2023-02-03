@@ -1,0 +1,63 @@
+name: Develop Build and Test
+on:
+  workflow_dispatch:
+    inputs:
+      extra-version:
+        description: 'Extra version after v*.*.* (eg: input -alpha1 will create v*.*.*-alpha1)'
+        required: false
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}-trigger-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  create-release-branch:
+    name: Create Release Branch
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
+      - name: Read version data
+        id: read-version
+        run: |
+          source source version.properties
+
+      - name: Test version data
+        id: test-version
+        run: |
+          echo "v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
+          $COMPLETE_VERSION_NUMBER="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
+          echo $COMPLETE_VERSION_NUMBER
+
+      - name: Create Release Branch
+        id: release-branch
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git checkout -b "release/ci-${COMPLETE_VERSION_NUMBER}"
+          git push
+
+      - name: Checkout Main Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ci/dummy-merge-target
+
+      - name: Merge to Main Branch
+        id: release-branch
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git checkout "release/ci-${COMPLETE_VERSION_NUMBER}"
+          git checkout ci/dummy-merge-target
+          git merge "release/${COMPLETE_VERSION_NUMBER}"
+          git tag "ci-${COMPLETE_VERSION_NUMBER}"
+          git push --follow-tags
