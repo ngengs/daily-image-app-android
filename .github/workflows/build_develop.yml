@@ -57,3 +57,37 @@ jobs:
     uses: ./.github/workflows/cleanup-workflow.yml
     needs: [ coverage ]
     if: always()
+
+  coverage-badge:
+    name: Create Badge
+    needs: [ coverage ]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
+      - name: Checkout badges branch to a badges directory nested inside first checkout
+        uses: actions/checkout@v3
+        with:
+          ref: badges
+          path: badges
+
+      - name: Download coverage result
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-result
+          path: app/build/reports/jacoco/jacocoDebugReport/
+
+      - name: Create coverage badge
+        id: jacoco-badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          badges-directory: badges
+          generate-branches-badge: true
+          generate-summary: true
+          jacoco-csv-file: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
+          coverage-badge-filename: develop-jacoco.svg
+          summary-filename: develop-coverage-summary.json
+          intervals: 90 80 70 60 50 0

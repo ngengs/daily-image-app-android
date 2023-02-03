@@ -73,7 +73,7 @@ jobs:
       - name: Check coverage
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: testDebugUnitTest
+          arguments: jacocoDebugReport
           gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Upload coverage result
@@ -81,80 +81,5 @@ jobs:
         with:
           name: coverage-result
           path: app/build/reports/jacoco/jacocoDebugReport/
-
-#  coverage-report:
-#    name: Create Report
-#    needs: [ coverage ]
-#    if: inputs.report-pr == true
-#    runs-on: ubuntu-latest
-##    permissions:
-##      pull-requests: write
-#
-#    steps:
-#      - name: Clone repo
-#        id: clone-repo
-#        uses: actions/checkout@v3
-#
-#      - name: Download coverage result
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: coverage-result
-#          path: app/build/reports/jacoco/jacocoDebugReport/
-#
-#      - name: Add coverage to PR
-#        id: jacoco-report
-#        uses: madrapps/jacoco-report@v1.3
-#        with:
-#          paths: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          min-coverage-overall: 80
-#          min-coverage-changed-files: 80
-#          title: "Coverage report"
-#          update-comment: true
-#
-#      - name: Check coverage threshold
-#        id: jacoco-threshold
-#        run: |
-#          COVERAGE_OVERALL=${{ steps.jacoco-report.outputs.coverage-overall }}
-#          COVERAGE_FILE_CHANGED=${{ steps.jacoco-report.outputs.coverage-changed-files }}
-#          if [[ $COVERAGE_OVERALL < 80 || $COVERAGE_FILE_CHANGED < 80 ]]; then
-#            if [[ $COVERAGE_OVERALL < 80 ]]; then echo "::error::Overall Coverage Below Threshold"; fi
-#            if [[ $COVERAGE_FILE_CHANGED < 80 ]]; then echo "::error::Changed File Coverage Below Threshold";  fi
-#            exit 1;
-#          fi
-
-  coverage-badge:
-    name: Create Badge
-    needs: [ coverage ]
-    if: inputs.create-badge == true
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Clone repo
-        id: clone-repo
-        uses: actions/checkout@v3
-
-      - name: Checkout badges branch to a badges directory nested inside first checkout
-        uses: actions/checkout@v3
-        with:
-          ref: badges
-          path: badges
-
-      - name: Download coverage result
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage-result
-          path: app/build/reports/jacoco/jacocoDebugReport/
-
-      - name: Create coverage badge
-        id: jacoco-badge
-        uses: cicirello/jacoco-badge-generator@v2
-        with:
-          badges-directory: badges
-          generate-branches-badge: true
-          generate-summary: true
-          jacoco-csv-file: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.xml
-          coverage-badge-filename: develop-jacoco.svg
-          summary-filename: develop-coverage-summary.json
-          intervals: 90 80 70 60 50 0
+          if-no-files-found: error
 
