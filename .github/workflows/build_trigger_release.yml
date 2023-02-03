@@ -34,8 +34,8 @@ jobs:
       - name: Test version data
         id: test-version
         run: |
-          echo "v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
-          $COMPLETE_VERSION_NUMBER="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+          echo "v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
+          COMPLETE_VERSION_NUMBER="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
           echo $COMPLETE_VERSION_NUMBER
 
       - name: Create Release Branch
