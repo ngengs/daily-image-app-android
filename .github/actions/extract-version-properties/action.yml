@@ -11,9 +11,6 @@ inputs:
     default: "version.properties"
 
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
   version:
     description: "Extracted version full format"
     value: ${{ steps.build.outputs.version }}
@@ -61,9 +58,3 @@ runs:
         COMPLETE_VERSION_NUMBER="v${{ steps.extract.outputs.major }}.${{ steps.extract.outputs.minor }}.${{ steps.extract.outputs.patch }}${{ steps.extract.outputs.extra }}"
         echo $COMPLETE_VERSION_NUMBER
         echo "version=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT
-
-    - name: Check build version
-      id: check-build
-      shell: bash
-      run: |
-        echo "build:${{ steps.build.outputs.version }}"
