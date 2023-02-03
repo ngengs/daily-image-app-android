@@ -40,8 +40,8 @@ jobs:
       - name: Build version data
         id: build-version
         run: |
-          echo "v${{ steps.version.major }}.${{ steps.version.minor }}.${{ steps.version.patch }}${{ inputs.extra-version }}"
-          COMPLETE_VERSION_NUMBER="v${{ steps.version.major }}.${{ steps.version.minor }}.${{ steps.version.patch }}${{ inputs.extra-version }}"
+          echo "v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}${{ inputs.extra-version }}"
+          COMPLETE_VERSION_NUMBER="v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}${{ inputs.extra-version }}"
           echo $COMPLETE_VERSION_NUMBER
           echo "data=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT
 
@@ -50,7 +50,7 @@ jobs:
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git checkout -b "release/ci-${{ steps.build-version.data }}"
+          git checkout -b "release/ci-${{ steps.build-version.outputs.data }}"
           git push
 
       - name: Checkout Main Branch
@@ -63,8 +63,8 @@ jobs:
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git checkout "release/ci-${{ steps.build-version.data }}"
+          git checkout "release/ci-${{ steps.build-version.outputs.data }}"
           git checkout ci/dummy-merge-target
-          git merge "release/${{ steps.build-version.data }}"
-          git tag "ci-${{ steps.build-version.data }}"
+          git merge "release/${{ steps.build-version.outputs.data }}"
+          git tag "ci-${{ steps.build-version.outputs.data }}"
           git push --follow-tags
