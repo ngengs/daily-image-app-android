@@ -28,19 +28,20 @@ jobs:
           set -x
           VERSION_TAG=${GITHUB_REF/refs\/tags\//}
           echo ${VERSION_TAG}
-          CLEAN_VERSION_NAME=${VERSION_TAG//("ci-"|"v")/}
+          NO_CI_VERSION_TAG=${VERSION_TAG/ci-/}
+          CLEAN_VERSION_TAG=${NO_CI_VERSION_TAG/v/}
           echo ${CLEAN_VERSION_NAME}
 
-  build:
-    name: Build
-    uses: ./.github/workflows/build-app-workflow.yml
-    if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
-    with:
-      signed-build: true
-    secrets:
-      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
-      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-      SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
-      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+#  build:
+#    name: Build
+#    uses: ./.github/workflows/build-app-workflow.yml
+#    if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
+#    with:
+#      signed-build: true
+#    secrets:
+#      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
+#      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+#      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+#      SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+#      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
 
