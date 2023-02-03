@@ -35,7 +35,7 @@ jobs:
           extra-version: ${{ inputs.extra-version }}
 
       - id: foo
-        uses: ./.github/actions/hello-world-composite-action@v1
+        uses: ./.github/actions/hello-world-composite-action
         with:
           who-to-greet: 'Mona the Octocat'
 
