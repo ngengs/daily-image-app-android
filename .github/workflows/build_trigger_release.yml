@@ -43,28 +43,37 @@ jobs:
           echo "v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}${{ inputs.extra-version }}"
           COMPLETE_VERSION_NUMBER="v${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}${{ inputs.extra-version }}"
           echo $COMPLETE_VERSION_NUMBER
-          echo "data=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT
+          echo "version=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Create Release Branch
         id: release-branch
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git checkout -b "release/ci-${{ steps.build-version.outputs.data }}"
-          git push --set-upstream origin "release/ci-${{ steps.build-version.outputs.data }}"
+          TAG_RELEASE="ci-${{ steps.build-version.outputs.version }}"
+          BRANCH_RELEASE="release/$TAG_RELEASE"
+          git checkout -b "$BRANCH_RELEASE"
+          git push --set-upstream origin "$BRANCH_RELEASE"
+          echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
 
       - name: Checkout Main Branch
         uses: actions/checkout@v3
         with:
           ref: ci/dummy-merge-target
 
+      - name: Checkout Main Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.release-branch.outputs.branch }}
+
       - name: Merge to Main Branch
         id: merge-release-branch
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git checkout "release/ci-${{ steps.build-version.outputs.data }}"
+          git checkout "${{ steps.release-branch.outputs.branch }}"
           git checkout ci/dummy-merge-target
-          git merge "release/ci-${{ steps.build-version.outputs.data }}"
-          git tag "ci-${{ steps.build-version.outputs.data }}"
+          git merge "${{ steps.release-branch.outputs.branch }}"
+          git tag "${{ steps.release-branch.outputs.tag }}"
           git push --follow-tags
