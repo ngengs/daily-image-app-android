@@ -62,7 +62,7 @@ jobs:
         with:
           ref: ci/dummy-merge-target
 
-      - name: Checkout Main Branch
+      - name: Checkout Release Branch
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.release-branch.outputs.branch }}
