@@ -28,7 +28,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - id: version
+      - name: Extract Version Number
+        id: version
         uses: ./.github/actions/extract-version-properties
         with:
           extra-version: ${{ inputs.extra-version }}
