@@ -9,10 +9,11 @@ inputs:
     description: ".properties file location. (default: version.properties)"
     required: false
     default: "version.properties"
+
 outputs:
   random-number:
     description: "Random number"
-    value: "123412"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
   version:
     description: "Extracted version full format"
     value: ${{ steps.build.outputs.version }}
@@ -28,9 +29,13 @@ outputs:
   extra:
     description: "Extracted version extra (from input)"
     value: ${{ steps.extract.outputs.extra }}
+
 runs:
   using: "composite"
   steps:
+    - id: random-number-generator
+      run: echo "random-id=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash
     - name: Read version data
       id: extract
       shell: bash
