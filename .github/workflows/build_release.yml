@@ -51,9 +51,15 @@ jobs:
             changelog=$(git log --oneline --no-decorate)
           fi
           
-          changelog=" - ${changelog//$'\n'/'\n\r\n\r -' }"
+          changelog=" - ${changelog//$'\n'/'\n\r -' }"
           echo $changelog
           echo "changelog=$changelog" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          body: "Changelog:\n\n${{ steps.changelog.outputs.changelog }}"
+          name: Daily Image Test Release ${{ steps.version-tag.outputs.version-name }}
 #
 #  build:
 #    name: Build
