@@ -79,5 +79,5 @@ jobs:
           git checkout "${{ steps.release-branch.outputs.branch }}"
           git checkout ci/dummy-merge-target
           git merge "${{ steps.release-branch.outputs.branch }}"
-          git tag "${{ steps.release-branch.outputs.tag }}"
+          git tag -s -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
           git push --follow-tags
