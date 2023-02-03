@@ -57,5 +57,5 @@ jobs:
   cleanup:
     name: Cleanup
     uses: ./.github/workflows/cleanup-workflow.yml
-    needs: [ testing ]
+    needs: [ coverage ]
     if: always()
