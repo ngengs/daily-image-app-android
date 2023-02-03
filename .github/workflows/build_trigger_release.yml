@@ -27,24 +27,28 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Read version data
-        id: read-version
+        id: version
         run: |
           source version.properties
           echo $VERSION_MAJOR
+          echo "major=$VERSION_MAJOR" >> $GITHUB_OUTPUT
+          echo "minor=VERSION_MINOR" >> $GITHUB_OUTPUT
+          echo "patch=VERSION_PATCH" >> $GITHUB_OUTPUT
 
-      - name: Test version data
-        id: test-version
+      - name: Build version data
+        id: build-version
         run: |
-          echo "v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
-          COMPLETE_VERSION_NUMBER="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
+          echo "v${{ steps.version.major }}.${{ steps.version.minor }}.${{ steps.version.patch }}${{ inputs.extra-version }}"
+          COMPLETE_VERSION_NUMBER="v${{ steps.version.major }}.${{ steps.version.minor }}.${{ steps.version.patch }}${{ inputs.extra-version }}"
           echo $COMPLETE_VERSION_NUMBER
+          echo "data=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT
 
       - name: Create Release Branch
         id: release-branch
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git checkout -b "release/ci-${COMPLETE_VERSION_NUMBER}"
+          git checkout -b "release/ci-${{ steps.build-version.data }}"
           git push
 
       - name: Checkout Main Branch
@@ -57,8 +61,8 @@ jobs:
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          git checkout "release/ci-${COMPLETE_VERSION_NUMBER}"
+          git checkout "release/ci-${{ steps.build-version.data }}"
           git checkout ci/dummy-merge-target
-          git merge "release/${COMPLETE_VERSION_NUMBER}"
-          git tag "ci-${COMPLETE_VERSION_NUMBER}"
+          git merge "release/${{ steps.build-version.data }}"
+          git tag "ci-${{ steps.build-version.data }}"
           git push --follow-tags
