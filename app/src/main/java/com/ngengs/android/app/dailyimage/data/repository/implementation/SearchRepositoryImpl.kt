@@ -15,14 +15,14 @@ import javax.inject.Inject
  */
 class SearchRepositoryImpl @Inject constructor(
     private val remoteDataSource: PhotoRemoteDataSource,
-    private val dispatcher: DispatcherProvider
+    private val dispatcher: DispatcherProvider,
 ) : SearchRepository {
     override suspend fun search(text: String, page: Long) = withContext(dispatcher.io()) {
         Timber.d("search, thread: ${Thread.currentThread().name}")
         val remoteData = remoteDataSource.search(text, page)
         CompletableData(
             isComplete = page == remoteData.pagination.last,
-            data = remoteData.data.map { it.toPhotosLocal() }
+            data = remoteData.data.map { it.toPhotosLocal() },
         )
     }
 

@@ -25,9 +25,9 @@ class DailyImageGlideModule : AppGlideModule() {
                 NetworkHelpers.provideOkHttp(
                     context,
                     debugTag = TAG,
-                    debugLoggingLevel = HttpLoggingInterceptor.Level.BASIC
-                )
-            )
+                    debugLoggingLevel = HttpLoggingInterceptor.Level.BASIC,
+                ),
+            ),
         )
         super.registerComponents(context, glide, registry)
     }

@@ -12,5 +12,5 @@ fun User.toUserSimple() = UserSimple(
     id = this.id,
     username = this.username,
     name = this.name,
-    avatar = this.profileImage.medium
+    avatar = this.profileImage.medium,
 )

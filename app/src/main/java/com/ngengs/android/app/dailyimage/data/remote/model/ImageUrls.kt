@@ -21,5 +21,5 @@ data class ImageUrls(
     @Json(name = "small")
     val small: String = "",
     @Json(name = "thumb")
-    val thumb: String = ""
+    val thumb: String = "",
 ) : Parcelable

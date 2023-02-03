@@ -37,7 +37,7 @@ class HomeViewModelTest {
     fun setUp() {
         viewModel = HomeViewModel(
             fakeGetSearchSuggestionUseCase,
-            dispatcherProvider
+            dispatcherProvider,
         )
     }
 

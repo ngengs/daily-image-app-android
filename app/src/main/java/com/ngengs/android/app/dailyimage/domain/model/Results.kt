@@ -10,7 +10,7 @@ sealed class Results<out T> {
     data class Failure<out T>(
         val throwable: Throwable,
         val type: FailureType = FailureType.UNKNOWN,
-        val oldData: T? = null
+        val oldData: T? = null,
     ) : Results<T>()
 
     enum class FailureType {
@@ -18,7 +18,7 @@ sealed class Results<out T> {
         SERVER,
         EMPTY,
         CLIENT,
-        UNKNOWN
+        UNKNOWN,
     }
 
     companion object {

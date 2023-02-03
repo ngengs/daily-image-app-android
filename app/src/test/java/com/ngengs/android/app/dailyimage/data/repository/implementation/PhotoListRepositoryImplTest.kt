@@ -45,7 +45,7 @@ class PhotoListRepositoryImplTest {
         repository = PhotoListRepositoryImpl(
             fakePhotoLocalDataSource,
             fakePhotoRemoteDataSource,
-            dispatcherProvider
+            dispatcherProvider,
         )
     }
 
@@ -63,7 +63,7 @@ class PhotoListRepositoryImplTest {
         val lastPage = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
-            data = data
+            data = data,
         )
 
         // When
@@ -84,7 +84,7 @@ class PhotoListRepositoryImplTest {
         fakePhotoLocalDataSource.saveLatest(DataForger.forgeParcelStableId(forge, 5))
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
-            data = data
+            data = data,
         )
 
         // When
@@ -104,7 +104,7 @@ class PhotoListRepositoryImplTest {
         val lastPage = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
-            data = data
+            data = data,
         )
 
         // When
@@ -125,7 +125,7 @@ class PhotoListRepositoryImplTest {
         fakePhotoLocalDataSource.savePopular(DataForger.forgeParcelStableId(forge, 5))
         fakePhotoRemoteDataSource.photoList = PaginationData(
             pagination = Pagination(last = lastPage),
-            data = data
+            data = data,
         )
 
         // When

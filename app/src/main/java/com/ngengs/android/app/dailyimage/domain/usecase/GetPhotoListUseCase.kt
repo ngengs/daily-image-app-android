@@ -14,6 +14,6 @@ interface GetPhotoListUseCase {
     suspend operator fun invoke(
         page: Long,
         @OrderBy orderBy: String,
-        oldData: CompletableCachedData<PhotosLocal>?
+        oldData: CompletableCachedData<PhotosLocal>?,
     ): Flow<Results<CompletableCachedData<PhotosLocal>>>
 }

@@ -27,7 +27,7 @@ abstract class FavoritePhotosDao {
 
     @Transaction
     @Query(
-        "SELECT * FROM $TABLE_FAVORITE WHERE $COLUMN_PHOTO_ID = :photoIds ORDER BY $COLUMN_ID ASC"
+        "SELECT * FROM $TABLE_FAVORITE WHERE $COLUMN_PHOTO_ID = :photoIds ORDER BY $COLUMN_ID ASC",
     )
     abstract suspend fun get(photoIds: String): FavoritePhotosRelation?
 

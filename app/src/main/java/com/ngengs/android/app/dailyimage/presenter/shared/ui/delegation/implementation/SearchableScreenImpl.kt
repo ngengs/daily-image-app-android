@@ -46,8 +46,9 @@ class SearchableScreenImpl : SearchableScreen {
             false
         }
         searchView.addTransitionListener { _, _, newState ->
-            if (newState == HIDING) onCloseHandler()
-            else if (newState == SHOWN) onOpenHandler()
+            if (newState == HIDING) {
+                onCloseHandler()
+            } else if (newState == SHOWN) onOpenHandler()
         }
         searchViewList.adapter = suggestionTextAdapter
         searchViewList.layoutManager = LinearLayoutManager(context)

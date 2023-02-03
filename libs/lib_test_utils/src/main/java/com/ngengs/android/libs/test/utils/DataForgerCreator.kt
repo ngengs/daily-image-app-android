@@ -8,7 +8,7 @@ import java.io.Serializable
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 import java.lang.reflect.ParameterizedType
-import java.util.Date
+import java.util.*
 
 /**
  * Created by rizky.kharisma on 31/01/23.
@@ -21,10 +21,9 @@ object DataForgerCreator {
         data: T,
         fields: Array<Field>,
         option: ForgeOption,
-        forger: Forge
+        forger: Forge,
     ): T {
         fields.forEach {
-
             // Skip static field
             if (Modifier.isStatic(it.modifiers)) return@forEach
 
@@ -52,7 +51,9 @@ object DataForgerCreator {
                     val listClz = lTypeArguments.first() as Class<*>
                     val listSize = if (option.listSize <= 0) {
                         forger.anInt(min = 1, max = 5)
-                    } else option.listSize
+                    } else {
+                        option.listSize
+                    }
                     val listData = try {
                         when (listClz) {
                             String::class.java ->
@@ -77,7 +78,9 @@ object DataForgerCreator {
                                     (1..listSize).map {
                                         createParcelData(listClz, option, forger)
                                     }
-                                } else emptyList()
+                                } else {
+                                    emptyList()
+                                }
                             }
                         }
                     } catch (e: Exception) {
@@ -107,8 +110,11 @@ object DataForgerCreator {
         option: ForgeOption,
         needStableId: Boolean = false,
     ): String =
-        if (needStableId) System.nanoTime().toString()
-        else forger.anAlphabeticalString(option.textCase, option.textSize)
+        if (needStableId) {
+            System.nanoTime().toString()
+        } else {
+            forger.anAlphabeticalString(option.textCase, option.textSize)
+        }
 
     private fun createIntData(
         forger: Forge,
@@ -118,7 +124,9 @@ object DataForgerCreator {
         val intMin = option.intMinSize.takeIf { n -> n >= 0 } ?: 0
         return if (needStableId) {
             System.nanoTime().toInt()
-        } else forger.anInt(intMin, option.intMaxSize)
+        } else {
+            forger.anInt(intMin, option.intMaxSize)
+        }
     }
 
     private fun createLongData(
@@ -138,7 +146,9 @@ object DataForgerCreator {
         val doubleMin = option.doubleMinSize.takeIf { n -> n >= 0.0 } ?: 0.0
         return if (needStableId) {
             System.nanoTime().toDouble()
-        } else forger.aDouble(doubleMin, option.doubleMaxSize)
+        } else {
+            forger.aDouble(doubleMin, option.doubleMaxSize)
+        }
     }
 
     private fun createFloatData(
@@ -158,7 +168,7 @@ object DataForgerCreator {
     private fun createSerializableData(
         clz: Class<*>,
         option: ForgeOption,
-        forger: Forge
+        forger: Forge,
     ): Serializable {
         val newInstance = clz.getDeclaredConstructor().newInstance() as Serializable
         val dataFields = newInstance.javaClass.declaredFields

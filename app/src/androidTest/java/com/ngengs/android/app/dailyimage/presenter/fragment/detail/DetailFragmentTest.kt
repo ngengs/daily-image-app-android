@@ -49,7 +49,7 @@ class DetailFragmentTest : BaseFragmentTest() {
         val activityScenario = launchFragmentInHiltContainer<DetailFragment>(
             fragmentArgs = args.toBundle(),
             navHostController = navController,
-            navCurrentDestination = R.id.detailFragment
+            navCurrentDestination = R.id.detailFragment,
         ) {
             idlingResource = getIdlingResource()
             IdlingRegistry.getInstance().register(idlingResource)
@@ -83,12 +83,12 @@ class DetailFragmentTest : BaseFragmentTest() {
 
         onView(withId(R.id.favorite_button)).check(matches(isDisplayed())).perform(click())
         onView(
-            allOf(withId(R.id.favorite_button), withTagValue(`is`("${FAB_FAVORITE_TAG}true")))
+            allOf(withId(R.id.favorite_button), withTagValue(`is`("${FAB_FAVORITE_TAG}true"))),
         ).check(matches(isDisplayed()))
         FakeUseCaseModule.useCase.changeFavoriteStatusUseCase.status shouldBe true
         onView(withId(R.id.favorite_button)).check(matches(isDisplayed())).perform(click())
         onView(
-            allOf(withId(R.id.favorite_button), withTagValue(`is`("${FAB_FAVORITE_TAG}false")))
+            allOf(withId(R.id.favorite_button), withTagValue(`is`("${FAB_FAVORITE_TAG}false"))),
         ).check(matches(isDisplayed()))
         FakeUseCaseModule.useCase.changeFavoriteStatusUseCase.status shouldBe false
 

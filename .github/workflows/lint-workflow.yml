@@ -37,14 +37,14 @@ jobs:
           gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Check code style
-        run: ./gradlew ktlintGenerateBaseline
+        run: ./ktlint '**/**src/**/*.kt'
 
-      - name: Report code style
-        uses: ScaCap/action-ktlint@1.5.1
-        if: success() || failure()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          android: true
-          baseline: app/build/reports/ktlint/config/baseline.xml
-          reporter: github-check
-          fail_on_error: true
+#      - name: Report code style
+#        uses: ScaCap/action-ktlint@1.5.1
+#        if: success() || failure()
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          android: true
+#          baseline: app/build/reports/ktlint/config/baseline.xml
+#          reporter: github-check
+#          fail_on_error: true

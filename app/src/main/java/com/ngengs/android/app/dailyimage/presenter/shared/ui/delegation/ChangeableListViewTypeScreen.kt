@@ -16,7 +16,7 @@ interface ChangeableListViewTypeScreen {
         adapter: RecyclerView.Adapter<*>,
         @PhotoListViewType viewType: Int,
         topFullSpanItemCount: () -> Int,
-        singleSpanItemCount: () -> Int
+        singleSpanItemCount: () -> Int,
     )
 
     fun currentSpanSize(): Int
@@ -25,7 +25,7 @@ interface ChangeableListViewTypeScreen {
         @PhotoListViewType viewType: Int,
         recyclerView: RecyclerView,
         adapter: RecyclerView.Adapter<*>,
-        onViewTypeChanged: () -> Unit
+        onViewTypeChanged: () -> Unit,
     )
 
     @DrawableRes

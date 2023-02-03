@@ -45,7 +45,7 @@ open class LatestImageFragmentImpl :
     override val bindingInflater: (
         LayoutInflater,
         ViewGroup?,
-        Boolean
+        Boolean,
     ) -> FragmentLatestImageBinding
         get() = FragmentLatestImageBinding::inflate
 
@@ -72,7 +72,7 @@ open class LatestImageFragmentImpl :
             },
             onClickViewType = {
                 viewModel.changeViewType()
-            }
+            },
         )
         topLoadingAdapter = LoadingItemAdapter(getString(R.string.loading_refresh_data))
         bottomLoadingAdapter = LoadingItemAdapter(getString(R.string.loading_more_data))
@@ -84,7 +84,7 @@ open class LatestImageFragmentImpl :
             headerAdapter,
             topLoadingAdapter,
             photoAdapter,
-            bottomLoadingAdapter
+            bottomLoadingAdapter,
         )
         initializeViewTypeScreen(
             context = requireContext(),
@@ -92,7 +92,7 @@ open class LatestImageFragmentImpl :
             adapter = concatAdapter,
             viewType = viewType,
             topFullSpanItemCount = { headerAdapter.itemCount + topLoadingAdapter.itemCount },
-            singleSpanItemCount = { photoAdapter.itemCount }
+            singleSpanItemCount = { photoAdapter.itemCount },
         )
         photoAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
         endlessScrollListener = SimpleEndlessRecyclerScrollListener(currentSpanSize()) {
@@ -137,7 +137,7 @@ open class LatestImageFragmentImpl :
             onNoLoading = {
                 topLoadingAdapter.stopLoading()
                 bottomLoadingAdapter.stopLoading()
-            }
+            },
         )
     }
 
@@ -165,7 +165,7 @@ open class LatestImageFragmentImpl :
                 photoAdapter.submitList(errorData.anyData()?.data.orEmpty())
                 val errorMessage = errorData.throwable.message ?: "Something went wrong"
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_SHORT).show()
-            }
+            },
         )
     }
 
@@ -186,7 +186,9 @@ open class LatestImageFragmentImpl :
 
     private fun createViewTypeIcon(viewType: Int) = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
         R.drawable.ic_baseline_grid_view_24
-    } else R.drawable.ic_baseline_view_list_24
+    } else {
+        R.drawable.ic_baseline_view_list_24
+    }
 
     override fun scrollToTop() {
         binding.rv.scrollToPosition(0)

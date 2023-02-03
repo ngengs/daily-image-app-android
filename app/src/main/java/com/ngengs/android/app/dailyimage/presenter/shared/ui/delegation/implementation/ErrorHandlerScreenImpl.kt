@@ -25,7 +25,7 @@ class ErrorHandlerScreenImpl : ErrorHandlerScreen {
         data: Results<*>,
         page: Long,
         onRetry: (() -> Unit)?,
-        onErrorNextPage: (() -> Unit)?
+        onErrorNextPage: (() -> Unit)?,
     ) {
         if (data is Results.Failure) {
             if (page == 1L) {

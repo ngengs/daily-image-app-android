@@ -20,7 +20,7 @@ class SearchableViewModelImpl(
         text: String,
         scope: CoroutineScope,
         dispatcher: CoroutineDispatcher,
-        onSuggestionResult: (List<String>) -> Unit
+        onSuggestionResult: (List<String>) -> Unit,
     ) {
         if (suggestionJob?.isActive == true) suggestionJob?.cancel()
         suggestionJob = scope.launch(dispatcher) {

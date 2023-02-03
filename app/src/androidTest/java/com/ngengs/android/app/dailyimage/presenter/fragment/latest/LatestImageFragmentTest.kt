@@ -58,7 +58,7 @@ class LatestImageFragmentTest : BaseFragmentTest() {
             Results.Failure(
                 oldData = CompletableCachedData(true, mockData1 + mockData2),
                 throwable = Exception("Failure"),
-                type = NETWORK
+                type = NETWORK,
             )
 
         val navController = TestNavHostController(ApplicationProvider.getApplicationContext())
@@ -66,7 +66,7 @@ class LatestImageFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<LatestImageFragment>(
             navHostController = navController,
-            navCurrentDestination = R.id.homeFragment
+            navCurrentDestination = R.id.homeFragment,
         )
         activityScenario.launchCoroutine {
             FakeUseCaseModule.useCase.getPhotoListUseCase.emitResult(Results.Loading())
@@ -83,21 +83,21 @@ class LatestImageFragmentTest : BaseFragmentTest() {
             .check(matches(isDisplayed()))
             .check(
                 matches(
-                    atPosition(0, hasDescendant(withText(R.string.latest_images)))
-                )
+                    atPosition(0, hasDescendant(withText(R.string.latest_images))),
+                ),
             )
             .check(
                 matches(
-                    atPosition(1, hasDescendant(withText(R.string.loading_refresh_data)))
-                )
+                    atPosition(1, hasDescendant(withText(R.string.loading_refresh_data))),
+                ),
             )
             .check(
                 matches(
-                    atPosition(2, hasDescendant(withText(mockCache.first().user!!.name)))
-                )
+                    atPosition(2, hasDescendant(withText(mockCache.first().user!!.name))),
+                ),
             )
             .perform(
-                actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click())
+                actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()),
             )
         navController.currentDestination?.id shouldBe R.id.detailFragment
         navController.popBackStack()
@@ -113,18 +113,18 @@ class LatestImageFragmentTest : BaseFragmentTest() {
             .check(matches(isDisplayed()))
             .check(
                 matches(
-                    atPosition(0, hasDescendant(withText(R.string.latest_images)))
-                )
+                    atPosition(0, hasDescendant(withText(R.string.latest_images))),
+                ),
             )
             .check(
                 matches(
-                    atPosition(1, hasDescendant(withText(mockData1.first().user!!.name)))
-                )
+                    atPosition(1, hasDescendant(withText(mockData1.first().user!!.name))),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.last().user!!.name)),
+                ),
             )
 
         // Test Pagination Loading
@@ -143,24 +143,24 @@ class LatestImageFragmentTest : BaseFragmentTest() {
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.first().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.first().user!!.name)),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData2.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData2.last().user!!.name)),
+                ),
             )
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .perform(
                 recyclerChildAction<View>(R.id.view_type_button) {
                     performClick()
-                }
+                },
             )
             .perform(
                 recyclerChildAction<View>(R.id.order_type_button) {
                     performClick()
-                }
+                },
             )
 
         // Test Changed Type Data
@@ -171,18 +171,18 @@ class LatestImageFragmentTest : BaseFragmentTest() {
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .check(
                 matches(
-                    atPosition(0, hasDescendant(withText(R.string.popular_images)))
-                )
+                    atPosition(0, hasDescendant(withText(R.string.popular_images))),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.first().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.first().user!!.name)),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData2.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData2.last().user!!.name)),
+                ),
             )
 
         // Test Error in Next Page
@@ -211,7 +211,7 @@ class LatestImageFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<LatestImageFragment>(
             navHostController = navController,
-            navCurrentDestination = R.id.homeFragment
+            navCurrentDestination = R.id.homeFragment,
         )
 
         // Test Full Loading

@@ -37,5 +37,5 @@ data class Photos(
     @Json(name = "urls")
     val urls: ImageUrls = ImageUrls(),
     @Json(name = "links")
-    val links: ImageLinks = ImageLinks()
+    val links: ImageLinks = ImageLinks(),
 ) : Parcelable

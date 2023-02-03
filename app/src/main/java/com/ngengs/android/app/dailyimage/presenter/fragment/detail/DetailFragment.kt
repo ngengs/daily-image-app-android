@@ -125,7 +125,7 @@ open class DetailFragmentImpl :
                     R.drawable.ic_baseline_favorite_border_24
                 }
                 binding.favoriteButton.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), buttonImageRes)
+                    ContextCompat.getDrawable(requireContext(), buttonImageRes),
                 )
                 binding.favoriteButton.tag = targetFavoriteTag
                 binding.favoriteButton.show()

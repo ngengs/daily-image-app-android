@@ -24,7 +24,7 @@ object PhotoDataCreator {
             description = desc,
             image = imageUrl,
             blurHash = "LGC~F;xE^OxajFjZR*js~BaeELR+",
-            color = "#8c7359"
+            color = "#8c7359",
         )
     }
 

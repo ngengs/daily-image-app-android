@@ -101,11 +101,17 @@ class ImageOptions {
                 .skipMemoryCache(skipMemoryCache)
                 .error(imageOnFail)
 
-            if (imageOnLoadingDrawable != null) options.placeholder(imageOnLoadingDrawable)
-            else options.placeholder(imageOnLoading)
+            if (imageOnLoadingDrawable != null) {
+                options.placeholder(imageOnLoadingDrawable)
+            } else {
+                options.placeholder(imageOnLoading)
+            }
 
-            if (imageOnFailDrawable != null) options.error(imageOnFailDrawable)
-            else options.error(imageOnFail)
+            if (imageOnFailDrawable != null) {
+                options.error(imageOnFailDrawable)
+            } else {
+                options.error(imageOnFail)
+            }
 
             if (onlyRetrieveFromCache) {
                 options.onlyRetrieveFromCache(true)

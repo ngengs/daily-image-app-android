@@ -23,7 +23,7 @@ class PhotoListRepositoryImpl @Inject constructor(
 ) : PhotoListRepository {
     override suspend fun get(
         page: Long,
-        orderBy: String
+        orderBy: String,
     ): CompletableData<PhotosLocal> = withContext(dispatcher.io()) {
         Timber.d("get, thread: ${Thread.currentThread().name}")
         val remoteData = remoteDataSource.getPhotoList(page, orderBy)

@@ -50,7 +50,7 @@ class FavoriteFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<FavoriteFragment>(
             navHostController = navController,
-            navCurrentDestination = R.id.homeFragment
+            navCurrentDestination = R.id.homeFragment,
         )
         activityScenario.launchCoroutine {
             FakeUseCaseModule.useCase.getFavoriteListUseCase.emit(Results.Loading())
@@ -70,17 +70,17 @@ class FavoriteFragmentTest : BaseFragmentTest() {
         onView(withId(R.id.rv))
             .check(matches(isDisplayed()))
             .check(
-                matches(atPosition(0, hasDescendant(withText(R.string.favorite_images))))
+                matches(atPosition(0, hasDescendant(withText(R.string.favorite_images)))),
             )
             .check(
                 matches(
-                    atPosition(1, hasDescendant(withText(mockData1.first().user!!.name)))
-                )
+                    atPosition(1, hasDescendant(withText(mockData1.first().user!!.name))),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.last().user!!.name)),
+                ),
             )
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
         navController.currentDestination?.id shouldBe R.id.detailFragment
@@ -92,10 +92,10 @@ class FavoriteFragmentTest : BaseFragmentTest() {
             .perform(
                 RecyclerViewChildAction.recyclerChildAction<View>(R.id.view_type_button) {
                     performClick()
-                }
+                },
             )
             .check(
-                matches(atPosition(1, hasDescendant(withText(mockData1.first().user!!.name))))
+                matches(atPosition(1, hasDescendant(withText(mockData1.first().user!!.name)))),
             )
 
         activityScenario.recreate()
@@ -116,7 +116,7 @@ class FavoriteFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<FavoriteFragment>(
             navHostController = navController,
-            navCurrentDestination = R.id.homeFragment
+            navCurrentDestination = R.id.homeFragment,
         )
 
         // Test Full Loading

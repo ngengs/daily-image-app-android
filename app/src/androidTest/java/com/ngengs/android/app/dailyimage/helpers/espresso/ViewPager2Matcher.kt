@@ -37,7 +37,7 @@ object ViewPager2Matcher {
 
     private class WithPositionInViewPager2Matcher(
         @IdRes private val id: Int,
-        private val position: Int
+        private val position: Int,
     ) : TypeSafeMatcher<View>() {
 
         override fun describeTo(description: Description) {
@@ -51,8 +51,9 @@ object ViewPager2Matcher {
             val grandParent = parent.parent as? ViewPager2
                 ?: return false
 
-            if (grandParent.id != id)
+            if (grandParent.id != id) {
                 return false
+            }
 
             val viewHolder = parent.findViewHolderForAdapterPosition(position)
                 ?: return false

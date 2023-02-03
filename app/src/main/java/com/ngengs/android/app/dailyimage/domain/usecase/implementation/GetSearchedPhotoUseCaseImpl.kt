@@ -24,7 +24,7 @@ class GetSearchedPhotoUseCaseImpl @Inject constructor(
     override suspend fun invoke(
         text: String,
         page: Long,
-        oldData: CompletableCachedData<PhotosLocal>?
+        oldData: CompletableCachedData<PhotosLocal>?,
     ): Flow<Results<CompletableCachedData<PhotosLocal>>> = flow {
         Timber.d("use-case invoke, thread: ${Thread.currentThread().name}")
         val (oldDataList, oldDataIsComplete) = if (page > 1L) {

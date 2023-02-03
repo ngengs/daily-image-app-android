@@ -25,7 +25,9 @@ abstract class PopularPhotosDao {
 
     @Transaction
     @Query(
-        "SELECT * FROM $TABLE_POPULAR WHERE $COLUMN_PHOTO_ID in (:photoIds) ORDER BY $COLUMN_ID ASC"
+        "SELECT * FROM $TABLE_POPULAR " +
+            "WHERE $COLUMN_PHOTO_ID in (:photoIds) " +
+            "ORDER BY $COLUMN_ID ASC",
     )
     abstract suspend fun get(photoIds: List<String>): List<PopularPhotosRelation>
 

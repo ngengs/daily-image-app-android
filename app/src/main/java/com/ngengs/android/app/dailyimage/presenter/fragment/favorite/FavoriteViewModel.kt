@@ -37,7 +37,9 @@ class FavoriteViewModel @Inject constructor(
         val current = data.value.viewType
         val changeTarget = if (current == ViewConstant.VIEW_TYPE_GRID) {
             ViewConstant.VIEW_TYPE_LIST
-        } else ViewConstant.VIEW_TYPE_GRID
+        } else {
+            ViewConstant.VIEW_TYPE_GRID
+        }
         _data.update { it.copy(viewType = changeTarget) }
     }
 

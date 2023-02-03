@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],
-    replaces = [CoroutineModule::class]
+    replaces = [CoroutineModule::class],
 )
 class FakeCoroutineModule {
     private val dispatcher = UnconfinedTestDispatcher()

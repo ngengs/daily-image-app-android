@@ -17,5 +17,5 @@ data class ProfileImage(
     @Json(name = "medium")
     val medium: String = "",
     @Json(name = "large")
-    val large: String = ""
+    val large: String = "",
 ) : Parcelable

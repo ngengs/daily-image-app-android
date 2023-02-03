@@ -21,7 +21,7 @@ class CacheInterceptor : Interceptor {
         val cacheControl = CacheControl.Builder()
             .maxAge(
                 if (BuildConfig.DEBUG) CACHE_TIME_MINUTES_DEBUG else CACHE_TIME_MINUTES,
-                TimeUnit.MINUTES
+                TimeUnit.MINUTES,
             )
             .build()
 

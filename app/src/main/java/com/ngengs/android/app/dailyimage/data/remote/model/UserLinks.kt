@@ -21,5 +21,5 @@ data class UserLinks(
     @Json(name = "likes")
     val likes: String = "",
     @Json(name = "portfolio")
-    val portfolio: String = ""
+    val portfolio: String = "",
 ) : Parcelable

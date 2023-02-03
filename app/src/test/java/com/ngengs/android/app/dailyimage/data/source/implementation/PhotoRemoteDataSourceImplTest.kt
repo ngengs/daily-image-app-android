@@ -122,11 +122,11 @@ class PhotoRemoteDataSourceImplTest {
         mockWebServer.start()
         api = UnsplashAPI.instantiate(
             ApplicationProvider.getApplicationContext(),
-            mockWebServer.url("/").toString()
+            mockWebServer.url("/").toString(),
         )
         apiPublic = UnsplashPublicAPI.instantiate(
             ApplicationProvider.getApplicationContext(),
-            mockWebServer.url("/").toString()
+            mockWebServer.url("/").toString(),
         )
         dataSource = PhotoRemoteDataSourceImpl(api, apiPublic, dispatcherProvider)
     }

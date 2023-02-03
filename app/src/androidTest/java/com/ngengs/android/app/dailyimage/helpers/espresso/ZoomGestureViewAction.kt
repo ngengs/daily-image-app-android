@@ -77,7 +77,7 @@ object ZoomGestureViewAction {
         val viewWidth: Float = view.width * view.scaleX
         return Point(
             (locationOnScreen[0] + viewWidth / 2).toInt(),
-            (locationOnScreen[1] + viewHeight / 2).toInt()
+            (locationOnScreen[1] + viewHeight / 2).toInt(),
         )
     }
 
@@ -86,7 +86,7 @@ object ZoomGestureViewAction {
         startPoint1: Point,
         startPoint2: Point,
         endPoint1: Point,
-        endPoint2: Point
+        endPoint2: Point,
     ) {
         val duration = 500
         val eventMinInterval: Long = 10
@@ -139,7 +139,7 @@ object ZoomGestureViewAction {
             event = MotionEvent.obtain(
                 startTime, eventTime,
                 MotionEvent.ACTION_DOWN, 1, properties,
-                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0
+                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0,
             )
             injectMotionEventToUiController(uiController, event)
 
@@ -160,7 +160,7 @@ object ZoomGestureViewAction {
                 0,
                 0,
                 0,
-                0
+                0,
             )
             injectMotionEventToUiController(uiController, event)
 
@@ -187,7 +187,7 @@ object ZoomGestureViewAction {
                 event = MotionEvent.obtain(
                     startTime, eventTime,
                     MotionEvent.ACTION_MOVE, 2, properties,
-                    pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0
+                    pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0,
                 )
                 injectMotionEventToUiController(uiController, event)
             }
@@ -214,7 +214,7 @@ object ZoomGestureViewAction {
                 0,
                 0,
                 0,
-                0
+                0,
             )
             injectMotionEventToUiController(uiController, event)
 
@@ -223,7 +223,7 @@ object ZoomGestureViewAction {
             event = MotionEvent.obtain(
                 startTime, eventTime,
                 MotionEvent.ACTION_UP, 1, properties,
-                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0
+                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0,
             )
             injectMotionEventToUiController(uiController, event)
         } catch (e: InjectEventSecurityException) {

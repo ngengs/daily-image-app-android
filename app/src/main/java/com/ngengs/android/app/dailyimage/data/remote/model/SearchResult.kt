@@ -17,5 +17,5 @@ data class SearchResult(
     @Json(name = "total_pages")
     val totalPages: Long = 0L,
     @Json(name = "results")
-    val results: List<Photos> = emptyList()
+    val results: List<Photos> = emptyList(),
 ) : Parcelable

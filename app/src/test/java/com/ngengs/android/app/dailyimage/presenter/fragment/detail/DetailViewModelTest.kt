@@ -43,7 +43,7 @@ class DetailViewModelTest {
         viewModel = DetailViewModel(
             fakeGetFavoriteStatusUseCase,
             fakeChangeFavoriteStatusUseCase,
-            dispatcherProvider
+            dispatcherProvider,
         )
     }
 

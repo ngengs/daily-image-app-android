@@ -31,8 +31,11 @@ object NetworkHelpers {
         customInterceptor: ((Interceptor.Chain) -> Request)? = null,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor { Timber.tag(debugTag).d(it) }
-        if (BuildConfig.DEBUG) loggingInterceptor.setLevel(debugLoggingLevel)
-        else loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
+        if (BuildConfig.DEBUG) {
+            loggingInterceptor.setLevel(debugLoggingLevel)
+        } else {
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.NONE)
+        }
 
         val builder = OkHttpClient.Builder()
             .connectTimeout(CONNECT_TIMEOUT.toLong(), TimeUnit.SECONDS)
@@ -66,6 +69,6 @@ object NetworkHelpers {
         customInterceptor: ((Interceptor.Chain) -> Request)? = null,
     ): T = provideRetrofit(
         provideOkHttp(context, customInterceptor = customInterceptor),
-        apiBaseUrl
+        apiBaseUrl,
     ).create(apiClass.java)
 }

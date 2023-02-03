@@ -23,7 +23,7 @@ import javax.inject.Inject
 class PhotoRemoteDataSourceImpl @Inject constructor(
     private val api: UnsplashAPI,
     private val apiPublic: UnsplashPublicAPI,
-    private val dispatcher: DispatcherProvider
+    private val dispatcher: DispatcherProvider,
 ) : PhotoRemoteDataSource {
 
     override suspend fun getPhotoList(page: Long, orderBy: String) = withContext(dispatcher.io()) {
@@ -42,7 +42,7 @@ class PhotoRemoteDataSourceImpl @Inject constructor(
         val pagination = Pagination(
             prev = page - 1,
             next = page + 1,
-            last = data.totalPages
+            last = data.totalPages,
         )
         PaginationData(pagination, data.results)
     }
