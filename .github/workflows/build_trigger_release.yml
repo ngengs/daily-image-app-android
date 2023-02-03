@@ -7,6 +7,12 @@ on:
         required: false
         default: ''
 
+  push:
+    paths-ignore:
+      - '**.md'
+    branches:
+      - 'ci/initial-pr-ci'
+
 concurrency:
   group: ${{ github.workflow }}-trigger-release-${{ github.ref }}
   cancel-in-progress: true
@@ -34,8 +40,8 @@ jobs:
       - name: Test version data
         id: test-version
         run: |
-          echo "v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
-          $COMPLETE_VERSION_NUMBER="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${inputs.extra-version}"
+          echo "v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
+          $COMPLETE_VERSION_NUMBER="v${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
           echo $COMPLETE_VERSION_NUMBER
 
       - name: Create Release Branch
