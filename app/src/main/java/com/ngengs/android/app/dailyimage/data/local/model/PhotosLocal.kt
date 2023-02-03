@@ -43,4 +43,4 @@ data class PhotosLocal(
     @Json(name = "user")
     @ColumnInfo(name = "user")
     val user: UserSimple? = null,
-) : Parcelable
+): Parcelable
