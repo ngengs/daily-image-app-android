@@ -9,6 +9,8 @@
 
 
 
+
+
     <!-- Change the severity of hardcoded strings to "error" -->
     <issue id="HardcodedText" severity="error" />
 </lint>
