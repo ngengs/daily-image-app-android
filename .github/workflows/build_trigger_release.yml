@@ -42,13 +42,13 @@ jobs:
       - name: Check version
         id: check-version
         run: |
-          echo "test:${{ steps.version.output.test12312 }}"
-          echo "full-version:${{ steps.version.output.version }}"
-          echo "random:${{ steps.version.output.random-number }}"
-          echo "major:${{ steps.version.output.major }}"
-          echo "minor:${{ steps.version.output.minor }}"
-          echo "patch:${{ steps.version.output.patch }}"
-          echo "extra:${{ steps.version.output.extra }}"
+          echo "test:${{ steps.version.outputs.test12312 }}"
+          echo "full-version:${{ steps.version.outputs.version }}"
+          echo "random:${{ steps.version.outputs.random-number }}"
+          echo "major:${{ steps.version.outputs.major }}"
+          echo "minor:${{ steps.version.outputs.minor }}"
+          echo "patch:${{ steps.version.outputs.patch }}"
+          echo "extra:${{ steps.version.outputs.extra }}"
 
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
