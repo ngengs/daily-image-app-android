@@ -15,28 +15,28 @@ jobs:
 
 #      - name: Check code style
 #        if: ${{ github.event_name != 'pull_request' || github.event_name != 'pull_request_target' }}
-#        run: ./ktlint '**/**src/**/*.kt'
+#        run: ./ktlint '**/**src/**/*.kt' --reporter=plain,output=outputs/ktlint/ktlint-report.txt --reporter=sarif,output=outputs/ktlint/ktlint-report.sarif --reporter=checkstyle,output=outputs/ktlint/ktlint-report.xml
 
       - name: Check code style
         uses: musichin/ktlint-check@v2
         continue-on-error: false
-          with:
-            ktlint-version: '0.48.2'
-            level: 'error'
-            android: true
-            relative: true
-            reporter: |
-              plain,output=outputs/ktlint/ktlint-report.txt
-              json,output=outputs/ktlint/ktlint-report.json
-              sarif,output=outputs/ktlint/ktlint-report.sarif
-              checkstyle,output=outputs/ktlint/ktlint-report.xml
-            patterns: |
-              **/**src/**/*.kt
-              !**/generated/**
+        with:
+          ktlint-version: '0.48.2'
+          level: 'error'
+          android: true
+          relative: true
+          reporter: |
+            plain,output=outputs/ktlint/ktlint-report.txt
+            json,output=outputs/ktlint/ktlint-report.json
+            sarif,output=outputs/ktlint/ktlint-report.sarif
+            checkstyle,output=outputs/ktlint/ktlint-report.xml
+          patterns: |
+            **/**src/**/*.kt
+            !**/generated/**
 
       - name: Upload Ktlint report
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: ktlint-result
-          path: app/build/reports/jacoco/jacocoDebugReport/
+          path: outputs/ktlint
