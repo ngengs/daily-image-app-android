@@ -2,17 +2,6 @@ name: Lint
 
 on:
   workflow_call:
-    inputs:
-      env-file-path:
-        description: ".env file location"
-        required: false
-        default: ./.github/variables/default_github_action.env
-        type: string
-
-    secrets:
-      SECRET_PROPERTIES_CONFIG:
-        description: "secret.properties hash"
-        required: true
 
 jobs:
   ktlint:
@@ -24,27 +13,6 @@ jobs:
         id: clone-repo
         uses: actions/checkout@v3
 
-      - name: Extract Env
-        uses: ./.github/actions/using-env-variables
-        with:
-          env-file-path: ${{ inputs.env-file-path }}
-
-      - name: Configuration
-        uses: ./.github/actions/config-build-app
-        with:
-          secrets-properties-config: ${{ secrets.SECRET_PROPERTIES_CONFIG }}
-          java-version: ${{ env.JAVA_VERSION }}
-          gradle-version: ${{ env.GRADLE_VERSION }}
-
       - name: Check code style
+        if: ${{ github.event_name != 'pull_request' || github.event_name != 'pull_request_target' }}
         run: ./ktlint '**/**src/**/*.kt'
-
-#      - name: Report code style
-#        uses: ScaCap/action-ktlint@1.5.1
-#        if: success() || failure()
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          android: true
-#          baseline: app/build/reports/ktlint/config/baseline.xml
-#          reporter: github-check
-#          fail_on_error: true

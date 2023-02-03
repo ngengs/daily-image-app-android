@@ -18,8 +18,6 @@ jobs:
   lint:
     name: Lint
     uses: ./.github/workflows/lint-workflow.yml
-    secrets:
-      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   testing:
     name: Testing
