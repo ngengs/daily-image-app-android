@@ -18,6 +18,7 @@ jobs:
   create-release-branch:
     name: Create Release Branch
     runs-on: ubuntu-latest
+    if: contains('[${{ vars.MAINTAINER_USERNAME }}]', github.actor)
     permissions:
       contents: write
 
@@ -77,5 +78,5 @@ jobs:
           git checkout "${{ steps.release-branch.outputs.branch }}"
           git checkout ci/dummy-merge-target
           git merge "${{ steps.release-branch.outputs.branch }}"
-          git tag -s -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
+          git tag -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
           git push --follow-tags
