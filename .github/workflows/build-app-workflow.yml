@@ -100,16 +100,17 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Dependency Review
-        if: ${{ github.event_name == 'pull_request' || github.event_name == 'pull_request_target' }}
-        uses: actions/dependency-review-action@v3
+      - name: Build App
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: assembleRelease
+          gradle-version: ${{ env.GRADLE_VERSION }}
 
       - name: Build Sign APK
-        if: startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android'
         id: sign_app
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: outputs/apk/release
+          releaseDirectory: app/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.SIGNING_KEY }}
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}

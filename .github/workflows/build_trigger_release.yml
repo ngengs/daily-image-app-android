@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Extract Version Number
         id: version
@@ -38,9 +39,7 @@ jobs:
       - name: Check version
         id: check-version
         run: |
-          echo "test:${{ steps.version.outputs.test12312 }}"
           echo "full-version:${{ steps.version.outputs.version }}"
-          echo "random:${{ steps.version.outputs.random-number }}"
           echo "major:${{ steps.version.outputs.major }}"
           echo "minor:${{ steps.version.outputs.minor }}"
           echo "patch:${{ steps.version.outputs.patch }}"
@@ -53,22 +52,24 @@ jobs:
           git config user.email 'github-actions@github.com'
           TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
           BRANCH_RELEASE="release/$TAG_RELEASE"
-          git checkout -b "$BRANCH_RELEASE"
-          git push --set-upstream origin "$BRANCH_RELEASE"
           echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
           echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
+          git checkout -b "$BRANCH_RELEASE"
+          git push --set-upstream origin "$BRANCH_RELEASE"
 
       - name: Checkout Main Branch
         uses: actions/checkout@v3
         with:
           ref: ci/dummy-merge-target
           fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Checkout Release Branch
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.release-branch.outputs.branch }}
           fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Merge to Main Branch
         id: merge-release-branch
@@ -78,5 +79,6 @@ jobs:
           git checkout "${{ steps.release-branch.outputs.branch }}"
           git checkout ci/dummy-merge-target
           git merge "${{ steps.release-branch.outputs.branch }}"
-          git tag -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
-          git push --follow-tags
+          git tag "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
+          git push origin ci/dummy-merge-target
+          git push origin "${{ steps.release-branch.outputs.tag }}"
