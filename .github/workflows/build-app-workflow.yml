@@ -97,7 +97,7 @@ jobs:
           set -x
           VERSION_TAG=${GITHUB_REF/refs\/tags\//}
           echo ${VERSION_TAG}
-          CLEAN_VERSION_NAME=${VERSION_TAG//["ci-v"|"v"]/}
+          CLEAN_VERSION_NAME=${VERSION_TAG//(ci-|v)/}
           echo ${CLEAN_VERSION_NAME}
           echo "version-name-clean=$CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
           echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
@@ -136,15 +136,13 @@ jobs:
         run: |
           echo ${{ steps.sign_app.outputs.signedReleaseFile }}
           mkdir -p outputs/apk/release
-          cp ${{ steps.sign_app.outputs.signedReleaseFile }} outputs/apk/release/app-daily-image-${{ env.APP_VERSION_TAG }}.apk 
+          cp ${{ steps.sign_app.outputs.signedReleaseFile }} outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.version-name-clean }}.apk 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: signed_app
-          path: |
-            ${{ steps.sign_app.outputs.signedReleaseFile }}
-            outputs/apk/release/app-daily-image-${{ env.APP_VERSION_TAG }}.apk
+          name: signed-app-artifact
+          path: outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.version-name-clean }}.apk
 
       - name: Cleanup
         run: rm -rf secrets.properties
