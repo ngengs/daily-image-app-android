@@ -30,14 +30,18 @@ jobs:
 
       - name: Extract Version Number
         uses: ./.github/actions/extract-version-properties
-        id: version
+        id: extract-version
         with:
           extra-version: ${{ inputs.extra-version }}
 
       - name: Check version
         id: check-version
         run: |
-          echo ${{ steps.version.output.version }}
+          echo ${{ steps.extract-version.output.version }}
+          echo "major:${{ steps.extract-version.output.major }}"
+          echo "minor:${{ steps.extract-version.output.minor }}"
+          echo "patch:${{ steps.extract-version.output.patch }}"
+          echo "extra:${{ steps.extract-version.output.extra }}"
 
 #      - name: Create Release Branch
 #        id: release-branch
