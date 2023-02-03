@@ -28,20 +28,80 @@ jobs:
           set -x
           VERSION_TAG=${GITHUB_REF/refs\/tags\//}
           echo ${VERSION_TAG}
-          NO_CI_VERSION_TAG=${VERSION_TAG/ci-/}
-          CLEAN_VERSION_TAG=${NO_CI_VERSION_TAG/v/}
+          NO_CI_VERSION_NAME=${VERSION_TAG/ci-/}
+          CLEAN_VERSION_NAME=${NO_CI_VERSION_NAME/v/}
           echo ${CLEAN_VERSION_NAME}
 
-#  build:
-#    name: Build
-#    uses: ./.github/workflows/build-app-workflow.yml
-#    if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
-#    with:
-#      signed-build: true
-#    secrets:
-#      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
-#      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-#      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-#      SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
-#      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+  build:
+    name: Build
+    uses: ./.github/workflows/build-app-workflow.yml
+    if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
+    with:
+      signed-build: true
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+      SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+
+  release:
+    name: Release
+    run-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get tag name
+        id: version-tag
+        if: ${{ startsWith(github.ref, 'refs/tags/')  }}
+        run: |
+          set -x
+          VERSION_TAG=${GITHUB_REF/refs\/tags\//}
+          echo ${VERSION_TAG}
+          NO_CI_VERSION_NAME=${VERSION_TAG/ci-/}
+          CLEAN_VERSION_NAME=${NO_CI_VERSION_NAME/v/}
+          echo ${CLEAN_VERSION_NAME}
+          echo "version-name-clean=$CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download build result
+        uses: actions/download-artifact@v3
+        with:
+          name: signed-app-artifact
+          path: outputs/
+
+      - name: Create Changelog
+        id: changelog
+        run: |
+          tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
+          if [ "$tag" ]; then
+            changelog=$(git log --oneline --no-decorate $tag..HEAD)
+          else
+            changelog=$(git log --oneline --no-decorate)
+          fi
+          
+          echo $changelog
+          
+          changelog="${changelog//'%'/'%25'}"
+          changelog="${changelog//$'\n'/'%0A' - }"
+          changelog=" - ${changelog//$'\r'/'%0D'}"
+          
+          echo "changelog=$changelog" >> $GITHUB_OUTPUT
+
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "outputs/*.apk"
+          body: ${{ steps.changelog.outputs.changelog }}
+          makeLatest: "latest"
+          name: Daily Image Release ${{ steps.version-tag.outputs.version-name }}
+
 
