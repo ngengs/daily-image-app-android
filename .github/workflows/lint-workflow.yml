@@ -19,7 +19,7 @@ jobs:
 
       - name: Check code style
         uses: musichin/ktlint-check@v2
-          continue-on-error: false
+        continue-on-error: false
           with:
             ktlint-version: '0.48.2'
             level: 'error'
