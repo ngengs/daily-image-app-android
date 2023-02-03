@@ -31,11 +31,11 @@ jobs:
         run: |
           source version.properties
           echo "major=$VERSION_MAJOR"
-          echo "minor=VERSION_MINOR"
-          echo "patch=VERSION_PATCH"
+          echo "minor=$VERSION_MINOR"
+          echo "patch=$VERSION_PATCH"
           echo "major=$VERSION_MAJOR" >> $GITHUB_OUTPUT
-          echo "minor=VERSION_MINOR" >> $GITHUB_OUTPUT
-          echo "patch=VERSION_PATCH" >> $GITHUB_OUTPUT
+          echo "minor=$VERSION_MINOR" >> $GITHUB_OUTPUT
+          echo "patch=$VERSION_PATCH" >> $GITHUB_OUTPUT
 
       - name: Build version data
         id: build-version
