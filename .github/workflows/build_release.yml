@@ -16,6 +16,8 @@ jobs:
   dummy:
     name: Dummy Job
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Testing Caller
