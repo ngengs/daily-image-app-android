@@ -57,7 +57,7 @@ class DailyImageDatabaseMigrationTest {
                     put("description", data.first().description)
                     put("image", data.first().image)
                     put("user", userSimpleAdapter.toJson(data.first().user).orEmpty())
-                },
+                }
             )
             insert(
                 DailyImageDatabase.TABLE_PHOTO,
