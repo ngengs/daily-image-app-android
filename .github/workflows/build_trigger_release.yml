@@ -25,6 +25,7 @@ jobs:
       - name: Clone repo
         id: clone-repo
         uses: actions/checkout@v3
+        depth: 0
 
       - name: Read version data
         id: version
@@ -61,11 +62,13 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: ci/dummy-merge-target
+          depth: 0
 
       - name: Checkout Release Branch
         uses: actions/checkout@v3
         with:
           ref: ${{ steps.release-branch.outputs.branch }}
+          depth: 0
 
       - name: Merge to Main Branch
         id: merge-release-branch
@@ -73,8 +76,7 @@ jobs:
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
           git checkout "${{ steps.release-branch.outputs.branch }}"
-          git rebase ci/dummy-merge-target
           git checkout ci/dummy-merge-target
-          git merge "${{ steps.release-branch.outputs.branch }}" --allow-unrelated-histories
+          git merge "${{ steps.release-branch.outputs.branch }}"
           git tag "${{ steps.release-branch.outputs.tag }}"
           git push --follow-tags
