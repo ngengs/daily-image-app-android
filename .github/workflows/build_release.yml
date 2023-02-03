@@ -1,0 +1,26 @@
+name: Develop Build and Test
+on:
+  push:
+    branches:
+      - main
+      - ci/dummy-*
+    tags:
+      - v*
+      - ci-v*
+
+concurrency:
+  group: ${{ github.workflow }}-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build-app-workflow.yml
+    with:
+      signed-build: true
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
+

@@ -45,37 +45,37 @@ jobs:
           echo "patch:${{ steps.version.outputs.patch }}"
           echo "extra:${{ steps.version.outputs.extra }}"
 
-#      - name: Create Release Branch
-#        id: release-branch
-#        run: |
-#          git config user.name 'github-actions'
-#          git config user.email 'github-actions@github.com'
-#          TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
-#          BRANCH_RELEASE="release/$TAG_RELEASE"
-#          git checkout -b "$BRANCH_RELEASE"
-#          git push --set-upstream origin "$BRANCH_RELEASE"
-#          echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
-#          echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
-#
-#      - name: Checkout Main Branch
-#        uses: actions/checkout@v3
-#        with:
-#          ref: ci/dummy-merge-target
-#          fetch-depth: 0
-#
-#      - name: Checkout Release Branch
-#        uses: actions/checkout@v3
-#        with:
-#          ref: ${{ steps.release-branch.outputs.branch }}
-#          fetch-depth: 0
-#
-#      - name: Merge to Main Branch
-#        id: merge-release-branch
-#        run: |
-#          git config user.name 'github-actions'
-#          git config user.email 'github-actions@github.com'
-#          git checkout "${{ steps.release-branch.outputs.branch }}"
-#          git checkout ci/dummy-merge-target
-#          git merge "${{ steps.release-branch.outputs.branch }}"
-#          git tag -s -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
-#          git push --follow-tags
+      - name: Create Release Branch
+        id: release-branch
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
+          BRANCH_RELEASE="release/$TAG_RELEASE"
+          git checkout -b "$BRANCH_RELEASE"
+          git push --set-upstream origin "$BRANCH_RELEASE"
+          echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
+
+      - name: Checkout Main Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ci/dummy-merge-target
+          fetch-depth: 0
+
+      - name: Checkout Release Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.release-branch.outputs.branch }}
+          fetch-depth: 0
+
+      - name: Merge to Main Branch
+        id: merge-release-branch
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git checkout "${{ steps.release-branch.outputs.branch }}"
+          git checkout ci/dummy-merge-target
+          git merge "${{ steps.release-branch.outputs.branch }}"
+          git tag -s -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
+          git push --follow-tags
