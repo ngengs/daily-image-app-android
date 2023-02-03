@@ -74,6 +74,6 @@ jobs:
           git config user.email 'github-actions@github.com'
           git checkout "${{ steps.release-branch.outputs.branch }}"
           git checkout ci/dummy-merge-target
-          git merge "${{ steps.release-branch.outputs.branch }}"
+          git merge "${{ steps.release-branch.outputs.branch }}" --allow-unrelated-histories
           git tag "${{ steps.release-branch.outputs.tag }}"
           git push --follow-tags
