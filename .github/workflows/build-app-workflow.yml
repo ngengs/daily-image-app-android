@@ -18,6 +18,18 @@ on:
       SECRET_PROPERTIES_CONFIG:
         description: "secret.properties hash"
         required: true
+      SIGNING_KEY:
+        description: "Signing Key for create signed build"
+        required: false
+      SIGNING_KEY_ALIAS:
+        description: "Signing Key Alias for create signed build"
+        required: false
+      SIGNING_KEY_STORE_PASSWORD:
+        description: "Signing Key Store Password for create signed build"
+        required: false
+      SIGNING_KEY_PASSWORD:
+        description: "Signing Key Password for create signed build"
+        required: false
 
 jobs:
   build:
