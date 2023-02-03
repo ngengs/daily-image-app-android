@@ -34,8 +34,10 @@ runs:
       run: |
         source ${{ inputs.properties-file }}
         INPUT_EXTRA=${{ inputs.extra-version }}
+        echo "input:$INPUT_EXTRA"
         VERSION_EXTRA=""
         if [[ -z $INPUT_EXTRA ]]; then
+          echo "HERE";
           VERSION_EXTRA="-$INPUT_EXTRA";
         fi
         echo "major=$VERSION_MAJOR"
