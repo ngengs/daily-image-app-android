@@ -28,7 +28,7 @@ jobs:
           set -x
           VERSION_TAG=${GITHUB_REF/refs\/tags\//}
           echo ${VERSION_TAG}
-          CLEAN_VERSION_NAME=${VERSION_TAG//(ci-|v)/}
+          CLEAN_VERSION_NAME=${VERSION_TAG//("ci-"|"v")/}
           echo ${CLEAN_VERSION_NAME}
 
   build:
