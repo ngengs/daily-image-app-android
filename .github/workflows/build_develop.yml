@@ -87,7 +87,7 @@ jobs:
           badges-directory: badges
           generate-branches-badge: true
           generate-summary: true
-          jacoco-csv-file: ${{ github.workspace }}/app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.csv
+          jacoco-csv-file: app/build/reports/jacoco/jacocoDebugReport/jacocoDebugReport.csv
           coverage-badge-filename: develop-jacoco.svg
           summary-filename: develop-coverage-summary.json
           intervals: 90 80 70 60 50 0
