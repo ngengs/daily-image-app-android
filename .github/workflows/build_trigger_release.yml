@@ -1,4 +1,4 @@
-name: Develop Build and Test
+name: Trigger Release
 on:
   workflow_dispatch:
     inputs:
