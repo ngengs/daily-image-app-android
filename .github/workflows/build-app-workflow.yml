@@ -91,15 +91,16 @@ jobs:
           env-file-path: ${{ inputs.env-file-path }}
 
       - name: Get tag name
+        id: version-tag
         if: ${{ startsWith(github.ref, 'refs/tags/')  }}
         run: |
           set -x
           VERSION_TAG=${GITHUB_REF/refs\/tags\//}
           echo ${VERSION_TAG}
           CLEAN_VERSION_NAME=${VERSION_TAG//["ci-v"|"v"]/}
-          echo ${CLEAN_VERSION}
-          echo "CUSTOM_APP_VERSION_NAME=$CLEAN_VERSION" >> $GITHUB_ENV
-          echo "APP_VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
+          echo ${CLEAN_VERSION_NAME}
+          echo "version-name-clean=$CLEAN_VERSION" >> $GITHUB_OUTPUT
+          echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
 
       - name: Configuration
         uses: ./.github/actions/config-build-app
@@ -116,6 +117,8 @@ jobs:
         with:
           arguments: assembleRelease
           gradle-version: ${{ env.GRADLE_VERSION }}
+        env:
+          CUSTOM_APP_VERSION_NAME: ${{ steps.version-tag.outputs.version-name-clean }}
 
       - name: Build Sign APK
         id: sign_app
