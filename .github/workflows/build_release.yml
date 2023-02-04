@@ -72,13 +72,15 @@ jobs:
         run: |
           echo ${{ steps.version-tag.outputs.version }}
           mkdir -p outputs/changelog
-          echo "Changelog:" >> outputs/changelog/CHANGELOG.md
+          echo "**Changelog:**" >> outputs/changelog/CHANGELOG.md
+          echo "" >> outputs/changelog/CHANGELOG.md
           tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
           if [ "$tag" ]; then
-            git log --oneline --no-decorate -50 $tag..HEAD >> outputs/changelog/CHANGELOG.md
+            git log --pretty=format:'- [%h] %s' -50 $tag..HEAD >> outputs/changelog/CHANGELOG.md
+            echo "" >> outputs/changelog/CHANGELOG.md
             echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${tag}...${{ steps.version-tag.outputs.version }}" >> outputs/changelog/CHANGELOG.md
           else
-            git log --oneline --no-decorate >> outputs/changelog/CHANGELOG.md
+            git log --pretty=format:'- [%h] %s' >> outputs/changelog/CHANGELOG.md
           fi
           echo "changelog=outputs/changelog/CHANGELOG.md" >> $GITHUB_OUTPUT
 
