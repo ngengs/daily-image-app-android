@@ -3,6 +3,7 @@ on:
   push:
     paths-ignore:
       - '**.md'
+      - '.github/readme-images/*'
     branches:
       - 'develop'
 
