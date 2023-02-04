@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - 'release/v*'
 
 concurrency:
   group: ${{ github.workflow }}-release-${{ github.ref }}
@@ -12,8 +14,36 @@ permissions:
   contents: read
 
 jobs:
+  testing:
+    name: Testing Release
+    uses: ./.github/workflows/testing-workflow.yml
+    if: ${{ startsWith(github.ref, 'refs/heads/release/v') && github.repository == 'ngengs/daily-image-app-android' }}
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+
+  coverage:
+    name: Coverage Release
+    uses: ./.github/workflows/coverage-workflow.yml
+    needs: [ testing ]
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
+
+  build-unsigned:
+    name: Build Unsigned Release App
+    uses: ./.github/workflows/build-app-workflow.yml
+    if: ${{ startsWith(github.ref, 'refs/heads/release/v') && github.repository == 'ngengs/daily-image-app-android' }}
+    needs: [ coverage ]
+    with:
+      signed-build: false
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+      SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+
   build:
-    name: Build
+    name: Build Signed Release App
     uses: ./.github/workflows/build-app-workflow.yml
     if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
     with:
@@ -28,6 +58,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
     needs: [ build ]
     permissions:
       contents: write
