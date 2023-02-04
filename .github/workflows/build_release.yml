@@ -54,7 +54,7 @@ jobs:
           else
             git log --oneline --no-decorate >> outputs/changelog/CHANGELOG.md
           fi
-          echo "changelog='outputs/changelog/CHANGELOG.md'" >> $GITHUB_OUTPUT
+          echo "changelog=outputs/changelog/CHANGELOG.md" >> $GITHUB_OUTPUT
 
 #      - name: Changelog
 #        uses: Bullrich/generate-release-changelog@master
