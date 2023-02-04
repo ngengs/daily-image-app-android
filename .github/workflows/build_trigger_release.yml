@@ -75,10 +75,12 @@ jobs:
         id: merge-release-branch
         run: |
           git config user.name 'github-actions'
-          git config user.email 'github-actions@github.com'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git checkout "${{ steps.release-branch.outputs.branch }}"
+
           git checkout main
           git merge "${{ steps.release-branch.outputs.branch }}"
-          git tag "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
           git push origin main
+
+          git tag -a "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
           git push origin "${{ steps.release-branch.outputs.tag }}"
