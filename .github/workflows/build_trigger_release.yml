@@ -50,7 +50,7 @@ jobs:
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
+          TAG_RELEASE="zci-${{ steps.version.outputs.version }}"
           BRANCH_RELEASE="release/$TAG_RELEASE"
           echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
           echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
