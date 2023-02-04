@@ -17,9 +17,12 @@ class ChangeFavoriteStatusUseCaseImpl @Inject constructor(
 ) : ChangeFavoriteStatusUseCase {
     override suspend fun invoke(
         data: PhotosLocal,
-        currentStatus: Boolean
+        currentStatus: Boolean,
     ) = withContext(dispatcher.io()) {
-        if (currentStatus) repository.removeFavorite(data)
-        else repository.setFavorite(data)
+        if (currentStatus) {
+            repository.removeFavorite(data)
+        } else {
+            repository.setFavorite(data)
+        }
     }
 }

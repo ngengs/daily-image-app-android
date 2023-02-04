@@ -48,14 +48,14 @@ object DataForger {
 
     inline fun <reified T : Parcelable> forgeSerializable(
         forger: Forge,
-        option: ForgeOption
+        option: ForgeOption,
     ): T {
         val instance = T::class.java.getDeclaredConstructor().newInstance()
         return DataForgerCreator.internalForgeClass(
             instance,
             instance.javaClass.declaredFields,
             option,
-            forger
+            forger,
         )
     }
 
@@ -69,7 +69,7 @@ object DataForger {
 
     inline fun <reified T : Parcelable> forgeParcelStableId(
         forger: Forge,
-        option: ForgeOption.() -> Unit = {}
+        option: ForgeOption.() -> Unit = {},
     ): T {
         val forgeOption = ForgeOption().apply(option).apply { stableId = true }
         return forgeParcel(forger, forgeOption)
@@ -88,7 +88,7 @@ object DataForger {
     inline fun <reified T : Parcelable> forgeParcelStableId(
         forger: Forge,
         size: Int,
-        option: ForgeOption.() -> Unit = {}
+        option: ForgeOption.() -> Unit = {},
     ): List<T> {
         if (size < 1) throw IllegalStateException()
         val forgeOption = ForgeOption().apply(option).apply { stableId = true }
@@ -97,14 +97,14 @@ object DataForger {
 
     inline fun <reified T : Parcelable> forgeParcel(
         forger: Forge,
-        option: ForgeOption
+        option: ForgeOption,
     ): T {
         val instance = T::class.java.getDeclaredConstructor().newInstance()
         return DataForgerCreator.internalForgeClass(
             instance,
             instance.javaClass.declaredFields,
             option,
-            forger
+            forger,
         )
     }
 

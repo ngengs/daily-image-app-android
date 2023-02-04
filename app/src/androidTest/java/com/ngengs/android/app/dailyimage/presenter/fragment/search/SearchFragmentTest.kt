@@ -63,7 +63,7 @@ class SearchFragmentTest : BaseFragmentTest() {
             Results.Failure(
                 oldData = CompletableCachedData(true, mockData1 + mockData2),
                 throwable = Exception("Failure"),
-                type = NETWORK
+                type = NETWORK,
             )
 
         val mockSuggestion1 = (1..10).map { forge.anAlphaNumericalString(size = it + 5) }
@@ -77,7 +77,7 @@ class SearchFragmentTest : BaseFragmentTest() {
         val activityScenario = launchFragmentInHiltContainer<SearchFragment>(
             fragmentArgs = args.toBundle(),
             navHostController = navController,
-            navCurrentDestination = R.id.searchFragment
+            navCurrentDestination = R.id.searchFragment,
         )
         Thread.sleep(300L)
         activityScenario.launchCoroutine {
@@ -99,17 +99,17 @@ class SearchFragmentTest : BaseFragmentTest() {
             .check(matches(atPosition(0, hasDescendant(withText(headerToolsTitle)))))
             .check(
                 matches(
-                    atPosition(1, hasDescendant(withText(mockData1.first().user!!.name)))
-                )
+                    atPosition(1, hasDescendant(withText(mockData1.first().user!!.name))),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.last().user!!.name)),
+                ),
             )
             .perform(scrollToPosition<RecyclerView.ViewHolder>(mockData1.size))
             .perform(
-                actionOnItemAtPosition<RecyclerView.ViewHolder>(mockData1.size, click())
+                actionOnItemAtPosition<RecyclerView.ViewHolder>(mockData1.size, click()),
             )
         println("navId: home:${R.id.homeFragment}")
         println("navId: detail:${R.id.detailFragment}")
@@ -136,19 +136,19 @@ class SearchFragmentTest : BaseFragmentTest() {
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.first().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.first().user!!.name)),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData2.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData2.last().user!!.name)),
+                ),
             )
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .perform(
                 recyclerChildAction<View>(R.id.view_type_button) {
                     performClick()
-                }
+                },
             )
 
         // Test Error in Next Page
@@ -165,27 +165,27 @@ class SearchFragmentTest : BaseFragmentTest() {
         onView(
             allOf(
                 withItemHint(R.string.search_image_hint),
-                isDescendantOfA(withId(R.id.search_view))
-            )
+                isDescendantOfA(withId(R.id.search_view)),
+            ),
         ).check(matches(isDisplayed()))
             .perform(clearText())
             .perform(typeText("Apple"))
         onView(withId(R.id.rv_suggestion)).check(matches(isDisplayed()))
             .perform(
-                scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(mockSuggestion1.last())))
+                scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(mockSuggestion1.last()))),
             )
         Thread.sleep(400L) // Delay before navigation for waiting search closed
         onView(withText(mockSuggestion1.last())).perform(click())
         onView(
             allOf(
                 withText(mockSuggestion1.last().toTitleCase()),
-                isDescendantOfA(withId(R.id.search_bar))
-            )
+                isDescendantOfA(withId(R.id.search_bar)),
+            ),
         ).check(matches(isDisplayed()))
         onView(
             withText(
-                testContext.getString(R.string.search_images, mockSuggestion1.last().toTitleCase())
-            )
+                testContext.getString(R.string.search_images, mockSuggestion1.last().toTitleCase()),
+            ),
         ).check(matches(isDisplayed()))
 
         // Test Search 2
@@ -195,28 +195,28 @@ class SearchFragmentTest : BaseFragmentTest() {
         val searchViewEditor2 = onView(
             allOf(
                 withItemHint(R.string.search_image_hint),
-                isDescendantOfA(withId(R.id.search_view))
-            )
+                isDescendantOfA(withId(R.id.search_view)),
+            ),
         )
         searchViewEditor2.check(matches(isDisplayed()))
             .perform(clearText())
             .perform(typeText("Orange"))
         onView(withId(R.id.rv_suggestion)).check(matches(isDisplayed()))
             .perform(
-                scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(mockSuggestion2.last())))
+                scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(mockSuggestion2.last()))),
             )
         searchViewEditor2.perform(pressImeActionButton())
         Thread.sleep(400L) // Delay before navigation for waiting search closed
         onView(
             allOf(
                 withText("Orange".toTitleCase()),
-                isDescendantOfA(withId(R.id.search_bar))
-            )
+                isDescendantOfA(withId(R.id.search_bar)),
+            ),
         ).check(matches(isDisplayed()))
         onView(
             withText(
-                testContext.getString(R.string.search_images, "Orange".toTitleCase())
-            )
+                testContext.getString(R.string.search_images, "Orange".toTitleCase()),
+            ),
         ).check(matches(isDisplayed()))
 
         Thread.sleep(1000L)

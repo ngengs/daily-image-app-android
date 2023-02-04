@@ -56,7 +56,9 @@ class SearchViewModel @Inject constructor(
             getSearchedPhotoUseCase(cleanText, page, oldData).collect { result ->
                 val nextPage = if (result is Results.Success) {
                     page + 1
-                } else page
+                } else {
+                    page
+                }
                 _data.update { it.copy(page = nextPage, mainData = result) }
             }
         }
@@ -68,7 +70,9 @@ class SearchViewModel @Inject constructor(
         val current = data.value.viewType
         val changeTarget = if (current == ViewConstant.VIEW_TYPE_GRID) {
             ViewConstant.VIEW_TYPE_LIST
-        } else ViewConstant.VIEW_TYPE_GRID
+        } else {
+            ViewConstant.VIEW_TYPE_GRID
+        }
         _data.update { it.copy(viewType = changeTarget) }
     }
 

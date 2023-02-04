@@ -31,7 +31,7 @@ import com.ngengs.android.app.dailyimage.utils.ui.ext.visibleIf
  */
 class PhotoListAdapter(
     @PhotoListViewType private var viewType: Int,
-    private val onClickListener: (PhotosLocal, View) -> Unit
+    private val onClickListener: (PhotosLocal, View) -> Unit,
 ) : ListAdapter<PhotosLocal, RecyclerView.ViewHolder>(PhotoDiffCallback) {
 
     init {
@@ -81,14 +81,16 @@ class PhotoListAdapter(
             data: PhotosLocal,
             loadingDrawable: Drawable,
             thumbnailImage: GlideRequest<Drawable>,
-            onCLickListener: (PhotosLocal, View) -> Unit
+            onCLickListener: (PhotosLocal, View) -> Unit,
         ) {
             binding.fullName.text = data.user?.name
             binding.description.visibleIf(data.description != null)
             binding.description.text = data.description
             val imageUrl = if (binding.root.resources.getBoolean(R.bool.list_use_high_quality)) {
                 data.imageLarge
-            } else data.imageSmall
+            } else {
+                data.imageSmall
+            }
             binding.photo.load(imageUrl) {
                 thumbnail = thumbnailImage
                 imageOnLoadingDrawable = loadingDrawable
@@ -105,7 +107,7 @@ class PhotoListAdapter(
             data: PhotosLocal,
             loadingDrawable: Drawable,
             thumbnailImage: GlideRequest<Drawable>,
-            onCLickListener: (PhotosLocal, View) -> Unit
+            onCLickListener: (PhotosLocal, View) -> Unit,
         ) {
             binding.fullName.text = data.user?.name
             binding.description.visibleIf(data.description != null)
@@ -142,7 +144,7 @@ class PhotoListAdapter(
             data: PhotosLocal,
             loadingDrawable: Drawable,
             thumbnailImage: GlideRequest<Drawable>,
-            onCLickListener: (PhotosLocal, View) -> Unit
+            onCLickListener: (PhotosLocal, View) -> Unit,
         )
     }
 }

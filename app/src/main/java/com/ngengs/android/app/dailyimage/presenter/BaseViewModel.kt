@@ -25,7 +25,7 @@ abstract class BaseViewModel<T>(initial: T) : ViewModel() {
 
     protected fun safeRunJob(
         dispatcher: CoroutineDispatcher,
-        task: suspend CoroutineScope.() -> Unit
+        task: suspend CoroutineScope.() -> Unit,
     ) {
         stopRunningJob()
         mainJob = viewModelScope.launch(dispatcher) {

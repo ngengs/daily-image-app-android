@@ -12,7 +12,7 @@ import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase
  */
 @Entity(
     tableName = DailyImageDatabase.TABLE_POPULAR,
-    indices = [Index(DailyImageDatabase.COLUMN_PHOTO_ID, unique = true)]
+    indices = [Index(DailyImageDatabase.COLUMN_PHOTO_ID, unique = true)],
 )
 data class PopularPhotos(
     @PrimaryKey(autoGenerate = true)

@@ -14,7 +14,7 @@ import org.junit.runner.Description
  * @ngengs
  */
 @ExperimentalCoroutinesApi
-class CoroutineRule(val dispatcher: TestDispatcher = UnconfinedTestDispatcher()): TestWatcher() {
+class CoroutineRule(val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) : TestWatcher() {
     override fun starting(description: Description?) {
         super.starting(description)
         Dispatchers.setMain(dispatcher)

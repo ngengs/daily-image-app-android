@@ -15,7 +15,9 @@ int versionMinor = versionProperties['VERSION_MINOR'] as int
 int versionPatch = versionProperties['VERSION_PATCH'] as int
 int versionBuild = versionProperties['VERSION_BUILD'] as int
 
+println("Version Custom:" +  System.getenv("CUSTOM_APP_VERSION_NAME"))
+
 ext {
     appVersionCode = ((versionMajor * 10000000) + (versionMinor * 100000) + (versionPatch * 100) + versionBuild)
-    appVersionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+    appVersionName = System.env.CUSTOM_APP_VERSION_NAME ? System.env.CUSTOM_APP_VERSION_NAME : "${versionMajor}.${versionMinor}.${versionPatch}"
 }

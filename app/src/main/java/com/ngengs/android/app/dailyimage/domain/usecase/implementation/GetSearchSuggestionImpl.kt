@@ -19,12 +19,16 @@ class GetSearchSuggestionImpl @Inject constructor(
     override suspend fun invoke(text: String) = withContext(dispatcher.io()) {
         delay(DELAY_TYPING)
         val cleanText = text.trim()
-        if (cleanText.length < LENGTH_THRESHOLD) emptyList()
-        else repository.searchSuggestion(text)
+        if (cleanText.length < LENGTH_THRESHOLD) {
+            emptyList()
+        } else {
+            repository.searchSuggestion(text)
+        }
     }
 
     companion object {
         private const val DELAY_TYPING = 300L
+
         @VisibleForTesting
         const val LENGTH_THRESHOLD = 3
     }

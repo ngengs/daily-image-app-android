@@ -22,6 +22,7 @@ object ViewPager2Matcher {
     fun withPositionInViewPager2(@IdRes viewPagerId: Int, position: Int): Matcher<View> {
         return WithPositionInViewPager2Matcher(viewPagerId, position)
     }
+
     private class WithCurrentItemMatcher(private val item: Int) :
         BoundedMatcher<View, ViewPager2>(ViewPager2::class.java) {
 
@@ -35,12 +36,12 @@ object ViewPager2Matcher {
     }
 
     private class WithPositionInViewPager2Matcher(
-        @IdRes private val viewPagerId: Int,
-        private val position: Int
+        @IdRes private val id: Int,
+        private val position: Int,
     ) : TypeSafeMatcher<View>() {
 
         override fun describeTo(description: Description) {
-            description.appendText("with position $position in ViewPager2 which has id $viewPagerId")
+            description.appendText("with position $position in ViewPager2 which has id $id")
         }
 
         override fun matchesSafely(item: View): Boolean {
@@ -50,8 +51,9 @@ object ViewPager2Matcher {
             val grandParent = parent.parent as? ViewPager2
                 ?: return false
 
-            if (grandParent.id != viewPagerId)
+            if (grandParent.id != id) {
                 return false
+            }
 
             val viewHolder = parent.findViewHolderForAdapterPosition(position)
                 ?: return false

@@ -7,7 +7,7 @@ import java.io.File
  * @ngengs
  */
 object ResourceFile {
-    fun getJson(path : String) : String {
+    fun getJson(path: String): String {
         // Load the JSON response
         val uri = this.javaClass.classLoader?.getResource("json/$path")
         val file = uri?.path?.let { File(it) }

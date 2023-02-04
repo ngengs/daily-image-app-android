@@ -39,7 +39,7 @@ object BlurHashDecoder {
         width: Int,
         height: Int,
         punch: Float = 1f,
-        useCache: Boolean = true
+        useCache: Boolean = true,
     ): Bitmap? {
         if (blurHash == null || blurHash.length < 6) {
             return null
@@ -99,7 +99,7 @@ object BlurHashDecoder {
         return floatArrayOf(
             signedPow2((r - 9) / 9.0f) * maxAc,
             signedPow2((g - 9) / 9.0f) * maxAc,
-            signedPow2((b - 9) / 9.0f) * maxAc
+            signedPow2((b - 9) / 9.0f) * maxAc,
         )
     }
 
@@ -111,7 +111,7 @@ object BlurHashDecoder {
         numCompX: Int,
         numCompY: Int,
         colors: Array<FloatArray>,
-        useCache: Boolean
+        useCache: Boolean,
     ): Bitmap {
         // use an array for better performance when writing pixel colors
         val imageArray = IntArray(width * height)
@@ -167,7 +167,7 @@ object BlurHashDecoder {
         x: Int,
         numComp: Int,
         y: Int,
-        size: Int
+        size: Int,
     ): Double {
         if (calculate) {
             this[x + numComp * y] = cos(Math.PI * y * x / size)
@@ -189,7 +189,7 @@ object BlurHashDecoder {
         'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
         'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
         'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '#', '$', '%', '*', '+', ',',
-        '-', '.', ':', ';', '=', '?', '@', '[', ']', '^', '_', '{', '|', '}', '~'
+        '-', '.', ':', ';', '=', '?', '@', '[', ']', '^', '_', '{', '|', '}', '~',
     )
         .mapIndexed { i, c -> c to i }
         .toMap()

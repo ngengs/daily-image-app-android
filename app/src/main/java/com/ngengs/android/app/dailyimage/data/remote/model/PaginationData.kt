@@ -15,5 +15,5 @@ data class PaginationData<T : Parcelable>(
     @Json(name = "pagination")
     val pagination: Pagination,
     @Json(name = "data")
-    val data: List<T>
+    val data: List<T>,
 ) : Parcelable

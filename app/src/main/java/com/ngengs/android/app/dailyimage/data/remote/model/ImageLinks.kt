@@ -19,5 +19,5 @@ data class ImageLinks(
     @Json(name = "download")
     val download: String = "",
     @Json(name = "download_location")
-    val downloadLocation: String = ""
+    val downloadLocation: String = "",
 ) : Parcelable

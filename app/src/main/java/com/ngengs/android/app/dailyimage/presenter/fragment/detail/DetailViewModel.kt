@@ -43,6 +43,6 @@ class DetailViewModel @Inject constructor(
     }
 
     data class ViewData(
-        var isFavorite: Boolean? = null
+        var isFavorite: Boolean? = null,
     )
 }

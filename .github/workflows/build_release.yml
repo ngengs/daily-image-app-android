@@ -1,0 +1,77 @@
+name: Release Build
+on:
+  push:
+    tags:
+      - v*
+
+concurrency:
+  group: ${{ github.workflow }}-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/build-app-workflow.yml
+    if: ${{ startsWith(github.ref, 'refs/tags/') && github.repository == 'ngengs/daily-image-app-android' }}
+    with:
+      signed-build: true
+    secrets:
+      SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES_RELEASE }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+      SIGNING_KEY_STORE_PASSWORD: ${{ secrets.SIGNING_KEY_STORE_PASSWORD }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Download build result
+        uses: actions/download-artifact@v3
+        with:
+          name: signed-app-artifact
+          path: outputs/
+
+      - name: Get tag name
+        id: version-tag
+        uses: ./.github/actions/extract-tag-version
+
+      - name: Create Changelog
+        id: changelog
+        run: |
+          echo ${{ steps.version-tag.outputs.version }}
+          mkdir -p outputs/changelog
+          echo "**Changelog:**" >> outputs/changelog/CHANGELOG.md
+          echo "" >> outputs/changelog/CHANGELOG.md
+          tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
+          if [ "$tag" ]; then
+            git log --pretty=format:'- [%h] %s' -50 $tag..HEAD >> outputs/changelog/CHANGELOG.md
+            echo "-----" >> outputs/changelog/CHANGELOG.md
+            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${tag}...${{ steps.version-tag.outputs.version }}" >> outputs/changelog/CHANGELOG.md
+          else
+            git log --pretty=format:'- [%h] %s' >> outputs/changelog/CHANGELOG.md
+          fi
+          echo "changelog=outputs/changelog/CHANGELOG.md" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          artifacts: "outputs/*.apk"
+          bodyFile: ${{ steps.changelog.outputs.changelog }}
+          makeLatest: "latest"
+          name: Daily Image Test Release ${{ steps.version-tag.outputs.version }}
+
+

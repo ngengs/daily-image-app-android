@@ -21,12 +21,12 @@ import com.ngengs.android.app.dailyimage.data.local.model.PopularPhotos
         PhotosLocal::class,
         PopularPhotos::class,
         LatestPhotos::class,
-        FavoritePhotos::class
+        FavoritePhotos::class,
     ],
     version = DailyImageDatabase.VERSION,
     autoMigrations = [
-        AutoMigration(from = 1, to = 2)
-    ]
+        AutoMigration(from = 1, to = 2),
+    ],
 )
 @TypeConverters(DailyImageDatabaseTypeConverter::class)
 abstract class DailyImageDatabase : RoomDatabase() {

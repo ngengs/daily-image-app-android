@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 class SimpleEndlessRecyclerScrollListener(
     private val offset: Int = 0,
     private val stopScrollPotentialEnergy: Boolean = false,
-    private val onReachEnd: () -> Unit
+    private val onReachEnd: () -> Unit,
 ) : RecyclerView.OnScrollListener() {
     var isEnabled = true
 

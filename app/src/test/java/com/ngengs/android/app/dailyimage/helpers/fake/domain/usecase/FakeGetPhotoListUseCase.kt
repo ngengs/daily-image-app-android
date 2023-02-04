@@ -16,7 +16,7 @@ class FakeGetPhotoListUseCase : GetPhotoListUseCase {
     override suspend fun invoke(
         page: Long,
         orderBy: String,
-        oldData: CompletableCachedData<PhotosLocal>?
+        oldData: CompletableCachedData<PhotosLocal>?,
     ): Flow<Results<CompletableCachedData<PhotosLocal>>> =
         flow.asSharedFlow().distinctUntilChanged()
 

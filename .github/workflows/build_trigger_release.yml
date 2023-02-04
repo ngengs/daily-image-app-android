@@ -1,0 +1,84 @@
+name: Trigger Release
+on:
+  workflow_dispatch:
+    inputs:
+      extra-version:
+        description: 'Extra version after v*.*.* (eg: input -alpha1 will create v*.*.*-alpha1)'
+        required: false
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}-trigger-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  create-release-branch:
+    name: Create Release Branch
+    runs-on: ubuntu-latest
+    if: contains('[${{ vars.MAINTAINER_USERNAME }}]', github.actor)
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Extract Version Number
+        id: version
+        uses: ./.github/actions/extract-version-properties
+        with:
+          extra-version: ${{ inputs.extra-version }}
+
+      - name: Check version
+        id: check-version
+        run: |
+          echo "full-version:${{ steps.version.outputs.version }}"
+          echo "major:${{ steps.version.outputs.major }}"
+          echo "minor:${{ steps.version.outputs.minor }}"
+          echo "patch:${{ steps.version.outputs.patch }}"
+          echo "extra:${{ steps.version.outputs.extra }}"
+
+      - name: Create Release Branch
+        id: release-branch
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          TAG_RELEASE="${{ steps.version.outputs.version }}"
+          BRANCH_RELEASE="release/$TAG_RELEASE"
+          echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
+          git checkout -b "$BRANCH_RELEASE"
+          git push --set-upstream origin "$BRANCH_RELEASE"
+
+      - name: Checkout Main Branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Checkout Release Branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.release-branch.outputs.branch }}
+          fetch-depth: 0
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Merge to Main Branch
+        id: merge-release-branch
+        run: |
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git checkout "${{ steps.release-branch.outputs.branch }}"
+          git checkout main
+          git merge "${{ steps.release-branch.outputs.branch }}"
+          git tag "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
+          git push origin main
+          git push origin "${{ steps.release-branch.outputs.tag }}"

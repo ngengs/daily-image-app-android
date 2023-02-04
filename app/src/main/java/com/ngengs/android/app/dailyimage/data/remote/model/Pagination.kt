@@ -19,5 +19,5 @@ data class Pagination(
     @Json(name = "next")
     val next: Long = 1L,
     @Json(name = "last")
-    val last: Long = 1L
+    val last: Long = 1L,
 ) : Parcelable

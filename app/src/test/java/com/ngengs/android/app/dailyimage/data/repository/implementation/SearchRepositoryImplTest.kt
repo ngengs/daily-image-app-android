@@ -54,7 +54,7 @@ class SearchRepositoryImplTest {
         val last = forge.aLong(min = page, max = 100)
         fakePhotoRemoteDataSource.searchList = PaginationData(
             pagination = Pagination(last = last),
-            data = data
+            data = data,
         )
 
         // When
@@ -73,7 +73,7 @@ class SearchRepositoryImplTest {
         val last = 1L
         fakePhotoRemoteDataSource.searchList = PaginationData(
             pagination = Pagination(last = last),
-            data = data
+            data = data,
         )
 
         // When

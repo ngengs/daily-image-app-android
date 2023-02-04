@@ -42,7 +42,7 @@ import com.ngengs.android.libs.test.utils.ext.shouldBe
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.hamcrest.Matchers.allOf
 import org.junit.Test
-import java.util.EmptyStackException
+import java.util.*
 
 @HiltAndroidTest
 class HomeFragmentTest : BaseFragmentTest() {
@@ -66,7 +66,7 @@ class HomeFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<HomeFragment>(
             navHostController = navController,
-            navCurrentDestination = R.id.homeFragment
+            navCurrentDestination = R.id.homeFragment,
         )
         activityScenario.launchCoroutine {
             FakeUseCaseModule.useCase.getPhotoListUseCase.emitResult(Results.Loading())
@@ -87,10 +87,10 @@ class HomeFragmentTest : BaseFragmentTest() {
             .check(matches(atPosition(0, hasDescendant(withText(R.string.latest_images)))))
             .check(matches(atPosition(1, hasDescendant(withText(R.string.loading_refresh_data)))))
             .check(
-                matches(atPosition(2, hasDescendant(withText(mockCache.first().user!!.name))))
+                matches(atPosition(2, hasDescendant(withText(mockCache.first().user!!.name)))),
             )
             .perform(
-                actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click())
+                actionOnItemAtPosition<RecyclerView.ViewHolder>(2, click()),
             )
         navController.currentDestination?.id shouldBe R.id.detailFragment
         navController.popBackStack()
@@ -105,12 +105,12 @@ class HomeFragmentTest : BaseFragmentTest() {
         rv.check(matches(isCompletelyDisplayed()))
             .check(matches(atPosition(0, hasDescendant(withText(R.string.latest_images)))))
             .check(
-                matches(atPosition(1, hasDescendant(withText(mockData1.first().user!!.name))))
+                matches(atPosition(1, hasDescendant(withText(mockData1.first().user!!.name)))),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.last().user!!.name)),
+                ),
             )
 
         // Test Pagination Loading
@@ -127,24 +127,24 @@ class HomeFragmentTest : BaseFragmentTest() {
         rv.perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.first().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.first().user!!.name)),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData2.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData2.last().user!!.name)),
+                ),
             )
             .perform(scrollToPosition<RecyclerView.ViewHolder>(0))
             .perform(
                 recyclerChildAction<View>(R.id.view_type_button) {
                     performClick()
-                }
+                },
             )
             .perform(
                 recyclerChildAction<View>(R.id.order_type_button) {
                     performClick()
-                }
+                },
             )
 
         // Test Changed Type Data
@@ -155,18 +155,18 @@ class HomeFragmentTest : BaseFragmentTest() {
             .check(matches(atPosition(0, hasDescendant(withText(R.string.popular_images)))))
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData1.first().user!!.name))
-                )
+                    hasDescendant(withText(mockData1.first().user!!.name)),
+                ),
             )
             .perform(
                 scrollTo<RecyclerView.ViewHolder>(
-                    hasDescendant(withText(mockData2.last().user!!.name))
-                )
+                    hasDescendant(withText(mockData2.last().user!!.name)),
+                ),
             )
 
         rv.perform(scrollToPosition<RecyclerView.ViewHolder>(resultSuccess2.data.data.size))
         onView(
-            allOf(withText(R.string.tab_title_gallery), isDescendantOfA(withId(R.id.tab_layout)))
+            allOf(withText(R.string.tab_title_gallery), isDescendantOfA(withId(R.id.tab_layout))),
         ).perform(click())
 
         // Test Tab
@@ -180,7 +180,7 @@ class HomeFragmentTest : BaseFragmentTest() {
             .check(matches(atPosition(0, hasDescendant(withText(R.string.favorite_images)))))
 
         onView(
-            allOf(withText(R.string.tab_title_favorite), isDescendantOfA(withId(R.id.tab_layout)))
+            allOf(withText(R.string.tab_title_favorite), isDescendantOfA(withId(R.id.tab_layout))),
         ).perform(click())
         onView(withId(R.id.view_pager)).perform(ViewPager2Actions.scrollLeft())
         rv.check(matches(isCompletelyDisplayed()))
@@ -193,12 +193,12 @@ class HomeFragmentTest : BaseFragmentTest() {
         onView(
             allOf(
                 withItemHint(R.string.search_image_hint),
-                isDescendantOfA(withId(R.id.search_view))
-            )
+                isDescendantOfA(withId(R.id.search_view)),
+            ),
         ).check(matches(isDisplayed())).perform(typeText("Apple"))
         onView(withId(R.id.rv_suggestion)).check(matches(isDisplayed()))
             .perform(
-                scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(mockSuggestion1.last())))
+                scrollTo<RecyclerView.ViewHolder>(hasDescendant(withText(mockSuggestion1.last()))),
             )
         onView(withText(mockSuggestion1.last())).perform(click())
         Thread.sleep(400L) // Delay before navigation for waiting search closed
@@ -226,7 +226,7 @@ class HomeFragmentTest : BaseFragmentTest() {
 
         val activityScenario = launchFragmentInHiltContainer<HomeFragment>(
             navHostController = navController,
-            navCurrentDestination = R.id.homeFragment
+            navCurrentDestination = R.id.homeFragment,
         )
         val rv = onViewPagerPosition(R.id.rv)
         val errorImageView = onViewPagerPosition(R.id.error_image)
@@ -253,8 +253,8 @@ class HomeFragmentTest : BaseFragmentTest() {
             allOf(
                 withId(R.id.error_message),
                 withText(R.string.error_message_network),
-                isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0))
-            )
+                isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0)),
+            ),
         ).check(matches(isDisplayed()))
         errorRetryView.check(matches(isDisplayed())).perform(click())
 
@@ -269,8 +269,8 @@ class HomeFragmentTest : BaseFragmentTest() {
             allOf(
                 withId(R.id.error_message),
                 withText(R.string.error_message_server),
-                isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0))
-            )
+                isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0)),
+            ),
         ).check(matches(isDisplayed()))
         errorRetryView.check(matches(isDisplayed())).perform(click())
 
@@ -285,8 +285,8 @@ class HomeFragmentTest : BaseFragmentTest() {
             allOf(
                 withId(R.id.error_message),
                 withText(R.string.error_message_other),
-                isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0))
-            )
+                isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0)),
+            ),
         ).check(matches(isDisplayed()))
         errorRetryView.check(matches(isDisplayed())).perform(click())
 
@@ -302,9 +302,9 @@ class HomeFragmentTest : BaseFragmentTest() {
                 allOf(
                     withId(R.id.error_message),
                     withText(R.string.error_message_empty),
-                    isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0))
-                )
-            )
+                    isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 0)),
+                ),
+            ),
         ).check(matches(isDisplayed()))
         errorRetryView.check(matches(isNotDisplayed()))
 
@@ -321,9 +321,9 @@ class HomeFragmentTest : BaseFragmentTest() {
                 allOf(
                     withId(R.id.error_message),
                     withText(R.string.error_message_empty),
-                    isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 1))
-                )
-            )
+                    isDescendantOfA(withPositionInViewPager2(R.id.view_pager, 1)),
+                ),
+            ),
         ).check(matches(isDisplayed()))
 
         activityScenario.recreate()
@@ -332,7 +332,7 @@ class HomeFragmentTest : BaseFragmentTest() {
     private fun onViewPagerPosition(@IdRes id: Int, position: Int = 0) = onView(
         allOf(
             withId(id),
-            isDescendantOfA(withPositionInViewPager2(R.id.view_pager, position))
-        )
+            isDescendantOfA(withPositionInViewPager2(R.id.view_pager, position)),
+        ),
     )
 }

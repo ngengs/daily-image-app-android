@@ -21,7 +21,7 @@ import dagger.hilt.testing.TestInstallIn
 @Module
 @TestInstallIn(
     components = [ViewModelComponent::class],
-    replaces = [UseCaseModule::class]
+    replaces = [UseCaseModule::class],
 )
 class FakeUseCaseModule {
     @Provides

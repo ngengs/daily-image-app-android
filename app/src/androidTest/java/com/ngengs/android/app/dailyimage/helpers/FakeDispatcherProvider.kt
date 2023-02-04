@@ -11,7 +11,7 @@ import kotlinx.coroutines.test.TestDispatcher
  */
 @OptIn(ExperimentalCoroutinesApi::class)
 class FakeDispatcherProvider(
-    private val testDispatcher: TestDispatcher
+    private val testDispatcher: TestDispatcher,
 ) : DispatcherProvider {
     override fun main(): CoroutineDispatcher = testDispatcher
     override fun io(): CoroutineDispatcher = testDispatcher

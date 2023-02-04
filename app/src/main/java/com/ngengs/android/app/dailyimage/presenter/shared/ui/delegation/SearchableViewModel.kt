@@ -12,6 +12,6 @@ interface SearchableViewModel {
         text: String,
         scope: CoroutineScope,
         dispatcher: CoroutineDispatcher,
-        onSuggestionResult: (List<String>) -> Unit
+        onSuggestionResult: (List<String>) -> Unit,
     )
 }

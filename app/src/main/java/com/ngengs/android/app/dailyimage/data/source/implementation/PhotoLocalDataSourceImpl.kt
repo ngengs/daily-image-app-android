@@ -94,7 +94,7 @@ class PhotoLocalDataSourceImpl @Inject constructor(
 
     private suspend fun safeClear(
         clearType: Int,
-        favoriteIdToRemove: List<String> = emptyList()
+        favoriteIdToRemove: List<String> = emptyList(),
     ) = withContext(dispatcher.io()) {
         Timber.d("safeClear, thread: ${Thread.currentThread().name}")
         val popularId = getPopular().map { it.id }

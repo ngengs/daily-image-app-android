@@ -1,0 +1,44 @@
+name: 'Config Build App'
+description: 'Preparing configuration to building the app.'
+inputs:
+  secrets-properties-config:
+    description: "secrets.properties hash data"
+    required: true
+  java-version:
+    description: "Java version to work with build"
+    required: true
+  gradle-version:
+    description: "Gradle version to work with build"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Set up JDK
+      id: setup-jdk
+      uses: actions/setup-java@v3
+      with:
+        java-version: ${{ inputs.java-version }}
+        distribution: temurin
+
+    - name: Check current branch
+      id: check-current-branch
+      shell: bash
+      run: |
+        echo ${{ github.ref }}
+
+    - name: Gradle cache
+      id: gradle-cache
+      uses: gradle/gradle-build-action@v2
+      with:
+        cache-read-only: ${{ github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/heads/release/v') && !startsWith(github.ref, 'refs/tags/') }}
+        gradle-version: ${{ inputs.gradle-version }}
+
+    - name: Grant execute permission for gradlew
+      id: gradle-permission
+      run: chmod +x gradlew
+      shell: bash
+
+    - name: Prepare app config
+      id: preparing-config
+      run: openssl base64 -d -out secrets.properties <<< ${{ inputs.secrets-properties-config }}
+      shell: bash

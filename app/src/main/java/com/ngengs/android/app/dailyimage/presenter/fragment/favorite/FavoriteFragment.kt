@@ -57,7 +57,7 @@ open class FavoriteFragmentImpl :
             iconOrderBy = null,
             onClickViewType = {
                 viewModel.changeViewType()
-            }
+            },
         )
         val concatAdapterConfig = ConcatAdapter.Config.Builder()
             .setStableIdMode(ConcatAdapter.Config.StableIdMode.ISOLATED_STABLE_IDS)
@@ -65,7 +65,7 @@ open class FavoriteFragmentImpl :
         concatAdapter = ConcatAdapter(
             concatAdapterConfig,
             headerAdapter,
-            photoAdapter
+            photoAdapter,
         )
         initializeViewTypeScreen(
             context = requireContext(),
@@ -73,7 +73,7 @@ open class FavoriteFragmentImpl :
             adapter = concatAdapter,
             viewType = viewType,
             topFullSpanItemCount = { headerAdapter.itemCount },
-            singleSpanItemCount = { photoAdapter.itemCount }
+            singleSpanItemCount = { photoAdapter.itemCount },
         )
         photoAdapter.stateRestorationPolicy = PREVENT_WHEN_EMPTY
 
@@ -104,7 +104,7 @@ open class FavoriteFragmentImpl :
             hasCache = false,
             onDisplayingCache = null,
             onLoadingNextPage = null,
-            onNoLoading = null
+            onNoLoading = null,
         )
     }
 
@@ -126,7 +126,7 @@ open class FavoriteFragmentImpl :
             data = data.mainData,
             page = 1L,
             onRetry = null,
-            onErrorNextPage = null
+            onErrorNextPage = null,
         )
     }
 
@@ -137,7 +137,9 @@ open class FavoriteFragmentImpl :
 
     private fun createViewTypeIcon(viewType: Int) = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
         R.drawable.ic_baseline_grid_view_24
-    } else R.drawable.ic_baseline_view_list_24
+    } else {
+        R.drawable.ic_baseline_view_list_24
+    }
 
     override fun scrollToTop() {
         binding.rv.scrollToPosition(0)

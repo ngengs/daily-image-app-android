@@ -180,7 +180,7 @@ object ViewPager2Actions {
         override fun onPageScrolled(
             position: Int,
             positionOffset: Float,
-            positionOffsetPixels: Int
+            positionOffsetPixels: Int,
         ) {
         }
     }

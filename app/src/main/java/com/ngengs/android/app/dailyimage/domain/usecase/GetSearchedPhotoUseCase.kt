@@ -13,6 +13,6 @@ interface GetSearchedPhotoUseCase {
     suspend operator fun invoke(
         text: String,
         page: Long,
-        oldData: CompletableCachedData<PhotosLocal>?
+        oldData: CompletableCachedData<PhotosLocal>?,
     ): Flow<Results<CompletableCachedData<PhotosLocal>>>
 }

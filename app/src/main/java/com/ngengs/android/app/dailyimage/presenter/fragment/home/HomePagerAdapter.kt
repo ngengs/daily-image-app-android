@@ -10,7 +10,7 @@ import com.ngengs.android.app.dailyimage.presenter.fragment.latest.LatestImageFr
 class HomePagerAdapter(
     private val tabSize: Int,
     fragmentManager: FragmentManager,
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int = tabSize
 

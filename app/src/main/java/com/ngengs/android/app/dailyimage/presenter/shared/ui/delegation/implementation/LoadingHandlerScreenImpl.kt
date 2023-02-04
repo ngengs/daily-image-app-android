@@ -20,7 +20,7 @@ class LoadingHandlerScreenImpl : LoadingHandlerScreen {
         hasCache: Boolean,
         onDisplayingCache: (() -> Unit)?,
         onLoadingNextPage: (() -> Unit)?,
-        onNoLoading: (() -> Unit)?
+        onNoLoading: (() -> Unit)?,
     ) {
         if (data is Results.Loading) {
             if (page == 1L && !hasCache) {

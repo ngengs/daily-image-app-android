@@ -35,7 +35,7 @@ class DailyImageDatabaseMigrationTest {
         InstrumentationRegistry.getInstrumentation(),
         DailyImageDatabase::class.java,
         emptyList(),
-        FrameworkSQLiteOpenHelperFactory()
+        FrameworkSQLiteOpenHelperFactory(),
     )
 
     @Test
@@ -57,7 +57,7 @@ class DailyImageDatabaseMigrationTest {
                     put("description", data.first().description)
                     put("image", data.first().image)
                     put("user", userSimpleAdapter.toJson(data.first().user).orEmpty())
-                }
+                },
             )
             insert(
                 DailyImageDatabase.TABLE_PHOTO,
@@ -71,7 +71,7 @@ class DailyImageDatabaseMigrationTest {
                     put("description", data.last().description)
                     put("image", data.last().image)
                     put("user", userSimpleAdapter.toJson(data.last().user).orEmpty())
-                }
+                },
             )
 
             close()

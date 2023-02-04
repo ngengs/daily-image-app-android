@@ -22,18 +22,18 @@ internal object ApplicationModule {
     @Singleton
     @Provides
     fun provideAPI(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): UnsplashAPI = UnsplashAPI.instantiate(context)
 
     @Singleton
     @Provides
     fun providePublicAPI(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): UnsplashPublicAPI = UnsplashPublicAPI.instantiate(context)
 
     @Singleton
     @Provides
     fun provideDatabase(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): DailyImageDatabase = DailyImageDatabase.initialize(context)
 }

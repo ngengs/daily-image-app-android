@@ -38,6 +38,5 @@ class FakeFavoriteRepository : FavoriteRepository {
 
     fun reset() {
         favoritePhotos.clear()
-
     }
 }

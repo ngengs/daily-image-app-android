@@ -1,0 +1,38 @@
+name: Lint
+
+on:
+  workflow_call:
+
+jobs:
+  ktlint:
+    name: Kotlin Code Style
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        id: clone-repo
+        uses: actions/checkout@v3
+
+      - name: Check code style
+        uses: musichin/ktlint-check@v2
+        continue-on-error: false
+        with:
+          ktlint-version: '0.48.2'
+          level: 'error'
+          android: true
+          relative: true
+          reporter: |
+            plain,output=outputs/ktlint/ktlint-report.txt
+            json,output=outputs/ktlint/ktlint-report.json
+            sarif,output=outputs/ktlint/ktlint-report.sarif
+            checkstyle,output=outputs/ktlint/ktlint-report.xml
+          patterns: |
+            **/**src/**/*.kt
+            !**/generated/**
+
+      - name: Upload Ktlint report
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: ktlint-result
+          path: outputs/ktlint

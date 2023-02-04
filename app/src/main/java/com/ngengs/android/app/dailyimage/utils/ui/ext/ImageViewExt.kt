@@ -22,7 +22,7 @@ import com.ngengs.android.app.dailyimage.utils.image.ImageOptions
 @SuppressLint("CheckResult")
 fun ImageView?.load(
     url: String,
-    builder: ImageOptions.() -> Unit = {}
+    builder: ImageOptions.() -> Unit = {},
 ) {
     if (this == null) return
     val validContext = getValidContext(this) ?: return
@@ -39,7 +39,7 @@ fun ImageView?.load(
                     e: GlideException?,
                     model: Any?,
                     target: Target<Drawable>?,
-                    isFirstResource: Boolean
+                    isFirstResource: Boolean,
                 ): Boolean {
                     base.onLoadFailed?.invoke()
                     return false
@@ -50,7 +50,7 @@ fun ImageView?.load(
                     model: Any?,
                     target: Target<Drawable>?,
                     dataSource: DataSource?,
-                    isFirstResource: Boolean
+                    isFirstResource: Boolean,
                 ): Boolean {
                     base.onImageLoaded?.invoke(resource)
                     return false

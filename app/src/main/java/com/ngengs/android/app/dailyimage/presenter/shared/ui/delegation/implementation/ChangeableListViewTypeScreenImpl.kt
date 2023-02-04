@@ -26,7 +26,7 @@ class ChangeableListViewTypeScreenImpl : ChangeableListViewTypeScreen {
         adapter: RecyclerView.Adapter<*>,
         @PhotoListViewType viewType: Int,
         topFullSpanItemCount: () -> Int,
-        singleSpanItemCount: () -> Int
+        singleSpanItemCount: () -> Int,
     ) {
         currentViewType = viewType
         spanCount = context.resources.getInteger(R.integer.grid_span)
@@ -52,7 +52,7 @@ class ChangeableListViewTypeScreenImpl : ChangeableListViewTypeScreen {
         viewType: Int,
         recyclerView: RecyclerView,
         adapter: RecyclerView.Adapter<*>,
-        onViewTypeChanged: () -> Unit
+        onViewTypeChanged: () -> Unit,
     ) {
         val isViewTypeChanged = currentViewType != viewType
         currentViewType = viewType
@@ -81,5 +81,7 @@ class ChangeableListViewTypeScreenImpl : ChangeableListViewTypeScreen {
 
     override fun viewTypeIcon(viewType: Int): Int = if (viewType == ViewConstant.VIEW_TYPE_GRID) {
         R.drawable.ic_baseline_grid_view_24
-    } else R.drawable.ic_baseline_view_list_24
+    } else {
+        R.drawable.ic_baseline_view_list_24
+    }
 }

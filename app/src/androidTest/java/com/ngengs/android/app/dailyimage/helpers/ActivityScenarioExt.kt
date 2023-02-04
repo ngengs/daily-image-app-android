@@ -11,7 +11,7 @@ import kotlin.reflect.full.cast
 fun ActivityScenario<HiltTestActivity>.launchCoroutine(action: suspend (Fragment) -> Unit) {
     onActivity {
         val fragment = requireNotNull(
-            it.supportFragmentManager.findFragmentByTag(FRAGMENT_TEST_TAG)
+            it.supportFragmentManager.findFragmentByTag(FRAGMENT_TEST_TAG),
         )
         fragment.lifecycleScope.launch {
             action.invoke(fragment)
@@ -20,11 +20,11 @@ fun ActivityScenario<HiltTestActivity>.launchCoroutine(action: suspend (Fragment
 }
 
 inline fun <reified F : Fragment> ActivityScenario<HiltTestActivity>.onFragment(
-    crossinline action: (F) -> Unit
+    crossinline action: (F) -> Unit,
 ) {
     onActivity {
         val fragment = requireNotNull(
-            it.supportFragmentManager.findFragmentByTag(FRAGMENT_TEST_TAG)
+            it.supportFragmentManager.findFragmentByTag(FRAGMENT_TEST_TAG),
         )
         val castFragment = F::class.cast(fragment)
         action.invoke(castFragment)

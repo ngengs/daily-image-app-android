@@ -20,7 +20,9 @@ interface UnsplashAPI {
     @GET("/photos?per_page=$PER_PAGE")
     suspend fun photos(
         @Query("page") page: Long,
-        @OrderBy @Query("order_by") orderBy: String,
+        @OrderBy
+        @Query("order_by")
+        orderBy: String,
     ): Response<List<Photos>>
 
     @GET("/search/photos?per_page=$PER_PAGE")

@@ -82,7 +82,7 @@ open class HomeFragmentImpl :
                         HomeFragmentDirections.actionHomeFragmentToSearchFragment(it)
                     findNavController().navigate(direction)
                 }
-            }
+            },
         )
     }
     override fun render(data: ViewData) {

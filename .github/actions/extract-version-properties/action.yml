@@ -1,0 +1,57 @@
+name: 'Extract Version'
+description: 'Extract version defined in properties file. (Must have value VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH)'
+inputs:
+  extra-version:
+    description: "Extra version after v*.*.* (eg: input 'alpha1' will create v*.*.*-alpha1)"
+    required: false
+    default: ""
+  properties-file:
+    description: ".properties file location. (default: version.properties)"
+    required: false
+    default: "version.properties"
+
+outputs:
+  version:
+    description: "Extracted version full format"
+    value: ${{ steps.build.outputs.version }}
+  major:
+    description: "Extracted version major"
+    value: ${{ steps.extract.outputs.major }}
+  minor:
+    description: "Extracted version minor"
+    value: ${{ steps.extract.outputs.minor }}
+  patch:
+    description: "Extracted version patch"
+    value: ${{ steps.extract.outputs.patch }}
+  extra:
+    description: "Extracted version extra (from input)"
+    value: ${{ steps.extract.outputs.extra }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Read version data
+      id: extract
+      shell: bash
+      run: |
+        source ${{ inputs.properties-file }}
+        VERSION_EXTRA=""
+        if [[ ${{ inputs.extra-version }} ]]; then
+          VERSION_EXTRA="-${{ inputs.extra-version }}";
+        fi
+        echo "major=$VERSION_MAJOR"
+        echo "minor=$VERSION_MINOR"
+        echo "patch=$VERSION_PATCH"
+        echo "extra=$VERSION_EXTRA"
+        echo "major=$VERSION_MAJOR" >> $GITHUB_OUTPUT
+        echo "minor=$VERSION_MINOR" >> $GITHUB_OUTPUT
+        echo "patch=$VERSION_PATCH" >> $GITHUB_OUTPUT
+        echo "extra=$VERSION_EXTRA" >> $GITHUB_OUTPUT
+
+    - name: Build version data
+      id: build
+      shell: bash
+      run: |
+        COMPLETE_VERSION_NUMBER="v${{ steps.extract.outputs.major }}.${{ steps.extract.outputs.minor }}.${{ steps.extract.outputs.patch }}${{ steps.extract.outputs.extra }}"
+        echo $COMPLETE_VERSION_NUMBER
+        echo "version=$COMPLETE_VERSION_NUMBER" >> $GITHUB_OUTPUT

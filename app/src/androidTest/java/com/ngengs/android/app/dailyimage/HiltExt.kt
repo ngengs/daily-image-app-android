@@ -27,27 +27,29 @@ import com.ngengs.android.app.dailyimage.presenter.activity.HiltTestActivity
  */
 inline fun <reified T : Fragment> launchFragmentInHiltContainer(
     fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    @StyleRes themeResId: Int =
+        androidx.fragment.testing.R.style.FragmentScenarioEmptyFragmentActivityTheme,
     navHostController: TestNavHostController? = null,
     @IdRes navCurrentDestination: Int? = null,
     initialState: Lifecycle.State = Lifecycle.State.RESUMED,
-    crossinline action: T.() -> Unit = {}
+    crossinline action: T.() -> Unit = {},
 ): ActivityScenario<HiltTestActivity> {
     val startActivityIntent = Intent.makeMainActivity(
         ComponentName(
             ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
-        )
+            HiltTestActivity::class.java,
+        ),
     ).putExtra(
-        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
-        themeResId
+        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity." +
+            "THEME_EXTRAS_BUNDLE_KEY",
+        themeResId,
     )
     Log.d("FragmentInHiltContainer", "Initialize")
 
     return ActivityScenario.launch<HiltTestActivity>(startActivityIntent).onActivity { activity ->
         val fragment: Fragment = activity.supportFragmentManager.fragmentFactory.instantiate(
             Preconditions.checkNotNull(T::class.java.classLoader),
-            T::class.java.name
+            T::class.java.name,
         )
         fragment.arguments = fragmentArgs
         fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->

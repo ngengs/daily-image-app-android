@@ -21,7 +21,7 @@ class HeaderToolsAdapter(
     private var headerTitle: String,
     private var onClickViewType: () -> Unit,
     private var onClickOrderBy: (() -> Unit)? = null,
-    @DrawableRes private var iconOrderBy: Int? = R.drawable.ic_baseline_sort_calendar_desc_24
+    @DrawableRes private var iconOrderBy: Int? = R.drawable.ic_baseline_sort_calendar_desc_24,
 ) : RecyclerView.Adapter<ViewHolder>() {
 
     private var spaceTop: Int = 0
@@ -50,7 +50,7 @@ class HeaderToolsAdapter(
             iconOrderBy,
             spaceTop,
             onClickViewType,
-            onClickOrderBy
+            onClickOrderBy,
         )
     }
 
@@ -91,7 +91,7 @@ class HeaderToolsAdapter(
     }
 
     class ViewHolder(
-        private val binding: ItemPhotoHeaderToolsBinding
+        private val binding: ItemPhotoHeaderToolsBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             headerTitle: String,
@@ -99,7 +99,7 @@ class HeaderToolsAdapter(
             iconOrderBy: Int?,
             spaceTop: Int,
             onClickViewType: () -> Unit,
-            onClickOrderBy: (() -> Unit)?
+            onClickOrderBy: (() -> Unit)?,
         ) {
             binding.root.updateLayoutParams<MarginLayoutParams> {
                 topMargin = spaceTop

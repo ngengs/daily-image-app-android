@@ -51,13 +51,19 @@ class LatestImageViewModel @Inject constructor(
             getPhotoListUseCase(page, orderType, oldData).collect { result ->
                 val cache = if (result is Results.Success && result.data.isCache) {
                     result.data.data
-                } else data.value.cache
+                } else {
+                    data.value.cache
+                }
                 val nextPage = if (result is Results.Success && !result.data.isCache) {
                     page + 1
-                } else page
+                } else {
+                    page
+                }
                 val mainData = if (result is Results.Success && result.data.isCache) {
                     data.value.mainData
-                } else result
+                } else {
+                    result
+                }
                 _data.update { it.copy(mainData = mainData, page = nextPage, cache = cache) }
             }
         }
@@ -70,7 +76,9 @@ class LatestImageViewModel @Inject constructor(
         val current = data.value.viewType
         val changeTarget = if (current == ViewConstant.VIEW_TYPE_GRID) {
             ViewConstant.VIEW_TYPE_LIST
-        } else ViewConstant.VIEW_TYPE_GRID
+        } else {
+            ViewConstant.VIEW_TYPE_GRID
+        }
         _data.update { it.copy(viewType = changeTarget) }
     }
 
@@ -78,7 +86,9 @@ class LatestImageViewModel @Inject constructor(
         val current = data.value.orderType
         val changeTarget = if (current == ApiConstant.ORDER_BY_LATEST) {
             ApiConstant.ORDER_BY_POPULAR
-        } else ApiConstant.ORDER_BY_LATEST
+        } else {
+            ApiConstant.ORDER_BY_LATEST
+        }
         _data.update { it.copy(orderType = changeTarget) }
         reload()
     }

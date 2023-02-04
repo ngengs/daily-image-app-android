@@ -17,6 +17,6 @@ interface ErrorHandlerScreen {
         data: Results<*>,
         page: Long,
         onRetry: (() -> Unit)?,
-        onErrorNextPage: (() -> Unit)?
+        onErrorNextPage: (() -> Unit)?,
     )
 }

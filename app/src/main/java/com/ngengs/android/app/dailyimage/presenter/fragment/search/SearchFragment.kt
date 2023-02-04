@@ -76,7 +76,7 @@ open class SearchFragmentImpl :
             iconOrderBy = null,
             onClickViewType = {
                 viewModel.changeViewType()
-            }
+            },
         )
         bottomLoadingAdapter = LoadingItemAdapter(getString(R.string.loading_more_data))
         val concatAdapterConfig = ConcatAdapter.Config.Builder()
@@ -86,7 +86,7 @@ open class SearchFragmentImpl :
             concatAdapterConfig,
             headerAdapter,
             photoAdapter,
-            bottomLoadingAdapter
+            bottomLoadingAdapter,
         )
         initializeViewTypeScreen(
             context = requireContext(),
@@ -94,12 +94,12 @@ open class SearchFragmentImpl :
             adapter = concatAdapter,
             viewType = viewType,
             topFullSpanItemCount = { headerAdapter.itemCount },
-            singleSpanItemCount = { photoAdapter.itemCount }
+            singleSpanItemCount = { photoAdapter.itemCount },
         )
         binding.rv.addOnScrollListener(
             SimpleEndlessRecyclerScrollListener(currentSpanSize()) {
                 viewModel.fetchNextIfNeeded()
-            }
+            },
         )
         binding.searchBar.setNavigationOnClickListener {
             findNavController().popBackStack()
@@ -119,7 +119,7 @@ open class SearchFragmentImpl :
             onOpenHandler = {
                 onBackPressed.isEnabled = true
             },
-            onSearchHandler = { viewModel.setText(it) }
+            onSearchHandler = { viewModel.setText(it) },
         )
         binding.searchBar.text = args.searchText.toTitleCase()
         headerAdapter.updatingSpaceTopBasedOnView(binding.appBar) { binding.appBar.height }
@@ -154,7 +154,7 @@ open class SearchFragmentImpl :
             },
             onNoLoading = {
                 bottomLoadingAdapter.stopLoading()
-            }
+            },
         )
     }
 
@@ -181,7 +181,7 @@ open class SearchFragmentImpl :
                 photoAdapter.submitList(errorData.anyData()?.data.orEmpty())
                 val errorMessage = errorData.throwable.message ?: "Something went wrong"
                 Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_SHORT).show()
-            }
+            },
         )
     }
 
@@ -189,8 +189,8 @@ open class SearchFragmentImpl :
         headerAdapter.changeTitle(
             getString(
                 R.string.search_images,
-                data.text.orEmpty().toTitleCase()
-            )
+                data.text.orEmpty().toTitleCase(),
+            ),
         )
         headerAdapter.changeViewTypeIcon(viewTypeIcon(data.viewType))
     }

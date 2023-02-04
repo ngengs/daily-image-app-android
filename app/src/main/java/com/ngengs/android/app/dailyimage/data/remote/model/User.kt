@@ -37,5 +37,5 @@ data class User(
     @Json(name = "profile_image")
     val profileImage: ProfileImage = ProfileImage(),
     @Json(name = "links")
-    val links: UserLinks = UserLinks()
+    val links: UserLinks = UserLinks(),
 ) : Parcelable

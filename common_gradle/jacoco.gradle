@@ -33,12 +33,21 @@ def setupAndroidReporting() {
             }
             def unitTestName = "${sourceName.capitalize()}UnitTest"
             def testTaskName = "test${unitTestName}"
+            def instrumentTestTaskName = "connected${sourceName.capitalize()}AndroidTest"
             def jacocoTaskName = "jacoco${sourceName.capitalize()}TestCoverage"
+            def jacocoOnlyTaskName = "jacoco${sourceName.capitalize()}Report"
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
-            task "$jacocoTaskName"(type: JacocoReport, dependsOn: ["create${sourceName.capitalize()}CoverageReport", "$testTaskName"]) {
+            task "$jacocoTaskName"(type: JacocoReport, dependsOn: ["$instrumentTestTaskName", "$testTaskName"]) {
                 group = "Reporting"
-                description = "Generate Jacoco coverage reports on the ${sourceName.capitalize()} build."
+                description = "Generate Jacoco test and coverage reports on the ${sourceName.capitalize()} build."
+
+                finalizedBy "$jacocoOnlyTaskName"
+            }
+
+            task "$jacocoOnlyTaskName"(type: JacocoReport) {
+                group = "Reporting"
+                description = "Generate Jacoco coverage reports only on the ${sourceName.capitalize()} build."
 
                 def fileFilter = [
                         // data binding

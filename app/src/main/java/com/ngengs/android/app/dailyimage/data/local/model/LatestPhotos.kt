@@ -12,7 +12,7 @@ import com.ngengs.android.app.dailyimage.data.local.DailyImageDatabase
  */
 @Entity(
     tableName = DailyImageDatabase.TABLE_LATEST,
-    indices = [Index(DailyImageDatabase.COLUMN_PHOTO_ID, unique = true)]
+    indices = [Index(DailyImageDatabase.COLUMN_PHOTO_ID, unique = true)],
 )
 data class LatestPhotos(
     @PrimaryKey(autoGenerate = true)

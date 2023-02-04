@@ -13,7 +13,6 @@ import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
 
-
 /**
  * Created by rizky.kharisma on 31/01/23.
  * @ngengs
@@ -33,8 +32,9 @@ object ZoomGestureViewAction {
             override fun perform(uiController: UiController, view: View) {
                 val middlePosition: Point = getCenterPoint(view)
                 val startDelta = 0 // How far from the center point each finger should start
-                val endDelta =
-                    500 // How far from the center point each finger should end (note: Be sure to have this large enough so that the gesture is recognized!)
+                // How far from the center point each finger should end
+                // (note: Be sure to have this large enough so that the gesture is recognized!)
+                val endDelta = 500
                 val startPoint1 = Point(middlePosition.x - startDelta, middlePosition.y)
                 val startPoint2 = Point(middlePosition.x + startDelta, middlePosition.y)
                 val endPoint1 = Point(middlePosition.x - endDelta, middlePosition.y)
@@ -56,8 +56,9 @@ object ZoomGestureViewAction {
 
             override fun perform(uiController: UiController, view: View) {
                 val middlePosition: Point = getCenterPoint(view)
-                val startDelta =
-                    500 // How far from the center point each finger should start (note: Be sure to have this large enough so that the gesture is recognized!)
+                // How far from the center point each finger should start
+                // (note: Be sure to have this large enough so that the gesture is recognized!)
+                val startDelta = 500
                 val endDelta = 0 // How far from the center point each finger should end
                 val startPoint1 = Point(middlePosition.x - startDelta, middlePosition.y)
                 val startPoint2 = Point(middlePosition.x + startDelta, middlePosition.y)
@@ -76,7 +77,7 @@ object ZoomGestureViewAction {
         val viewWidth: Float = view.width * view.scaleX
         return Point(
             (locationOnScreen[0] + viewWidth / 2).toInt(),
-            (locationOnScreen[1] + viewHeight / 2).toInt()
+            (locationOnScreen[1] + viewHeight / 2).toInt(),
         )
     }
 
@@ -85,7 +86,7 @@ object ZoomGestureViewAction {
         startPoint1: Point,
         startPoint2: Point,
         endPoint1: Point,
-        endPoint2: Point
+        endPoint2: Point,
     ) {
         val duration = 500
         val eventMinInterval: Long = 10
@@ -138,15 +139,17 @@ object ZoomGestureViewAction {
             event = MotionEvent.obtain(
                 startTime, eventTime,
                 MotionEvent.ACTION_DOWN, 1, properties,
-                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0
+                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0,
             )
             injectMotionEventToUiController(uiController, event)
 
             // Step 2
+            val action = MotionEvent.ACTION_POINTER_DOWN +
+                (pp2.id shl MotionEvent.ACTION_POINTER_INDEX_SHIFT)
             event = MotionEvent.obtain(
                 startTime,
                 eventTime,
-                MotionEvent.ACTION_POINTER_DOWN + (pp2.id shl MotionEvent.ACTION_POINTER_INDEX_SHIFT),
+                action,
                 2,
                 properties,
                 pointerCoords,
@@ -157,7 +160,7 @@ object ZoomGestureViewAction {
                 0,
                 0,
                 0,
-                0
+                0,
             )
             injectMotionEventToUiController(uiController, event)
 
@@ -184,7 +187,7 @@ object ZoomGestureViewAction {
                 event = MotionEvent.obtain(
                     startTime, eventTime,
                     MotionEvent.ACTION_MOVE, 2, properties,
-                    pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0
+                    pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0,
                 )
                 injectMotionEventToUiController(uiController, event)
             }
@@ -211,7 +214,7 @@ object ZoomGestureViewAction {
                 0,
                 0,
                 0,
-                0
+                0,
             )
             injectMotionEventToUiController(uiController, event)
 
@@ -220,7 +223,7 @@ object ZoomGestureViewAction {
             event = MotionEvent.obtain(
                 startTime, eventTime,
                 MotionEvent.ACTION_UP, 1, properties,
-                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0
+                pointerCoords, 0, 0, 1f, 1f, 0, 0, 0, 0,
             )
             injectMotionEventToUiController(uiController, event)
         } catch (e: InjectEventSecurityException) {

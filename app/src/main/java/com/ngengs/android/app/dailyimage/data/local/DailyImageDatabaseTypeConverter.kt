@@ -13,13 +13,19 @@ class DailyImageDatabaseTypeConverter {
 
     @TypeConverter
     fun fromUserSimple(data: UserSimple?): String {
-        return if (data == null) ""
-        else userSimpleAdapter.toJson(data)
+        return if (data == null) {
+            ""
+        } else {
+            userSimpleAdapter.toJson(data)
+        }
     }
 
     @TypeConverter
     fun toNutrition(dataString: String): UserSimple? {
-        return if (dataString.isEmpty()) null
-        else userSimpleAdapter.fromJson(dataString)
+        return if (dataString.isEmpty()) {
+            null
+        } else {
+            userSimpleAdapter.fromJson(dataString)
+        }
     }
 }

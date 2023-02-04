@@ -11,7 +11,7 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/searchbar_scrolling_view_behavior" />
+        app:layout_behavior="com.google.android.material.search.SearchBar$ScrollingViewBehavior" />
 
     <include
         android:id="@+id/layout_error"

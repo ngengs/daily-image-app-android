@@ -14,7 +14,7 @@ import retrofit2.http.Path
 interface UnsplashPublicAPI {
     @GET("/nautocomplete/{text}")
     suspend fun autocomplete(
-        @Path("text") text: String
+        @Path("text") text: String,
     ): AutoComplete
 
     companion object {

@@ -46,7 +46,7 @@ class SearchViewModelTest {
         viewModel = SearchViewModel(
             fakeGetSearchedPhotoUseCase,
             fakeGetSearchSuggestionUseCase,
-            dispatcherProvider
+            dispatcherProvider,
         )
     }
 

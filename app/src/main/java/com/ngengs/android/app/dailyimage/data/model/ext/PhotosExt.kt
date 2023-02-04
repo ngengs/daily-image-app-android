@@ -16,5 +16,5 @@ fun Photos.toPhotosLocal() = PhotosLocal(
     color = this.color,
     description = this.description,
     image = this.urls.raw,
-    user = this.user.toUserSimple()
+    user = this.user.toUserSimple(),
 )

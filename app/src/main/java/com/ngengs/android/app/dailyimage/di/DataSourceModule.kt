@@ -20,12 +20,12 @@ abstract class DataSourceModule {
     @Singleton
     @Binds
     abstract fun providePhotoRemoteDataSource(
-        impl: PhotoRemoteDataSourceImpl
+        impl: PhotoRemoteDataSourceImpl,
     ): PhotoRemoteDataSource
 
     @Singleton
     @Binds
     abstract fun providePhotoLocalDataSource(
-        impl: PhotoLocalDataSourceImpl
+        impl: PhotoLocalDataSourceImpl,
     ): PhotoLocalDataSource
 }
