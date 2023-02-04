@@ -77,7 +77,7 @@ jobs:
           tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
           if [ "$tag" ]; then
             git log --pretty=format:'- [%h] %s' -50 $tag..HEAD >> outputs/changelog/CHANGELOG.md
-            echo "" >> outputs/changelog/CHANGELOG.md
+            echo "-----" >> outputs/changelog/CHANGELOG.md
             echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${tag}...${{ steps.version-tag.outputs.version }}" >> outputs/changelog/CHANGELOG.md
           else
             git log --pretty=format:'- [%h] %s' >> outputs/changelog/CHANGELOG.md

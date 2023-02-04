@@ -128,13 +128,13 @@ jobs:
         run: |
           echo ${{ steps.sign_app.outputs.signedReleaseFile }}
           mkdir -p outputs/apk/release
-          cp ${{ steps.sign_app.outputs.signedReleaseFile }} outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.clean-version }}.apk 
+          cp ${{ steps.sign_app.outputs.signedReleaseFile }} outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.version }}.apk 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: signed-app-artifact
-          path: outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.clean-version }}.apk
+          path: outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.version }}.apk
 
       - name: Cleanup
         run: rm -rf secrets.properties
