@@ -29,7 +29,7 @@ jobs:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   cleanup:
-    name: Cleanup Develop
+    name: Cleanup Release
     uses: ./.github/workflows/cleanup-workflow.yml
     needs: [ coverage ]
     if: ${{ always() && startsWith(github.ref, 'refs/heads/release/v') && github.repository == 'ngengs/daily-image-app-android' }}

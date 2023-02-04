@@ -1,4 +1,5 @@
 # Daily Image App
+[![coverage](https://raw.githubusercontent.com/ngengs/daily-image-app-android/badges/develop-jacoco.svg)](https://github.com/ngengs/daily-image-app-android/actions/workflows/build_develop.yml)
 
 This is my simple app to show image from [Unsplash](https://unsplash.com/).
 
