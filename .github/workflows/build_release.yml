@@ -68,7 +68,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
-          body: "Changelog:\n\n${{ steps.changelog.outputs.changelog }}"
+          body: Changelog\n\n ${{ steps.action-changelog.outputs.changelog }}
           name: Daily Image Test Release ${{ steps.version-tag.outputs.version-name }}
 #
 #  build:
