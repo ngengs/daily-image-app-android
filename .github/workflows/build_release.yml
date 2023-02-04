@@ -3,7 +3,7 @@ on:
   push:
     tags:
       - v*
-      - zci*
+      - ci*
 
 concurrency:
   group: ${{ github.workflow }}-release-${{ github.ref }}
@@ -102,7 +102,7 @@ jobs:
 #          set -x
 #          VERSION_TAG=${GITHUB_REF/refs\/tags\//}
 #          echo ${VERSION_TAG}
-#          NO_CI_VERSION_NAME=${VERSION_TAG/zci-/}
+#          NO_CI_VERSION_NAME=${VERSION_TAG/ci-/}
 #          CLEAN_VERSION_NAME=${NO_CI_VERSION_NAME/v/}
 #          echo ${CLEAN_VERSION_NAME}
 #          echo "version-name-clean=$CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
