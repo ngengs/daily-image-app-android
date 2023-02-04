@@ -3,7 +3,6 @@ on:
   push:
     tags:
       - v*
-      - ci*
 
 concurrency:
   group: ${{ github.workflow }}-release-${{ github.ref }}
@@ -13,23 +12,6 @@ permissions:
   contents: read
 
 jobs:
-  dummy:
-    name: Dummy Job
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Testing Caller
-        run: |
-          echo "Running Here"
-
-      - name: Clone repo
-        id: clone-repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
   build:
     name: Build
     uses: ./.github/workflows/build-app-workflow.yml

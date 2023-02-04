@@ -50,7 +50,7 @@ jobs:
         run: |
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
-          TAG_RELEASE="ci-${{ steps.version.outputs.version }}"
+          TAG_RELEASE="${{ steps.version.outputs.version }}"
           BRANCH_RELEASE="release/$TAG_RELEASE"
           echo "tag=$TAG_RELEASE" >> $GITHUB_OUTPUT
           echo "branch=$BRANCH_RELEASE" >> $GITHUB_OUTPUT
@@ -60,7 +60,7 @@ jobs:
       - name: Checkout Main Branch
         uses: actions/checkout@v3
         with:
-          ref: ci/dummy-merge-target
+          ref: main
           fetch-depth: 0
           token: ${{ secrets.PAT_TOKEN }}
 
@@ -77,8 +77,8 @@ jobs:
           git config user.name 'github-actions'
           git config user.email 'github-actions@github.com'
           git checkout "${{ steps.release-branch.outputs.branch }}"
-          git checkout ci/dummy-merge-target
+          git checkout main
           git merge "${{ steps.release-branch.outputs.branch }}"
           git tag "${{ steps.release-branch.outputs.tag }}" -m "Release ${{ steps.release-branch.outputs.tag }}"
-          git push origin ci/dummy-merge-target
+          git push origin main
           git push origin "${{ steps.release-branch.outputs.tag }}"
