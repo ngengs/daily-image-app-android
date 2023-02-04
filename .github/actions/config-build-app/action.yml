@@ -30,7 +30,7 @@ runs:
       id: gradle-cache
       uses: gradle/gradle-build-action@v2
       with:
-        cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' && !startsWith(github.ref, 'refs/heads/release/v') }}
+        cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop' && !startsWith(github.ref, 'refs/heads/release/v') && !startsWith(github.ref, 'refs/tags/') }}
         gradle-version: ${{ inputs.gradle-version }}
 
     - name: Grant execute permission for gradlew
