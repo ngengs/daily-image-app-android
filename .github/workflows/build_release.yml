@@ -87,7 +87,9 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
+          artifacts: "outputs/*.apk"
           bodyFile: ${{ steps.changelog.outputs.changelog }}
+          makeLatest: "latest"
           name: Daily Image Test Release ${{ steps.version-tag.outputs.version }}
 
 
