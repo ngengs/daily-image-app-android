@@ -43,14 +43,6 @@ jobs:
           echo "version-name-clean=$CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
           echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
 
-      - name: Action Changelog
-        id: changelog
-        uses: ./.github/actions/generate-commit-changelog
-
-      - name: Verify action changelog
-        run: |
-          echo ${{ steps.changelog.outputs.changelog }}
-
       - name: Create Changelog
         id: changelog
         run: |
