@@ -92,16 +92,7 @@ jobs:
 
       - name: Get tag name
         id: version-tag
-        if: ${{ startsWith(github.ref, 'refs/tags/')  }}
-        run: |
-          set -x
-          VERSION_TAG=${GITHUB_REF/refs\/tags\//}
-          echo ${VERSION_TAG}
-          NO_CI_VERSION_NAME=${VERSION_TAG/ci-/}
-          CLEAN_VERSION_NAME=${NO_CI_VERSION_NAME/v/}
-          echo ${CLEAN_VERSION_NAME}
-          echo "version-name-clean=$CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
-          echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
+        uses: ./.github/actions/extract-tag-version
 
       - name: Configuration
         uses: ./.github/actions/config-build-app
@@ -119,7 +110,7 @@ jobs:
           arguments: assembleRelease
           gradle-version: ${{ env.GRADLE_VERSION }}
         env:
-          CUSTOM_APP_VERSION_NAME: ${{ steps.version-tag.outputs.version-name-clean }}
+          CUSTOM_APP_VERSION_NAME: ${{ steps.version-tag.outputs.clean-version }}
 
       - name: Build Sign APK
         id: sign_app
@@ -137,13 +128,13 @@ jobs:
         run: |
           echo ${{ steps.sign_app.outputs.signedReleaseFile }}
           mkdir -p outputs/apk/release
-          cp ${{ steps.sign_app.outputs.signedReleaseFile }} outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.version-name-clean }}.apk 
+          cp ${{ steps.sign_app.outputs.signedReleaseFile }} outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.clean-version }}.apk 
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: signed-app-artifact
-          path: outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.version-name-clean }}.apk
+          path: outputs/apk/release/app-daily-image-${{ steps.version-tag.outputs.clean-version }}.apk
 
       - name: Cleanup
         run: rm -rf secrets.properties
