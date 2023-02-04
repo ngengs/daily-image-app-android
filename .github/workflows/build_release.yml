@@ -75,7 +75,8 @@ jobs:
           echo "Changelog:" >> outputs/changelog/CHANGELOG.md
           tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
           if [ "$tag" ]; then
-            git log --oneline --no-decorate $tag..HEAD >> outputs/changelog/CHANGELOG.md
+            git log --oneline --no-decorate -50 $tag..HEAD >> outputs/changelog/CHANGELOG.md
+            echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${tag}...${{ steps.version-tag.outputs.version }}" >> outputs/changelog/CHANGELOG.md
           else
             git log --oneline --no-decorate >> outputs/changelog/CHANGELOG.md
           fi
