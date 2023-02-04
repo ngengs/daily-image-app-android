@@ -51,18 +51,18 @@ jobs:
         run: |
           echo ${{ steps.changelog.outputs.changelog }}
 
-#      - name: Create Changelog
-#        id: changelog
-#        run: |
-#          tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
-#          if [ "$tag" ]; then
-#            changelog=$(git log --oneline --no-decorate $tag..HEAD)
-#          else
-#            changelog=$(git log --oneline --no-decorate)
-#          fi
-#
-#          changelog=" - ${changelog//$'\n'/$'\n\r- '}"
-#          echo "changelog=${changelog}" >> $GITHUB_OUTPUT
+      - name: Create Changelog
+        id: changelog
+        run: |
+          mkdir -p outputs/changelog
+          echo "Changelog:" >> outputs/changelog/CHANGELOG.md
+          tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
+          if [ "$tag" ]; then
+            git log --oneline --no-decorate $tag..HEAD >> outputs/changelog/CHANGELOG.md
+          else
+            git log --oneline --no-decorate >> outputs/changelog/CHANGELOG.md
+          fi
+          echo "changelog='outputs/changelog/CHANGELOG.md'" >> $GITHUB_OUTPUT
 
 #      - name: Changelog
 #        uses: Bullrich/generate-release-changelog@master
@@ -73,7 +73,7 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
-          body: Changelog\n\n ${{ steps.changelog.outputs.changelog }}
+          bodyFile: ${{ steps.changelog.outputs.changelog }}
           name: Daily Image Test Release ${{ steps.version-tag.outputs.version-name }}
 #
 #  build:
