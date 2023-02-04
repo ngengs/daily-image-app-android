@@ -62,7 +62,7 @@ jobs:
           fi
           
           changelog=" - ${changelog//$'\n'/$'\n\r- '}"
-          echo "changelog=$changelog" >> $GITHUB_OUTPUT
+          echo "changelog='${changelog}'" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
