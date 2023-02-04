@@ -15,9 +15,9 @@ fi
 
 echo $changelog
 
-changelog="${changelog//'%'/'%25'}"
-changelog="${changelog//$'\n'/'%0A' - }"
-changelog=" - ${changelog//$'\r'/'%0D'}"
+changelog="${changelog/'%'/'%25'}"
+changelog="${changelog/$'\n'/'%0A' - }"
+changelog=" - ${changelog/$'\r'/'%0D'}"
 
 echo "changelog=$changelog" >> $GITHUB_OUTPUT
 #echo "::set-output name=changelog::$changelog"
