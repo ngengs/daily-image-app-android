@@ -33,7 +33,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build Unsigned
     if: ${{ inputs.signed-build != true }}
     runs-on: ubuntu-latest
 
@@ -75,8 +75,8 @@ jobs:
       - name: Cleanup
         run: rm -rf secrets.properties
 
-  build-release:
-    name: Build Release
+  build-signed:
+    name: Build Signed
     if: ${{ inputs.signed-build == true }}
     runs-on: ubuntu-latest
 

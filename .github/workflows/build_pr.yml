@@ -1,4 +1,4 @@
-name: PR Build and Test
+name: PR Build
 on:
   pull_request:
     paths-ignore:
@@ -15,32 +15,32 @@ permissions:
 
 jobs:
   lint:
-    name: Lint
+    name: Lint PR
     uses: ./.github/workflows/lint-workflow.yml
 
   testing:
-    name: Testing
+    name: Testing PR
     uses: ./.github/workflows/testing-workflow.yml
     needs: [ lint ]
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   coverage:
-    name: Coverage
+    name: Coverage PR
     uses: ./.github/workflows/coverage-workflow.yml
     needs: [ testing ]
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   build:
-    name: Build
+    name: Build PR App
     uses: ./.github/workflows/build-app-workflow.yml
     needs: [ coverage ]
     secrets:
       SECRET_PROPERTIES_CONFIG: ${{ secrets.CONFIG_SECRETS_PROPERTIES }}
 
   cleanup:
-    name: Cleanup
+    name: Cleanup PR
     uses: ./.github/workflows/cleanup-workflow.yml
     needs: [ coverage ]
     if: always()
