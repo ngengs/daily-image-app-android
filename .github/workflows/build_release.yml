@@ -53,7 +53,7 @@ jobs:
             changelog=$(git log --oneline --no-decorate)
           fi
           
-          changelog=" - ${changelog//$'\n'/$'\n\r- '}"
+          changelog=" - ${changelog//$'\n'/'\n\r- '}"
           echo $changelog
           echo "changelog=$changelog" >> $GITHUB_OUTPUT
 
