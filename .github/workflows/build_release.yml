@@ -62,7 +62,6 @@ jobs:
           fi
           
           changelog=" - ${changelog//$'\n'/$'\n\r- '}"
-#          echo $changelog
           echo "changelog=$changelog" >> $GITHUB_OUTPUT
 
       - name: Create Release
