@@ -32,20 +32,12 @@ jobs:
 
       - name: Get tag name
         id: version-tag
-        if: ${{ startsWith(github.ref, 'refs/tags/')  }}
-        run: |
-          set -x
-          VERSION_TAG=${GITHUB_REF/refs\/tags\//}
-          echo ${VERSION_TAG}
-          NO_CI_VERSION_NAME=${VERSION_TAG/ci-/}
-          CLEAN_VERSION_NAME=${NO_CI_VERSION_NAME/v/}
-          echo ${CLEAN_VERSION_NAME}
-          echo "version-name-clean=$CLEAN_VERSION_NAME" >> $GITHUB_OUTPUT
-          echo "version-name=$VERSION_TAG" >> $GITHUB_OUTPUT
+        uses: ./.github/actions/extract-tag-version
 
       - name: Create Changelog
         id: changelog
         run: |
+          echo ${steps.version-tag.outputs.version}
           mkdir -p outputs/changelog
           echo "Changelog:" >> outputs/changelog/CHANGELOG.md
           tag=$(git tag --sort=-creatordate  | tail -n 2 | head -n 1)
@@ -62,11 +54,11 @@ jobs:
 #        env:
 #          REPO: ${{ github.repository }}
 
-      - name: Create Release
-        uses: ncipollo/release-action@v1.12.0
-        with:
-          bodyFile: ${{ steps.changelog.outputs.changelog }}
-          name: Daily Image Test Release ${{ steps.version-tag.outputs.version-name }}
+#      - name: Create Release
+#        uses: ncipollo/release-action@v1.12.0
+#        with:
+#          bodyFile: ${{ steps.changelog.outputs.changelog }}
+#          name: Daily Image Test Release ${{ steps.version-tag.outputs.version-name }}
 #
 #  build:
 #    name: Build
